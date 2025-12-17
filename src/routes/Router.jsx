@@ -9,7 +9,7 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <MainPage />,
-      },
+      },            
       // 앞으로 다른 페이지가 추가되면 이 배열에 추가합니다.
       // 예: { path: '/login', element: <LoginPage /> }
     ],

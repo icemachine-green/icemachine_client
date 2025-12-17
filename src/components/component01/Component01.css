@@ -1,0 +1,90 @@
+.component01-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  background-image:
+      linear-gradient(
+      to left,
+      rgba(131, 171, 196, 0.6) 0%,
+      rgba(131, 171, 196, 0.6) 53%,
+      rgba(131, 171, 196, 0) 53%,
+      rgba(131, 171, 196, 0) 100%
+    ), 
+  url('../../../public/icons/engineer_1920_1080.png');
+  background-size: cover;
+  background-position: center;
+
+}
+
+/* 가상요소 반투명 이미지 */
+.component01-container::before {
+  content: '';
+
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+
+  background-color: rgba(131, 171, 196, 0.6);
+
+  z-index: 1;
+}
+
+/* 텍스트 묶음을 “45% 영역의 중앙”으로 이동 */
+.component01-textwrap {
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;  
+  gap: 50px;
+}
+
+/* '제빙기 청소 업체' 상단 작은 라벨 */
+.component01-minititle {
+  display: inline-block;
+  width: fit-content;
+
+  background-color: #10538E;
+  color: #fff;
+
+  font-size: 30px;
+  font-weight: 500;
+
+  padding: 3px 32px;
+  border-radius: 30px;
+  margin-bottom: 20px;
+}
+
+/* 메인 타이틀 */
+.component01-title {
+  color: #fff;
+  font-size: 70px;
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: 30px;
+  text-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.25),
+    0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* '청소 예약' 버튼 */
+.component01-btn {
+  width: fit-content;
+
+  background-color: #222;
+  color: #fff;
+
+  font-size: 50px;
+  font-weight: 500;
+
+  padding: 5px 100px;
+  border-radius: 40px;
+  border: none;
+  cursor: pointer;
+}
+
+/* 호버시 진하게 버튼 색 변화 */
+.component01-btn:hover {
+  background-color: #000;
+}
+
