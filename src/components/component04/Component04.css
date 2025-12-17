@@ -1,7 +1,14 @@
 .component04-background {
   padding: 50px 0;
-  background-color: #27222B; 
   width: 100%; /* 전체 가로 크기 */
+  /* 얼음 겹쳐 넣는 부분 */
+	  background-image:
+    url('/icons/com4_ice.png'),
+    linear-gradient(#27222B, #27222B);
+
+  background-repeat: no-repeat, repeat;
+  background-position: calc(100% - 20px) calc(100% - 20px) , center; /*calc(100% - 20px) calc(100% - 20px)는 얼음 이미지 우측 하단 위치하게 지정, 반응형 고려 */
+  background-size: 600px auto, cover;
 }
 
 .component04-container {
@@ -11,6 +18,7 @@
   margin: 20px auto; 
   background-color: #27222B;
   padding: 0 20px;
+	background-color: transparent; /*  투명한 배경 적용(색 적용 시 얼음 이미지가 덮일 수 있음)*/
 }
 
 .component04-title {
@@ -33,13 +41,17 @@
 
 .swiper-slide {
   text-align: center;
-  font-size: 20px;
-  background: #ffffff;
+  font-size: 40px;
+	color: #ffffff;
+  background: #494949;
 
   /* Center slide text vertically */
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: baseline; /* 글자 위쪽 위치 지정 */
+	text-shadow:
+  0 2px 4px rgba(0, 0, 0, 0.4),
+  0 6px 12px rgba(0, 0, 0, 0.25); /* 글자에 그림자 */
 }
 
 .swiper-slide img {
