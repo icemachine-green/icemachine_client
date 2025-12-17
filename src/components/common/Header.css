@@ -1,4 +1,4 @@
-.ice-header {
+.header-ice-header {
   position: sticky;
   top: 0;
 
@@ -13,7 +13,7 @@
 }
 
 /* 로고 버튼 */
-.ice-header__logoBtn {
+.header-ice-header__logoBtn {
   height: 56px;
   width: 72px;
 
@@ -27,18 +27,18 @@
   padding: 0;
 }
 
-.ice-header__logoImg {
+.header-ice-header__logoImg {
   height: 30px;
   display: block;
 }
 
 /* 가운데 빈 공간 */
-.ice-header__spacer {
+.header-ice-header__spacer {
   height: 56px;
 }
 
 /* 로그인 버튼 */
-.ice-header__loginBtn {
+.header-ice-header__loginBtn {
   margin-right: 10px;
   height: 34px;
   padding: 0 10px;
@@ -54,13 +54,13 @@
   cursor: pointer;
 }
 
-.ice-header__loginIcon {
+.header-ice-header__loginIcon {
   width: 22px;
   height: 22px;
   display: block;
 }
 
-.ice-header__loginText {
+.header-ice-header__loginText {
   font-weight: 800;
   font-size: 12px;
   letter-spacing: 0.5px;
