@@ -3,6 +3,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  /* height: 100vh; */ /* Removed fixed height */
   text-align: center;
+  padding: 50px 0; /* Add some padding for better spacing */
 }
+

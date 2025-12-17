@@ -1,0 +1,37 @@
+.component02-container {
+  width: 1440px; /* Fixed width as requested */
+  height: 500px;
+  display: flex;
+  justify-content: space-between; /* Image to the right, text to the left */
+  align-items: center;
+  margin: 20px auto; /* Center horizontally */
+  /* background-color: #f0f0f0; */
+  padding: 0 20px; /* Add some padding inside the container */
+}
+
+.component02-text {
+  max-width: 65%; /* Increased to give more space to text */
+  text-align: left; /* Align text to the left */
+}
+
+.component02-title {
+  font-size: 50px;
+  margin-bottom: 25px; /* Reduced margin */
+  color: #10538e; /* H1 color as requested */
+}
+
+.component02-separator-bar {
+  width: 80px;
+  height: 4px;
+  background-color: #ccc;
+  margin-bottom: 50px;
+}
+
+.component02-paragraph {
+  font-size: 30px;
+}
+
+.component02-image {
+  max-width: 30%; /* Reduced to give more space to text */
+  height: auto;
+}
