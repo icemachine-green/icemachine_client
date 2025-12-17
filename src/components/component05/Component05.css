@@ -1,0 +1,111 @@
+.component05-background {
+  padding: 80px 0;
+  background-color: #123b9b; /* Light blue background */
+  width: 100%;
+  height: 850px;
+}
+
+.component05-content-wrapper {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.component05-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 40px;
+}
+
+.component05-header-left {
+  text-align: left;
+}
+
+.component05-title {
+  font-size: 50px;
+  color: #f2edf3;
+  margin-bottom: 25px;
+}
+
+.component05-separator-bar {
+  width: 80px;
+  height: 4px;
+  background-color: #ccc;
+  margin: 0 0 20px 0;
+}
+
+.component05-redirect-button {
+  background-color: #a8600e;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  height: fit-content;
+}
+
+.component05-redirect-button:hover {
+  background-color: #0a3a6b;
+}
+
+.component05-reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+
+.component05-review-box {
+  background-color: white;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.component05-review-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.component05-review-content {
+  text-align: left;
+  width: 100%;
+}
+
+.component05-review-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.component05-review-stars {
+  color: #f5b300;
+  font-size: 20px;
+}
+
+.component05-review-info {
+  color: #888;
+  font-size: 14px;
+}
+
+.component05-review-underline {
+  border: 0;
+  height: 1px;
+  background-color: #eee;
+  margin: 0 0 15px 0;
+}
+
+.component05-review-text {
+  font-size: 16px;
+  color: #333;
+  line-height: 1.6;
+}
