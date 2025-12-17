@@ -1,0 +1,51 @@
+.component04-background {
+  padding: 50px 0;
+  background-color: #27222B; 
+  width: 100%; /* 전체 가로 크기 */
+}
+
+.component04-container {
+  width: 1440px; /* 컨테이너 영역 길이 */
+  height: 700px;
+  align-items: center;
+  margin: 20px auto; 
+  background-color: #27222B;
+  padding: 0 20px;
+}
+
+.component04-title {
+  font-size: 50px;
+  margin-bottom: 25px; 
+  color: #ffffff; /* 작업 과정 타이틀 컬러 */
+}
+
+.component04-separator-bar {
+  width: 80px;
+  height: 4px;
+  background-color: #ffffff; /* 작은 바 요소 컬러 */
+  margin-bottom: 50px;
+}
+
+.swiper {
+  width: 80%;
+  height: 85%;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 20px;
+  background: #ffffff;
+
+  /* Center slide text vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
