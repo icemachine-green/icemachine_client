@@ -1,0 +1,73 @@
+.component03-background {
+  padding: 50px 0;
+  background-color: #f7f7f7; /* Light gray background */
+  width: 100%; /* Full width */
+}
+
+.component03-content-wrapper {
+  max-width: 1440px; /* Set max-width */
+  margin: 0 auto; /* Center the component content */
+  padding: 0 20px; /* Inner padding */
+  height: 500px;
+}
+
+.component03-title {
+  font-size: 50px;
+  color: #10538e;
+  margin-bottom: 25px;
+  text-align: left;
+}
+
+.component03-separator-bar {
+  width: 80px;
+  height: 4px;
+  background-color: #ccc;
+  margin: 0 0 50px 0;
+}
+
+.component03-steps-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  /* max-width is now on the parent wrapper */
+  margin: 0 auto;
+}
+
+.component03-step-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 22%; /* Assign width for each box */
+}
+
+.component03-step-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.component03-step-text-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.component03-step-number {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25px; /* Reduced size */
+  height: 25px; /* Reduced size */
+  border-radius: 50%;
+  border: 2px solid #10538e;
+  color: #10538e;
+  font-weight: bold;
+  font-size: 16px; /* Reduced font size */
+  flex-shrink: 0;
+}
+
+.component03-step-text {
+  font-size: 22px;
+  font-weight: 500;
+}
