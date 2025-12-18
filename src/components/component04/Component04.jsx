@@ -8,10 +8,6 @@ import 'swiper/css/navigation';
 // 나의 css 임포트
 import "./Component04.css";
 
-// 슬라이드 삽입 이미지 임포트
-import slide1 from '../../../public/icons/com4-first.png';
-import slide2 from '../../../public/icons/com4-second.png';
-import slide3 from '../../../public/icons/com4-third.png';
 // import required modules
 import { Pagination, Navigation } from 'swiper/modules';
 
@@ -33,22 +29,43 @@ const Component04 = () => {
         >
           <SwiperSlide>
             <div className="slide-content">
-              <p>작업과정 1. 스팀 청소</p>
-              <img src={slide1} alt="작업과정 1 스팀 청소" />              
+              <p>스팀 청소</p>
+              <img src="/icons/com4-first.png" />              
             </div>
           </SwiperSlide>
 
           <SwiperSlide>
             <div className="slide-content">
-              <p>작업과정 2. 세부 청소</p>
-              <img src={slide2} alt="작업과정 2 세부 청소" />
+              <p>세부 청소</p>
+               <img src="/icons/com4-second.png" />
             </div>
           </SwiperSlide>
 
           <SwiperSlide>
             <div className="slide-content">
-              <p>작업과정 3. 필터 청소</p>
-              <img src={slide3} alt="작업과정 1 필터 청소" />
+              <p>필터 청소</p>
+               <img src="/icons/com4-third.png" />
+            </div>
+          </SwiperSlide>
+
+            <SwiperSlide>
+            <div className="slide-content">
+              <p>살균 및 소독</p>
+               <img src="/icons/com4-fourth.png" />              
+            </div>
+          </SwiperSlide>
+
+          <SwiperSlide>
+            <div className="slide-content">
+              <p>노즐 및 분사구 청소</p>
+               <img src="/icons/com4-fifth.png" />
+            </div>
+          </SwiperSlide>
+
+          <SwiperSlide>
+            <div className="slide-content">
+              <p>얼음 도출 확인 및 마무리</p>
+               <img src="/icons/com4-sixth.png" />
             </div>
           </SwiperSlide>
         </Swiper>

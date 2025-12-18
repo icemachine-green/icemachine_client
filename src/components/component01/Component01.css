@@ -12,10 +12,9 @@
       rgba(131, 171, 196, 0) 53%,
       rgba(131, 171, 196, 0) 100%
     ), 
-  url('../../../public/icons/engineer_1920_1080.png');
+  url('/icons/engineer_1920_1080.png');
   background-size: cover;
   background-position: center;
-
 }
 
 /* 가상요소 반투명 이미지 */
