@@ -17,7 +17,8 @@
   flex-grow: 1;
   height: 5px;
   background-color: #10538e;
-  margin: 0 15px;
+  margin: 0 65px;
+  border-radius: 20px;
 }
 
 .header-icon-link {
