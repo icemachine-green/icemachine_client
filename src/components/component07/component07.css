@@ -1,11 +1,11 @@
 .component07-background {
   width: 100%;
-  background: #123b9b;
+  background: #10538E;
   padding: 64px 16px;
 }
 
 .component07-content {
-  max-width: 1100px;
+  max-width: 1440px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -16,52 +16,35 @@
 
 .component07-title {
   color: #ffffff;
-  font-size: 40px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  margin: 0;
+  font-size: 50px;
+  margin-bottom: 25px;
 }
 
-.component07-underline {
-  width: 56px;
+.component07-separator-bar {
+  width: 80px;
   height: 4px;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 999px;
-  margin: 14px 0 28px;
+  background-color: #ccc;
+  margin: 0 0 40px 0;
 }
 
 .component07-button {
-  background: #ffffff;
-  color: #1f5b98;
-  border: 0;
-  padding: 14px 42px;
-  border-radius: 12px;
-  font-size: 20px;
-  font-weight: 800;
+  background-color: #ffffff;
+  color: #10538E;
+  border: none;
+  padding: 15px 70px;
+  font-size: 40px;
+  font-weight: bold;
+  border-radius: 20px;
   cursor: pointer;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  transition: background-color 0.3s;
+  height: fit-content;
 }
 
 .component07-button:hover {
-  transform: translateY(-1px);
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
 }
 
 .component07-button:active {
-  transform: translateY(0);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
 }
 
-@media (max-width: 480px) {
-  .component07-title {
-    font-size: 30px;
-  }
-
-  .component07-button {
-    width: 100%;
-    max-width: 260px;
-    font-size: 18px;
-    padding: 12px 20px;
-  }
-}

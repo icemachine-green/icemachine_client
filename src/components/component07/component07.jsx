@@ -14,7 +14,7 @@ export default function Component07() {
     <section className="component07-background">
       <div className="component07-content">
         <h2 className="component07-title">청소 예약</h2>
-        <div className="component07-underline" />
+        <div className="component07-separator-bar" />
 
         <button
           type="button"
