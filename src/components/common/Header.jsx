@@ -1,24 +1,26 @@
-import './Header.css';
+import { Link } from "react-router-dom";
+import "./Header.css";
 
 export default function Header() {
   return (
-    <header className="header-ice-header">
-      {/* 얼음 로고 = 홈 버튼(지금은 동작 없이 버튼만) */}
-      <button type="button" className="header-ice-header__logoBtn" aria-label="홈">
+    <header className="header-container">
+      <Link to="/" className="header-icon-link">
         <img
-          className="header-ice-header__logoImg"
-          src="/icons/mobile_homeicon.png"
+          src="/icons/homeicon.jpg"
           alt="홈"
+          className="header-icon-home-btn"
         />
-      </button>
+      </Link>
 
-      <div className="header-ice-header__spacer" />
+      <div className="header-divider" />
 
-      {/* 로그인 버튼(지금은 동작 없이 버튼만) */}
-      <button type="button" className="header-ice-header__loginBtn">
-        <img className="header-ice-header__loginIcon" src="/icons/login.png" alt="" />
-        <span className="header-ice-header__loginText">LOGIN</span>
-      </button>
+      <Link to="/login" className="header-icon-link">
+        <img
+          src="/icons/login.png"
+          alt="로그인"
+          className="header-icon-login-btn"
+        />
+      </Link>
     </header>
   );
 }
