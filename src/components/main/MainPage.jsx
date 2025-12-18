@@ -5,6 +5,7 @@ import Component02 from "../component02/Component02.jsx";
 import Component03 from "../component03/Component03.jsx";
 import Component04 from "../component04/Component04.jsx";
 import Component05 from "../component05/Component05.jsx";
+import Component06 from "../component06/Component06.jsx";
 import Component07 from "../component07/component07.jsx";
 
 const MainPage = () => {
@@ -18,6 +19,7 @@ const MainPage = () => {
       <Component03 />
       <Component04 />
       <Component05 />
+      <Component06 />
       <Component07 />
     </>
   );

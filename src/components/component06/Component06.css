@@ -1,0 +1,81 @@
+.component06-container {
+  width: 100%;
+  max-width: 1440px;
+  /* height: 900px; */
+  display: grid;
+  align-items: center;
+  margin: 20px auto;
+  padding: 0 20px;
+}
+
+/* .component06-title-container {
+  max-width: 65%;
+} */
+
+.component06-title {
+  text-align: left;
+  font-size: 50px;
+  margin-bottom: 25px;
+  color: #10538e;
+}
+
+.component06-separator-bar {
+  width: 80px;
+  height: 4px;
+  background-color: #ccc;
+  margin-bottom: 20px;
+}
+
+.component06-btn-container {
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+  max-width: 800px;
+  width: 100%;
+  margin-bottom: 50px;
+}
+
+.component06-faq-item {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.component06-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  padding: 12px 30px;
+  border: none;
+  background-color: #f7f7f7;
+  border-radius: 50px;
+  box-shadow: 5px 5px 5px #9b9a9a;
+  font-size: 22px;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* ✅ 화살표 기본 상태 */
+.arrow {
+  display: inline-block;
+  transition: transform 0.3s ease;  
+  color: #10538e;
+}
+
+/* ✅ 열렸을 때 회전 */
+.arrow.open {
+  transform: rotate(180deg);
+  color: #10538e;
+}
+
+.component06-toggle-answer {
+  margin: 10px;
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 20px;
+  white-space: pre-line;
+  line-height: 30px;
+}
