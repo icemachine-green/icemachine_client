@@ -6,7 +6,7 @@
   display: grid;
   grid-template-columns: 72px 1fr auto;
   align-items: center;
-
+  z-index: 10; /* 슬라이드 보다 헤더가 상단에 오도록 z-index 10 부여*/
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
