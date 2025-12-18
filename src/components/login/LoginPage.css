@@ -10,6 +10,7 @@
 
 /* 로그인 컨테이너 */
 .login-container {
+	margin-top: 250px; /* 컨테이너 중앙에 요소 위치 */
   width: 700px;           
   display: flex;
   flex-direction: column;
