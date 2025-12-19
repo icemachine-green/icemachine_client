@@ -12,7 +12,7 @@ export default function Footer() {
         </ul>
       </div>
       <div className="footer-logo">
-        <img src="/icons/homeicon.jpg" alt="Company Logo" />
+        <img src="/icons/textonly_clear.png" alt="Company Logo" />
       </div>
     </footer>
   );

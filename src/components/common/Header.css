@@ -26,6 +26,11 @@
   align-items: center;
 }
 
+.header-icon-home-btn {
+  width: 333px;
+  height: 70px;
+}
+
 .header-icon1 {
   width: 322px;
   height: 100px;

@@ -6,7 +6,7 @@ export default function Header() {
     <header className="header-container">
       <Link to="/" className="header-icon-link">
         <img
-          src="/icons/homeicon.jpg"
+          src="/icons/logoonly_clear.png"
           alt="홈"
           className="header-icon-home-btn"
         />
