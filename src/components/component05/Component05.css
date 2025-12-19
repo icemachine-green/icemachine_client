@@ -1,6 +1,6 @@
 .component05-background {
   padding: 80px 0;
-  background-color: #123b9b; /* Light blue background */
+  background-color: #10538E; /* background 통일*/
   width: 100%;
   height: 850px;
 }
@@ -24,7 +24,7 @@
 
 .component05-title {
   font-size: 50px;
-  color: #f2edf3;
+  color: #ffffff;
   margin-bottom: 25px;
 }
 
