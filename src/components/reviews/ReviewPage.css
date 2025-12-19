@@ -1,4 +1,176 @@
 .review-page-container {
-  padding: 50px;
+  padding: 100px 50px;
   text-align: center;
+  background-color: #123b9b;
+}
+
+/* .review-page-head-container {
+  display: grid;
+} */
+.review-page-head-container {
+  position: relative;
+}
+
+/* .review-page-head-line {
+  border: 1px solid #fff;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  height: 100px;
+  position: relative;
+} */
+.review-page-head-line {
+  position: relative;
+  height: 60px;
+  border: 2px solid #CED6DB;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+/* .review-page-head-sub-container {
+  position: absolute;
+} */
+.review-page-head-sub-container {
+  position: absolute;
+  top: -75px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;  
+  z-index: 2;
+}
+
+.review-page-head-stars {
+  color: #f5b300;
+  font-size: 25px;
+}
+
+.review-page-head-text {
+  color: #fff;
+  font-size: 25px;
+}
+
+/* .review-page-head-title {
+  box-sizing: border-box;
+  color: #fff;
+  background-color: #123b9b;
+  font-size: 90px;
+  position: absolute;
+} */
+.review-page-head-title {
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 60px;
+  font-weight: 700;
+  color: #fff;
+
+  /* ✅ 라인을 가리기 위한 핵심 */
+  background-color: #123b9b;
+  padding: 0 30px;
+  /* z-index: 2; */
+  white-space: nowrap;
+}
+
+.review-page-sort-container {
+  padding-top: 30px;
+  padding-right: 20px;
+  background-color: #CED6DB;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.review-page-latest-btn {
+  cursor: pointer;
+  border: none;
+  border-radius: 20px;
+  background-color: #B97631;
+  font-size: 18px;
+  width: 90px;
+  color: #fff;
+}
+
+.review-page-rating-btn {
+  cursor: pointer;
+  border: none;
+  border-radius: 20px;
+  background-color: #B97631;
+  font-size: 18px;
+  width: 90px;
+}
+
+.review-page-box-container {
+  padding: 30px 20px;
+  background-color: #CED6DB;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.review-page-box {
+  background-color: white;
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.review-page-image {
+  width: 110px;
+  height: 110px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.review-page-content {
+  text-align: left;
+  width: 100%;
+}
+
+.review-page-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.review-page-stars {
+  color: #f5b300;
+  font-size: 20px;
+}
+
+.review-page-info {
+  color: #888;
+  font-size: 20px;
+}
+
+.review-page-underline {
+  border: 0;
+  height: 1px;
+  background-color: #eee;
+  margin: 0 0 15px 0;
+}
+
+.review-page-text {
+  font-size: 16px;
+  color: #333;
+  line-height: 1.6;
+}
+
+.review-page-more-btn-container {
+  padding-bottom: 30px;
+  background-color: #CED6DB;
+}
+
+.review-page-more-btn {
+  border: none;
+  border-radius: 40px;
+  background-color: #123b9b;
+  color: #fff;
+  font-size: 35px;
+  font-weight: 500;
+  width: 300px;
+  cursor: pointer;
 }
