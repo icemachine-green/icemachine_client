@@ -55,53 +55,54 @@ const reviewData = [
 const ReviewPage = () => {
   return (
     <div className="review-page-container">
+      <div className="review-page-sub-container">
+        <div className="review-page-write-btn-container">
+          <button className="review-page-write-btn">리뷰 작성</button>
+        </div>
 
-      <div className="review-page-head-container">
-        <div className="review-page-head-line">
-            <div className="review-page-head-sub-container">
-              <span className="review-page-head-text">실제 고객님들의 </span>
-              <span className="review-page-head-stars">★★★★★</span>
-            </div>
-            <span className="review-page-head-title">REAL REVIEW</span>
-        </div>
-      </div>
-      {/* <div className="review-page-head-container">
-        <div className="review-page-head-sub-container">
-          <span className="review-page-head-text">실제 고객님들의 </span>
-          <span className="review-page-head-stars">★★★★★</span>
-        </div>
-        <span className="review-page-head-title">REAL REVIEW</span>
-      </div>
-      <div className="review-page-head-line"></div> */}
-      <div className="review-page-sort-container">
-        <button className="review-page-latest-btn">최신순</button>
-        <button className="review-page-rating-btn">별점순</button>
-      </div>
-      <div className="review-page-box-container">
-        {reviewData.map((review) => (
-            <div key={review.id} className="review-page-box">
-              <img
-                src={review.image}
-                alt="review"
-                className="review-page-image"
-              />
-              <div className="review-page-content">
-                <div className="review-page-top">
-                  <span className="review-page-stars">
-                    {review.stars}
-                  </span>
-                  <span className="review-page-info">
-                    {review.clientId} | {review.date}
-                  </span>
-                </div>
-                <hr className="review-page-underline" />
-                <p className="review-page-text">{review.text}</p>
+        <div className="review-page-head-container">
+          <div className="review-page-head-line">
+              <div className="review-page-head-sub-container">
+                <span className="review-page-head-text">실제 고객님들의 </span>
+                <span className="review-page-head-stars">★★★★★</span>
               </div>
-            </div>
-          ))}
-      </div>
-      <div className="review-page-more-btn-container">
-        <button className="review-page-more-btn">더 보기</button>
+              <span className="review-page-head-title">REAL REVIEW</span>
+          </div>
+        </div>
+
+        <div className="review-page-sort-container">
+          <button className="review-page-latest-btn">최신순</button>
+          <button className="review-page-rating-btn">별점순</button>
+        </div>
+
+        <div className="review-page-box-container">
+          {reviewData.map((review) => (
+              <div key={review.id} className="review-page-box">
+                <img
+                  src={review.image}
+                  alt="review"
+                  className="review-page-image"
+                />
+                <div className="review-page-content">
+                  <div className="review-page-top">
+                    <span className="review-page-stars">
+                      {review.stars}
+                    </span>
+                    <span className="review-page-info">
+                      {review.clientId} | {review.date}
+                    </span>
+                  </div>
+                  <hr className="review-page-underline" />
+                  <p className="review-page-text">{review.text}</p>
+                </div>
+              </div>
+            ))}
+        </div>
+
+        <div className="review-page-more-btn-container">
+          <button className="review-page-more-btn">더 보기</button>
+        </div>
+
       </div>
     </div>
   );
