@@ -4,6 +4,7 @@ import "./Header.css";
 export default function Header() {
   return (
     <header className="header-container">
+      {/* 로고 */}
       <Link to="/" className="header-icon-link">
         <img
           src="/icons/logoonly_clear.png"
@@ -12,9 +13,11 @@ export default function Header() {
         />
       </Link>
 
-      <div className="header-divider" />
+      {/* 가운데 선 */}
+      <div className="header-line" />
 
-      <Link to="/login" className="header-icon-link">
+      {/* 로그인 */}
+      <Link to="/login" className="header-icon-link login">
         <img
           src="/icons/login.png"
           alt="로그인"

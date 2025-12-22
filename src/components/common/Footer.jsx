@@ -11,8 +11,11 @@ export default function Footer() {
           <li>주소: 대구광역시 중구 중앙대로 394, 호태빌딩 2F</li>
         </ul>
       </div>
-      <div className="footer-logo">
-        <img src="/icons/textonly_clear.png" alt="Company Logo" />
+
+      <div className="footer-logo-wrap">
+        <div className="footer-logo">
+          <img src="/icons/textonly_clear.png" alt="Company Logo" />
+        </div>
       </div>
     </footer>
   );

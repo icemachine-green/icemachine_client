@@ -1,25 +1,35 @@
 .footer-container {
   display: flex;
-  justify-content: space-between;
   align-items: flex-end;
-  padding: 20px;
+  justify-content: space-between;
+  padding: 24px 20px;
   background-color: #f8f9fa;
   border-top: 1px solid #dee2e6;
+  gap: 16px;
+}
+
+/* 왼쪽 정보 */
+.footer-info {
+  flex: 1;              /* 남은 공간 차지 */
+  min-width: 0;
 }
 
 .footer-info ul {
-  list-style-type: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
+  list-style: none;
   color: #10538e;
-  font-size: 16px;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
-.footer-info li {
-  margin-bottom: 5px;
+/* 오른쪽 로고 */
+.footer-logo {
+  flex-shrink: 0;        /*절대 줄어들며 밀리지 않음 */
 }
 
 .footer-logo img {
-  width: 247px;
-  height: 70px;
+  width: clamp(120px, 18vw, 220px);
+  height: auto;
+  object-fit: contain;
 }

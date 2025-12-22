@@ -1,6 +1,5 @@
 .header-container {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   height: 110px;
   width: 100%;
@@ -9,29 +8,54 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000;
   background-color: white;
+  z-index: 1000;
+  gap: 20px;
 }
 
-.header-divider {
-  flex-grow: 1;
-  height: 5px;
-  background-color: #10538e;
-  margin: 0 65px;
-  border-radius: 20px;
-}
-
+/* 공통 */
 .header-icon-link {
   display: flex;
   align-items: center;
 }
 
+/* 로고 */
 .header-icon-home-btn {
   width: 333px;
+  height: auto;
+}
+
+/* 가운데 선  */
+.header-line {
+  flex: 1;                   
+  height: 5px;
+  background-color: #10538e;
+  border-radius: 20px;
+}
+
+/* 로그인 */
+.login {
+  margin-left: auto;
+}
+
+.header-icon-login-btn {
+  width: 70px;
   height: 70px;
 }
 
-.header-icon1 {
-  width: 322px;
-  height: 100px;
+@media (max-width: 768px) {
+  .header-icon-home-btn {
+    width: 260px;
+  }
+
+  .header-icon-login-btn {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-line {
+    display: none;   /* 모바일에서는 선 제거 */
+  }
 }
