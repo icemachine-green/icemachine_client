@@ -1,4 +1,4 @@
 main {
-  /* Add padding to the top to prevent content from being hidden by the fixed header */
-  padding-top: 110px; 
+  /* 메인 컨텐츠가 Header Component z-index로인해 가려지는 현상 방지 */
+  padding-top: 110px;
 }
