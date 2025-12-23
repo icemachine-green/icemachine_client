@@ -1,8 +1,8 @@
 .component05-background {
   padding: 80px 0;
-  background-color: #10538E; /* background 통일*/
+  background-color: #10538E; /* background 통일 */
   width: 100%;
-  height: 850px;
+  min-height: 850px;
 }
 
 .component05-content-wrapper {
@@ -108,4 +108,78 @@
   font-size: 16px;
   color: #333;
   line-height: 1.6;
+}
+
+/* ------------------ 반응형 ------------------ */
+@media screen and (max-width: 1024px) {
+  .component05-title {
+    font-size: 40px;
+  }
+  .component05-redirect-button {
+    padding: 12px 25px;
+    font-size: 16px;
+  }
+  .component05-reviews-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .component05-review-box {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+  }
+  .component05-review-image {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 15px;
+  }
+  .component05-review-content {
+    width: 100%;
+  }
+  .component05-review-top {
+    flex-direction: column;
+    gap: 5px;
+  }
+  .component05-review-stars {
+    font-size: 18px;
+  }
+  .component05-review-info {
+    font-size: 13px;
+  }
+  .component05-review-text {
+    font-size: 15px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .component05-background {
+    padding: 60px 0;
+  }
+  .component05-title {
+    font-size: 32px;
+    margin-bottom: 15px;
+  }
+  .component05-redirect-button {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+  .component05-review-box {
+    padding: 15px;
+    gap: 15px;
+  }
+  .component05-review-image {
+    width: 70px;
+    height: 70px;
+  }
+  .component05-review-stars {
+    font-size: 16px;
+  }
+  .component05-review-info {
+    font-size: 12px;
+  }
+  .component05-review-text {
+    font-size: 14px;
+    line-height: 1.4;
+  }
 }
