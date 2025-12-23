@@ -1,23 +1,24 @@
 .component02-container {
   width: 100%;
-  max-width: 1440px; /* 기존 최대 폭 유지 */
-  height: 500px;
+  max-width: 1440px; /* 최대 폭 */
   display: flex;
-  justify-content: space-between; /* 이미지 오른쪽, 텍스트 왼쪽 */
+  justify-content: space-between; /* 텍스트 왼쪽, 이미지 오른쪽 균형 */
   align-items: center;
-  margin: 20px auto;
-  padding: 0 20px;
+  margin: 0 auto; /* 중앙 정렬 */
+  padding: 0 20px; /* 좌우 여백 기본 적용 */
   box-sizing: border-box;
+  gap: 40px; /* 텍스트와 이미지 사이 간격 */
+  height: 500px;
 }
 
 .component02-text {
-  max-width: 65%;
-  text-align: left;
+  width: 60%; /* 텍스트 영역 비율 */
+  text-align: left; /* 항상 왼쪽 정렬 */
 }
 
 .component02-title {
   font-size: 50px;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
   color: #10538e;
 }
 
@@ -25,20 +26,30 @@
   width: 80px;
   height: 4px;
   background-color: #ccc;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 }
 
 .component02-paragraph {
   font-size: 30px;
+  line-height: 1.4;
 }
 
 .component02-image {
-  max-width: 30%;
+  width: 35%; /* 이미지 영역 비율 */
   height: auto;
 }
 
-/* 반응형 시작 */
+/* 반응형 */
+@media (max-width: 1440px) {
+  .component02-container {
+    padding: 0 20px; /* 1438~1440px에서도 좌우 여백 확보 */
+  }
+}
+
 @media (max-width: 1200px) {
+  .component02-container {
+    padding: 0 20px; /* 좌우 여백 유지 */
+  }
   .component02-title {
     font-size: 42px;
   }
@@ -46,11 +57,14 @@
     font-size: 26px;
   }
   .component02-image {
-    max-width: 30%;
+    width: 30%;
   }
 }
 
 @media (max-width: 992px) {
+  .component02-container {
+    padding: 0 20px; /* 좌우 여백 유지 */
+  }
   .component02-title {
     font-size: 36px;
   }
@@ -58,21 +72,22 @@
     font-size: 22px;
   }
   .component02-image {
-    max-width: 28%;
+    width: 28%;
   }
   .component02-text {
-    max-width: 60%;
+    width: 65%; /* 텍스트 영역 반응형에서 넓게 유지 */
   }
 }
 
 @media (max-width: 768px) {
   .component02-container {
     flex-direction: column;
+    align-items: flex-start;
     height: auto;
-    text-align: center;
+    padding: 20px; /* 좌우 + 상단 여백 확보 */
   }
   .component02-text {
-    max-width: 90%;
+    width: 100%; /* 모바일에서 전체 폭 사용 */
     margin-bottom: 20px;
   }
   .component02-title {
@@ -82,11 +97,15 @@
     font-size: 20px;
   }
   .component02-image {
-    max-width: 50%;
+    width: 50%;
+    align-self: center; /* 이미지 중앙 정렬 */
   }
 }
 
 @media (max-width: 480px) {
+  .component02-container {
+    padding: 20px; /* 좌우 + 상단 여백 유지 */
+  }
   .component02-title {
     font-size: 28px;
   }
@@ -94,6 +113,8 @@
     font-size: 18px;
   }
   .component02-image {
-    max-width: 70%;
+    width: 70%;
+    align-self: center;
   }
 }
+
