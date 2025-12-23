@@ -3,21 +3,27 @@
 ------------------------------------- */
 .component03-background {
   padding: 50px 0;
-  background-color: #f7f7f7; /* Light gray background */
+  background-color: #f7f7f7;
   width: 100%;
 }
 
+/* 🔑 모든 구간의 기준 wrapper */
 .component03-content-wrapper {
+  width: 100%;
   max-width: 1440px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 20px; /* 모든 해상도의 기준 여백 */
+  box-sizing: border-box;
 }
 
+/* -------------------------------------
+  타이틀 영역
+------------------------------------- */
 .component03-title {
   font-size: 50px;
   color: #10538e;
   margin-bottom: 25px;
-  text-align: left; /* 항상 왼쪽 정렬 */
+  text-align: left;
 }
 
 .component03-separator-bar {
@@ -27,19 +33,21 @@
   margin: 0 0 50px 0;
 }
 
+/* -------------------------------------
+  스텝 영역
+------------------------------------- */
 .component03-steps-container {
   display: flex;
-  flex-wrap: wrap; /* 화면 줄이면 다음 줄로 넘어가도록 */
+  flex-wrap: wrap;
   justify-content: space-between;
-  gap: 30px; /* 박스 사이 간격 */
+  gap: 30px;
 }
 
 .component03-step-box {
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex: 1 1 22%; /* 기본 4개 한 줄 */
-  min-width: unset; /* 최소 너비 제거 -> 953px 문제 해결 */
+  flex: 1 1 22%;
 }
 
 .component03-step-image {
@@ -78,53 +86,62 @@
   반응형 미디어쿼리
 ------------------------------------- */
 
-/* 태블릿 ~ 노트북 */
+/* 🔹 태블릿 ~ 노트북 */
 @media (max-width: 1024px) {
+  .component03-content-wrapper {
+    padding: 0 20px; /* 🔑 기준선 유지 */
+  }
+
   .component03-title {
     font-size: 40px;
-    /* text-align: left 유지 */
   }
 
   .component03-step-text {
-    font-size: 20px; /* 🔵 1024px 이하에서도 20px 유지 */
+    font-size: 20px;
   }
 }
 
-/* 작은 노트북/태블릿 ~ 중간 화면 */
+/* 🔹 작은 노트북 / 태블릿 */
 @media (max-width: 950px) {
+  .component03-content-wrapper {
+    padding: 0 20px; /* 🔑 중간 구간에서도 여백 고정 */
+  }
+
   .component03-steps-container {
     justify-content: center;
     gap: 20px;
   }
 
   .component03-step-box {
-    flex: 1 1 45%; /* 2개씩 나누어 배치 */
+    flex: 1 1 45%;
   }
 
   .component03-title {
     font-size: 35px;
-    /* text-align: left 유지 */
   }
 
   .component03-step-text {
-    font-size: 20px; /* 🔵 기존 18px → 20px로 수정 */
+    font-size: 20px;
     text-align: center;
   }
 }
 
-/* 모바일 */
+/* 🔹 모바일 */
 @media (max-width: 480px) {
-  .component03-step-box {
-    flex: 1 1 100%; /* 모바일에서는 한 줄에 1개 */
+  .component03-content-wrapper {
+    padding: 0 20px; /* 모바일도 동일 기준 */
   }
 
-  .component03-step-text {
-    font-size: 16px;
+  .component03-step-box {
+    flex: 1 1 100%;
   }
 
   .component03-title {
     font-size: 28px;
-    /* text-align: left 유지 */
+  }
+
+  .component03-step-text {
+    font-size: 16px;
   }
 }
 

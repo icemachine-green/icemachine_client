@@ -1,21 +1,30 @@
+/* -------------------------------------
+  Component02 컨테이너 (공통 기준선)
+------------------------------------- */
 .component02-container {
   width: 100%;
-  max-width: 1440px; /* 최대 폭 */
-  display: flex;
-  justify-content: space-between; /* 텍스트 왼쪽, 이미지 오른쪽 균형 */
-  align-items: center;
-  margin: 0 auto; /* 중앙 정렬 */
-  padding: 0 20px; /* 좌우 여백 기본 적용 */
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 20px;              /* 🔑 전 컴포넌트 공통 여백 */
   box-sizing: border-box;
-  gap: 40px; /* 텍스트와 이미지 사이 간격 */
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   height: 500px;
 }
 
+/* -------------------------------------
+  텍스트 영역 (기준선에 직접 정렬)
+------------------------------------- */
 .component02-text {
-  width: 60%; /* 텍스트 영역 비율 */
-  text-align: left; /* 항상 왼쪽 정렬 */
+  width: 60%;
+  text-align: left;
 }
 
+/* -------------------------------------
+  제목 / 구분선 / 본문
+------------------------------------- */
 .component02-title {
   font-size: 50px;
   margin-bottom: 20px;
@@ -34,87 +43,103 @@
   line-height: 1.4;
 }
 
+/* -------------------------------------
+  이미지 영역
+------------------------------------- */
 .component02-image {
-  width: 35%; /* 이미지 영역 비율 */
+  width: 35%;
   height: auto;
 }
 
-/* 반응형 */
-@media (max-width: 1440px) {
-  .component02-container {
-    padding: 0 20px; /* 1438~1440px에서도 좌우 여백 확보 */
-  }
-}
+/* =====================================================
+   반응형 (미디어쿼리 통일)
+===================================================== */
 
-@media (max-width: 1200px) {
-  .component02-container {
-    padding: 0 20px; /* 좌우 여백 유지 */
+/* -------------------------------------
+   1024px 이하 (태블릿 ~ 노트북)
+------------------------------------- */
+@media (max-width: 1024px) {
+  .component02-text {
+    width: 65%;
   }
+
   .component02-title {
     font-size: 42px;
   }
+
   .component02-paragraph {
     font-size: 26px;
   }
+
   .component02-image {
     width: 30%;
   }
 }
 
-@media (max-width: 992px) {
-  .component02-container {
-    padding: 0 20px; /* 좌우 여백 유지 */
+/* -------------------------------------
+   950px 이하 (중간 해상도 핵심 구간)
+------------------------------------- */
+@media (max-width: 950px) {
+  .component02-text {
+    width: 70%;
   }
+
   .component02-title {
     font-size: 36px;
   }
+
   .component02-paragraph {
     font-size: 22px;
   }
+
   .component02-image {
     width: 28%;
   }
-  .component02-text {
-    width: 65%; /* 텍스트 영역 반응형에서 넓게 유지 */
-  }
 }
 
+/* -------------------------------------
+   768px 이하 (모바일 전환)
+------------------------------------- */
 @media (max-width: 768px) {
   .component02-container {
     flex-direction: column;
     align-items: flex-start;
     height: auto;
-    padding: 20px; /* 좌우 + 상단 여백 확보 */
+    padding: 20px;              /* 모바일도 동일 기준 */
   }
+
   .component02-text {
-    width: 100%; /* 모바일에서 전체 폭 사용 */
+    width: 100%;
     margin-bottom: 20px;
   }
+
   .component02-title {
     font-size: 32px;
   }
+
   .component02-paragraph {
     font-size: 20px;
   }
+
   .component02-image {
     width: 50%;
-    align-self: center; /* 이미지 중앙 정렬 */
-  }
-}
-
-@media (max-width: 480px) {
-  .component02-container {
-    padding: 20px; /* 좌우 + 상단 여백 유지 */
-  }
-  .component02-title {
-    font-size: 28px;
-  }
-  .component02-paragraph {
-    font-size: 18px;
-  }
-  .component02-image {
-    width: 70%;
     align-self: center;
   }
 }
 
+/* -------------------------------------
+   480px 이하 (소형 모바일)
+------------------------------------- */
+@media (max-width: 480px) {
+  .component02-title {
+    font-size: 28px;
+  }
+
+  .component02-paragraph {
+    font-size: 18px;
+  }
+
+  .component02-image {
+    width: 70%;
+  }
+}

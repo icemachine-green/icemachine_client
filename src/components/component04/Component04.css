@@ -2,62 +2,55 @@
   Component04 전체 배경
 ------------------------------------- */
 .component04-background {
-  padding: 50px 0 50px 0; /* 위쪽 50px, 아래쪽 50px */
+  padding: 50px 0;
   width: 100%;
   background-image:
     url('/icons/com4_ice.png'),
     linear-gradient(#27222B, #27222B);
   background-repeat: no-repeat, repeat;
-  background-position: calc(100% - 20px) calc(100% - 20px), center;
+  background-position: right bottom, center;
   background-size: 800px auto, cover;
-  transition: background-size 0.3s ease, background-position 0.3s ease;
 }
 
 /* -------------------------------------
-  컨테이너 (PC 고정 크기 + 반응형)
+  🔑 기준 컨테이너 (02·03과 동일)
 ------------------------------------- */
 .component04-container {
-  width: 1440px;
-  max-width: 100%;
-  height: 800px;
-  max-height: 80vh;
-  margin: 0 auto; /* 상단 여백은 배경 padding에서 처리 */
-  padding: 0 20px;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 20px;              /* 🔑 전 구간 동일 */
+  box-sizing: border-box;
+
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* 제목 왼쪽 정렬 기준 */
-  background-color: transparent;
+  align-items: flex-start;
 }
 
 /* -------------------------------------
-  제목 및 구분 바 (왼쪽 정렬)
+  제목 영역
 ------------------------------------- */
 .component04-title {
   font-size: 50px;
   margin-bottom: 25px;
   color: #ffffff;
   text-align: left;
-  width: 100%;
-  max-width: 1440px;
-  margin-left: 0;
 }
 
 .component04-separator-bar {
   width: 80px;
   height: 4px;
   background-color: #ffffff;
-  margin: 0 0 50px 0; /* 상,우,하,좌 */
-  text-align: left;
+  margin: 0 0 50px 0;
 }
 
 /* -------------------------------------
-  Swiper 스타일
+  Swiper 영역 (컨테이너 기준)
 ------------------------------------- */
 .swiper {
-  width: 80%;
-  height: 85%;
+  width: 100%;
   max-width: 100%;
-  max-height: 85%;
+  height: 600px;
 }
 
 .swiper-slide {
@@ -65,7 +58,6 @@
   height: 100%;
   display: flex;
   justify-content: center;
-  align-items: stretch;
   background: #10538E;
   color: #ffffff;
 }
@@ -78,125 +70,103 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
-/* 모든 슬라이드 이미지 동일하게 cover 적용 + 최소 높이 강제 */
 .slide-content img {
   width: 100%;
   height: 100%;
-  min-height: 400px; /* 마지막 슬라이드가 작아지는 문제 방지 */
-  object-fit: cover; /* 모든 슬라이드 동일하게 cover */
+  min-height: 400px;
+  object-fit: cover;
 }
 
-/* 🔵 소제목 크기 Component03과 동일하게 조정 */
 .slide-content p {
   margin: 16px 0;
-  font-size: 22px; /* 기본 22px */
+  font-size: 22px;
   font-weight: 600;
   text-align: center;
 }
 
+/* =====================================================
+  반응형 미디어쿼리 (기준 통일)
+===================================================== */
+
 /* -------------------------------------
-  반응형 미디어쿼리
+  1024px 이하
 ------------------------------------- */
-
-/* 태블릿 ~ 노트북 */
-@media screen and (max-width: 1440px) {
-  .component04-container {
-    width: 95%;
-    height: auto;
-  }
-  .swiper {
-    width: 100%;
-    height: auto;
-  }
-  .slide-content img {
-    height: auto;
-  }
-  .component04-background {
-    background-size: 25% auto, cover;
-    background-position: right bottom, center;
-  }
-}
-
-/* 태블릿 */
-@media screen and (max-width: 1024px) {
-  .component04-title {
-    font-size: clamp(32px, 3vw, 50px);
-    text-align: left;
-  }
-  .slide-content p {
-    font-size: 20px; 
-  }
-  .component04-background {
-    background-size: 35% auto, cover;
-    background-position: right bottom, center;
-  }
+@media (max-width: 1024px) {
   .component04-title {
     font-size: 40px;
-    /* text-align: left 유지 */
+  }
+
+  .swiper {
+    height: 520px;
+  }
+
+  .slide-content p {
+    font-size: 20px;
+  }
+
+  .component04-background {
+    background-size: 35% auto, cover;
   }
 }
 
-/* 작은 노트북/태블릿 */
-@media screen and (max-width: 950px) {
-  .component04-container {
-    flex-direction: column;
-    padding: 0 20px;
-  }
-  .slide-content p {
-    font-size: 20px; 
-    text-align: center;
-  }
+/* -------------------------------------
+  950px 이하
+------------------------------------- */
+@media (max-width: 950px) {
   .component04-title {
     font-size: 35px;
-    /* text-align: left 유지 */
+  }
+
+  .swiper {
+    height: 480px;
+  }
+
+  .slide-content p {
+    font-size: 20px;
   }
 }
 
-/* 모바일 */
-@media screen and (max-width: 768px) {
-  .component04-container {
-    flex-direction: column;
-    padding: 0 10px;
+/* -------------------------------------
+  768px 이하
+------------------------------------- */
+@media (max-width: 768px) {
+  .component04-title {
+    font-size: 35px;
   }
-  .slide-content {
-    flex-direction: column;
-  }
+
   .swiper {
-    width: 100%;
     height: auto;
   }
+
   .slide-content img {
     height: auto;
-    object-fit: cover;
   }
+
   .slide-content p {
-    font-size: 20px; 
+    font-size: 20px;
+  }
+
+  .component04-background {
+    background-size: 45% auto, cover;
   }
 }
 
-/* 작은 모바일 */
-@media screen and (max-width: 480px) {
-  .component04-container {
-    padding: 0 20px; /* 좌우 여백 확보 */
-  }
+/* -------------------------------------
+  480px 이하
+------------------------------------- */
+@media (max-width: 480px) {
   .component04-title {
-    font-size: clamp(24px, 5vw, 36px);
+    font-size: 28px;
   }
+
   .slide-content p {
-    font-size: 16px; 
+    font-size: 16px;
   }
-  /* 🔵 슬라이드 좌우 여백 확보 */
-  .swiper {
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-    padding: 0 20px;
-  }
+
   .component04-background {
-    background-size: 50% auto; /* 최소 50% 폭 유지 */
-    background-position: right bottom, center;
+    background-size: 55% auto, cover;
   }
 }
+
