@@ -11,8 +11,6 @@ import Component07 from "../component07/component07.jsx";
 const MainPage = () => {
   return (
     <>
-      <div className="mainpage-container">
-      </div>
       <Component01 />
       <Component02 />
       <Component03 />

@@ -1,23 +1,24 @@
 .component02-container {
-  width: 1440px; /* Fixed width as requested */
+  width: 100%;
+  max-width: 1440px; /* 기존 최대 폭 유지 */
   height: 500px;
   display: flex;
-  justify-content: space-between; /* Image to the right, text to the left */
+  justify-content: space-between; /* 이미지 오른쪽, 텍스트 왼쪽 */
   align-items: center;
-  margin: 20px auto; /* Center horizontally */
-  /* background-color: #f0f0f0; */
-  padding: 0 20px; /* Add some padding inside the container */
+  margin: 20px auto;
+  padding: 0 20px;
+  box-sizing: border-box;
 }
 
 .component02-text {
-  max-width: 65%; /* Increased to give more space to text */
-  text-align: left; /* Align text to the left */
+  max-width: 65%;
+  text-align: left;
 }
 
 .component02-title {
   font-size: 50px;
-  margin-bottom: 25px; /* Reduced margin */
-  color: #10538e; /* H1 color as requested */
+  margin-bottom: 25px;
+  color: #10538e;
 }
 
 .component02-separator-bar {
@@ -32,6 +33,67 @@
 }
 
 .component02-image {
-  max-width: 30%; /* Reduced to give more space to text */
+  max-width: 30%;
   height: auto;
+}
+
+/* 반응형 시작 */
+@media (max-width: 1200px) {
+  .component02-title {
+    font-size: 42px;
+  }
+  .component02-paragraph {
+    font-size: 26px;
+  }
+  .component02-image {
+    max-width: 30%;
+  }
+}
+
+@media (max-width: 992px) {
+  .component02-title {
+    font-size: 36px;
+  }
+  .component02-paragraph {
+    font-size: 22px;
+  }
+  .component02-image {
+    max-width: 28%;
+  }
+  .component02-text {
+    max-width: 60%;
+  }
+}
+
+@media (max-width: 768px) {
+  .component02-container {
+    flex-direction: column;
+    height: auto;
+    text-align: center;
+  }
+  .component02-text {
+    max-width: 90%;
+    margin-bottom: 20px;
+  }
+  .component02-title {
+    font-size: 32px;
+  }
+  .component02-paragraph {
+    font-size: 20px;
+  }
+  .component02-image {
+    max-width: 50%;
+  }
+}
+
+@media (max-width: 480px) {
+  .component02-title {
+    font-size: 28px;
+  }
+  .component02-paragraph {
+    font-size: 18px;
+  }
+  .component02-image {
+    max-width: 70%;
+  }
 }
