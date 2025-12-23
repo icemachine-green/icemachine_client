@@ -1,54 +1,51 @@
+/* ---------- PC 화면 ---------- */
 .component01-container {
+  width: 100%;
   height: 85vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  position: relative;
 
+  /* 배경 이미지 + 오른쪽 반투명 그라데이션만 */
   background-image:
       linear-gradient(
-      to left,
-      rgba(131, 171, 196, 0.6) 0%,
-      rgba(131, 171, 196, 0.6) 53%,
-      rgba(131, 171, 196, 0) 53%,
-      rgba(131, 171, 196, 0) 100%
-    ), 
-  url('/icons/engineer_1920_1080.png');
+        to left,
+        rgba(131, 171, 196, 0.6) 0%,
+        rgba(131, 171, 196, 0.6) 53%,
+        rgba(131, 171, 196, 0) 53%,
+        rgba(131, 171, 196, 0) 100%
+      ), 
+      url('/icons/engineer_1920_1080.png');
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
 }
 
-/* 가상요소 반투명 이미지 */
+/* ::before 제거 - 전체 덮는 반투명 없음 */
 .component01-container::before {
-  content: '';
-
-  grid-column: 1 / 2;
-  grid-row: 1 / 2;
-
-  background-color: rgba(131, 171, 196, 0.6);
-
-  z-index: 1;
+  display: none;
 }
 
-/* 텍스트 묶음을 “45% 영역의 중앙”으로 이동 */
+/* 텍스트 묶음: 오른쪽 정렬, PC 기준 */
 .component01-textwrap {
   width: 45%;
   display: flex;
   flex-direction: column;
-  margin-left: auto;  
+  margin-left: auto;
   gap: 50px;
+  position: relative; /* 레이어 위로 */
+  z-index: 2;
 }
 
-/* '제빙기 청소 업체' 상단 작은 라벨 */
+/* '제빙기 청소 업체' 라벨 */
 .component01-minititle {
   display: inline-block;
   width: fit-content;
-
   background-color: #10538E;
   color: #fff;
-
   font-size: 30px;
   font-weight: 500;
-
   padding: 3px 32px;
   border-radius: 30px;
   margin-bottom: 20px;
@@ -69,21 +66,106 @@
 /* '청소 예약' 버튼 */
 .component01-btn {
   width: fit-content;
-
   background-color: #222;
   color: #fff;
-
   font-size: 50px;
   font-weight: 500;
-
   padding: 5px 100px;
   border-radius: 40px;
   border: none;
   cursor: pointer;
 }
 
-/* 호버시 진하게 버튼 색 변화 */
 .component01-btn:hover {
   background-color: #000;
+}
+
+/* ---------- 1140px 이하 ---------- */
+@media (max-width: 1200px) {
+  .component01-textwrap {
+    width: 50%;            /* 글자 묶음 폭 조금 줄임 */
+    gap: clamp(30px, 3vw, 50px);
+  }
+
+  .component01-minititle {
+    font-size: clamp(24px, 2vw, 28px);
+    padding: 3px 28px;
+    margin-bottom: 18px;
+  }
+
+  .component01-title {
+    font-size: clamp(50px, 4.5vw, 65px);
+    margin-bottom: 28px;
+  }
+
+  .component01-btn {
+    font-size: clamp(30px, 3vw, 45px);
+    padding: 5px clamp(40px, 5vw, 90px);
+  }
+}
+
+/* ---------- 태블릿 반응형: 768px 이하 ---------- */
+@media (max-width: 768px) {
+  .component01-container {
+    height: 65vh;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .component01-textwrap {
+    width: 60%;
+    margin: 0 auto;
+    text-align: center;
+    align-items: center;
+    gap: clamp(24px, 4vw, 50px);
+  }
+
+  .component01-minititle {
+    font-size: clamp(18px, 2.5vw, 28px);
+    padding: 4px 24px;
+    margin-bottom: 16px;
+  }
+
+  .component01-title {
+    font-size: clamp(36px, 5vw, 60px);
+    margin-bottom: 24px;
+  }
+
+  .component01-btn {
+    font-size: clamp(20px, 3vw, 40px);
+    padding: 8px clamp(30px, 5vw, 80px);
+  }
+}
+
+/* ---------- 모바일 반응형: 480px 이하 ---------- */
+@media (max-width: 480px) {
+  .component01-container {
+    height: 55vh;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .component01-textwrap {
+    width: 80%;
+    text-align: center;
+    align-items: center;
+    gap: clamp(16px, 4vw, 40px);
+  }
+
+  .component01-minititle {
+    font-size: clamp(14px, 3vw, 24px);
+    padding: 3px 20px;
+    margin-bottom: 12px;
+  }
+
+  .component01-title {
+    font-size: clamp(28px, 5vw, 50px);
+    margin-bottom: 16px;
+  }
+
+  .component01-btn {
+    font-size: clamp(16px, 3vw, 36px);
+    padding: 6px clamp(20px, 4vw, 60px);
+  }
 }
 

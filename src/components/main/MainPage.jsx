@@ -12,7 +12,6 @@ const MainPage = () => {
   return (
     <>
       <div className="mainpage-container">
-        <h1>메인 페이지</h1>
       </div>
       <Component01 />
       <Component02 />
