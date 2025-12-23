@@ -1,3 +1,6 @@
+/* -------------------------------------
+  Component03 전체 배경
+------------------------------------- */
 .component03-background {
   padding: 50px 0;
   background-color: #f7f7f7; /* Light gray background */
@@ -71,7 +74,11 @@
   font-weight: 500;
 }
 
-/* 반응형 미디어쿼리 */
+/* -------------------------------------
+  반응형 미디어쿼리
+------------------------------------- */
+
+/* 태블릿 ~ 노트북 */
 @media (max-width: 1024px) {
   .component03-title {
     font-size: 40px;
@@ -79,10 +86,11 @@
   }
 
   .component03-step-text {
-    font-size: 20px;
+    font-size: 20px; /* 🔵 1024px 이하에서도 20px 유지 */
   }
 }
 
+/* 작은 노트북/태블릿 ~ 중간 화면 */
 @media (max-width: 950px) {
   .component03-steps-container {
     justify-content: center;
@@ -99,11 +107,12 @@
   }
 
   .component03-step-text {
-    font-size: 18px;
+    font-size: 20px; /* 🔵 기존 18px → 20px로 수정 */
     text-align: center;
   }
 }
 
+/* 모바일 */
 @media (max-width: 480px) {
   .component03-step-box {
     flex: 1 1 100%; /* 모바일에서는 한 줄에 1개 */
