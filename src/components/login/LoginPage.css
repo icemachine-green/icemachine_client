@@ -1,56 +1,60 @@
-/* 전체 페이지 */
+/* =================================================
+   Login Page
+================================================= */
+
+/* =========================
+   전체 페이지 (PC 유지)
+========================= */
 .login-page {
   width: 100%;
-  min-height: 80vh;
+  min-height: 80vh; /* PC 기준 유지 */
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #ffffff;
 }
 
-/* 로그인 컨테이너 */
+/* =========================
+   로그인 컨테이너
+========================= */
 .login-container {
-	width: 700px;           
+  width: 700px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* 로고 영역 */
+/* =========================
+   로고
+========================= */
 .login-logo {
   margin-bottom: 50px;
 }
 
 .login-logo img {
-  width: 250px;             
+  width: 250px;
   height: 250px;
   object-fit: contain;
-	animation: floatLogo 3s ease-in-out infinite;
+  animation: floatLogo 3s ease-in-out infinite;
 }
 
-/* 위아래 부유 애니메이션 */
 @keyframes floatLogo {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-16px);
-  }
-  100% {
-    transform: translateY(0);
-  }
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-16px); }
+  100% { transform: translateY(0); }
 }
 
-/* 카카오 로그인 영역 */
+/* =========================
+   카카오 로그인
+========================= */
 .login-form {
   width: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
 }
 
-/* 탄성 있게 호버시 모션 */
 .login-kakao {
+  cursor: pointer;
   transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -58,4 +62,109 @@
   transform: scale(1.01);
 }
 
+/* =================================================
+   반응형
+================================================= */
+
+/* ---------- 1024px ---------- */
+@media (max-width: 1024px) {
+  .login-container {
+    width: 600px;
+  }
+
+  .login-logo img {
+    width: 220px;
+    height: 220px;
+  }
+
+  .login-kakao {
+    width: 320px;
+  }
+}
+
+/* ---------- 950px ---------- */
+@media (max-width: 950px) {
+  .login-container {
+    width: 540px;
+  }
+
+  .login-logo {
+    margin-bottom: 40px;
+  }
+
+  .login-logo img {
+    width: 200px;
+    height: 200px;
+  }
+
+  .login-kakao {
+    width: 300px;
+  }
+}
+
+/* ---------- ✅ 768px (모바일 핵심) ---------- */
+@media (max-width: 768px) {
+  .login-page {
+    min-height: auto;
+    height: 70svh; /* 모바일 화면 중앙 높이 조정*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* ✅ footer 높이만큼 공간 확보 */
+    padding-bottom: 56px;
+  }
+
+  .login-container {
+    padding: 24px 0; /* 기존보다 살짝 축소 */
+  }
+
+  .login-logo {
+    margin-bottom: 28px;
+  }
+
+  .login-logo img {
+    width: 180px;
+    height: 180px;
+  }
+
+  .login-kakao {
+    width: 280px;
+  }
+}
+
+/* ---------- 480px ---------- */
+@media (max-width: 480px) {
+  .login-logo {
+    margin-bottom: 24px;
+  }
+
+  .login-logo img {
+    width: 150px;
+    height: 150px;
+  }
+
+  .login-kakao {
+    width: 260px;
+  }
+}
+
+/* =================================================
+   Footer
+================================================= */
+.footer {
+  width: 100%;
+  padding: 16px 0;
+  background-color: #f5f5f5;
+  text-align: center;
+}
+
+/* 모바일에서만 footer 고정 */
+@media (max-width: 768px) {
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+  }
+}
 
