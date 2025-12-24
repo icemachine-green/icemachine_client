@@ -4,20 +4,22 @@
   max-width: 1440px;
   display: grid;
   align-items: center;
-  margin: 0 auto;           /* 좌우 중앙 정렬 */
-  padding: 0 20px;          /* 좌우 여백 05 기준 */
+  margin: 0 auto;
+
+  /* ✅ 상·하 여백 보강 (02~05 톤앤매너) */
+  padding: 80px 20px;
+
   box-sizing: border-box;
 }
 
-
 /* ------------------ 제목 영역 (소제목) ------------------ */
 .component06-title {
-  text-align: left;         /* 왼쪽 정렬 */
-  font-size: 50px;          /* 05 컴포넌트 기준 크기 */
-  margin-bottom: 25px;      /* 05 컴포넌트 기준 여백 */
-  color: #10538e;           /* 기존 색상 유지 */
-  line-height: 1;           /* 글자 높이 안정화 */
-  padding-left: 0;          /* PC 화면에서 왼쪽 끝에 붙도록 */
+  text-align: left;
+  font-size: 50px;
+  margin-bottom: 25px;
+  color: #10538e;
+  line-height: 1;
+  padding-left: 0;
   box-sizing: border-box;
 }
 
@@ -26,17 +28,17 @@
   width: 80px;
   height: 4px;
   background-color: #ccc;
-  margin-bottom: 20px;
+  margin: 0 0 40px 0;
 }
 
 /* ------------------ FAQ 버튼 컨테이너 ------------------ */
 .component06-btn-container {
   display: grid;
-  grid-template-columns: 1fr;   /* 항상 1열 */
+  grid-template-columns: 1fr;
   gap: 30px;
   width: 100%;
   max-width: 800px;
-  margin: 0 auto 50px auto;     /* 좌우 여백 동일하게 중앙 */
+  margin: 0 auto 50px auto;
   justify-items: center;
   box-sizing: border-box;
 }
@@ -47,8 +49,7 @@
   flex-direction: column;
   gap: 15px;
   width: 100%;
-  max-width: 100%;
-  margin: 0 auto;              /* 좌우 여백 동일 */
+  margin: 0 auto;
   box-sizing: border-box;
 }
 
@@ -67,7 +68,7 @@
   cursor: pointer;
   width: 100%;
   box-sizing: border-box;
-  transition: background-color 0.3s, font-size 0.3s, padding 0.3s, width 0.3s;
+  transition: background-color 0.3s;
 }
 
 .component06-toggle-btn:hover {
@@ -77,13 +78,12 @@
 /* ------------------ 화살표 ------------------ */
 .arrow {
   display: inline-block;
-  transition: transform 0.3s ease;  
+  transition: transform 0.3s ease;
   color: #10538e;
 }
 
 .arrow.open {
   transform: rotate(180deg);
-  color: #10538e;
 }
 
 /* ------------------ 답변 ------------------ */
@@ -99,46 +99,65 @@
   color: #333;
   width: 100%;
   box-sizing: border-box;
-  transition: font-size 0.3s, padding 0.3s, line-height 0.3s, width 0.3s;
 }
 
-/* ------------------ 반응형 ------------------ */
+/* ==================================================
+   반응형 (여백만 단계적으로 축소)
+================================================== */
+
+/* -------- 1024px -------- */
 @media screen and (max-width: 1024px) {
   .component06-container {
-    padding: 0 20px;            /* 좌우 여백 유지 */
+    padding: 70px 20px;
   }
+
   .component06-title {
     font-size: 40px;
     margin-bottom: 20px;
   }
-  .component06-btn-container {
-    max-width: 90%;
-    gap: 20px;
-  }
-  .component06-faq-item {
-    max-width: 100%;
-  }
+
   .component06-toggle-btn {
     font-size: 18px;
     padding: 10px 20px;
-    width: 100%;
   }
+
   .component06-toggle-answer {
     font-size: 16px;
     line-height: 26px;
     padding: 8px 15px;
-    width: 100%;
   }
 }
 
+/* -------- 950px (중간 핵심 구간) -------- */
+@media screen and (max-width: 950px) {
+  .component06-container {
+    padding: 60px 20px;
+  }
+
+  .component06-title {
+    font-size: 36px;
+  }
+
+  .component06-btn-container {
+    gap: 25px;
+  }
+}
+
+/* -------- 768px -------- */
 @media screen and (max-width: 768px) {
   .component06-container {
-    padding: 0 20px;            /* 좌우 여백 유지 */
+    padding: 50px 20px;
   }
+
+  .component06-title {
+    font-size: 32px;
+  }
+
   .component06-toggle-btn {
     font-size: 16px;
     padding: 8px 15px;
   }
+
   .component06-toggle-answer {
     font-size: 14px;
     line-height: 22px;
@@ -146,34 +165,30 @@
   }
 }
 
+/* -------- 480px -------- */
 @media screen and (max-width: 480px) {
   .component06-container {
-    padding: 0 20px;            /* 좌우 여백 유지 */
+    padding: 40px 20px;
   }
+
   .component06-title {
-    font-size: 32px;
+    font-size: 28px;
     margin-bottom: 15px;
-    line-height: 1;
   }
+
   .component06-btn-container {
     gap: 15px;
-    max-width: 100%;
   }
-  .component06-faq-item {
-    width: 100%;
-    max-width: 360px;
-    margin: 0 auto;             /* 좌우 여백 동일 */
-  }
+
   .component06-toggle-btn {
-    font-size: 14px; 
+    font-size: 14px;
     padding: 6px 12px;
   }
+
   .component06-toggle-answer {
-    font-size: 13px; 
+    font-size: 13px;
     line-height: 20px;
     padding: 5px 10px;
   }
 }
-
-
 

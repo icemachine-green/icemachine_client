@@ -1,16 +1,26 @@
+/* -------------------------------------
+  Component05 전체 배경
+------------------------------------- */
 .component05-background {
   padding: 80px 0;
-  background-color: #10538E; /* background 통일 */
+  background-color: #10538E;
   width: 100%;
-  min-height: 850px;
 }
 
+/* -------------------------------------
+  🔑 기준 컨테이너 (02·03·04와 동일)
+------------------------------------- */
 .component05-content-wrapper {
+  width: 100%;
   max-width: 1440px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 20px;          /* 🔑 전 구간 동일 기준선 */
+  box-sizing: border-box;
 }
 
+/* -------------------------------------
+  Header 영역
+------------------------------------- */
 .component05-header {
   display: flex;
   justify-content: space-between;
@@ -37,35 +47,41 @@
 
 .component05-redirect-button {
   background-color: #a8600e;
-  color: white;
+  color: #ffffff;
   border: none;
   padding: 15px 30px;
   font-size: 18px;
   font-weight: bold;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s;
   height: fit-content;
+  transition: background-color 0.3s;
 }
 
 .component05-redirect-button:hover {
   background-color: #0a3a6b;
 }
 
+/* -------------------------------------
+  리뷰 그리드
+------------------------------------- */
 .component05-reviews-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 30px;
 }
 
+/* -------------------------------------
+  리뷰 카드
+------------------------------------- */
 .component05-review-box {
-  background-color: white;
+  background-color: #ffffff;
   border-radius: 12px;
   padding: 25px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   display: flex;
   gap: 20px;
   align-items: flex-start;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .component05-review-image {
@@ -76,8 +92,8 @@
 }
 
 .component05-review-content {
-  text-align: left;
   width: 100%;
+  text-align: left;
 }
 
 .component05-review-top {
@@ -93,12 +109,12 @@
 }
 
 .component05-review-info {
-  color: #888;
   font-size: 14px;
+  color: #888;
 }
 
 .component05-review-underline {
-  border: 0;
+  border: none;
   height: 1px;
   background-color: #eee;
   margin: 0 0 15px 0;
@@ -110,74 +126,95 @@
   line-height: 1.6;
 }
 
-/* ------------------ 반응형 ------------------ */
-@media screen and (max-width: 1024px) {
+/* =====================================================
+  반응형 미디어쿼리 (02·03·04와 동일 기준)
+===================================================== */
+
+/* -------------------------------------
+  1024px 이하
+------------------------------------- */
+@media (max-width: 1024px) {
   .component05-title {
     font-size: 40px;
   }
+
   .component05-redirect-button {
     padding: 12px 25px;
     font-size: 16px;
   }
+
   .component05-reviews-grid {
     grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+/* -------------------------------------
+  950px 이하
+------------------------------------- */
+@media (max-width: 950px) {
+  .component05-title {
+    font-size: 36px;
+  }
+
+  .component05-review-box {
+    padding: 22px;
+  }
+}
+
+/* -------------------------------------
+  768px 이하 (구조 변경 지점)
+------------------------------------- */
+@media (max-width: 768px) {
+  .component05-title {
+    font-size: 32px;
+  }
+
+  .component05-header {
+    flex-direction: column;
     gap: 20px;
   }
+
   .component05-review-box {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 20px;
   }
+
+  .component05-review-top {
+    flex-direction: column;
+    gap: 6px;
+  }
+
   .component05-review-image {
     width: 80px;
     height: 80px;
-    margin-bottom: 15px;
   }
-  .component05-review-content {
-    width: 100%;
-  }
-  .component05-review-top {
-    flex-direction: column;
-    gap: 5px;
-  }
-  .component05-review-stars {
-    font-size: 18px;
-  }
-  .component05-review-info {
-    font-size: 13px;
-  }
+
   .component05-review-text {
     font-size: 15px;
   }
 }
 
-@media screen and (max-width: 480px) {
-  .component05-background {
-    padding: 60px 0;
-  }
+/* -------------------------------------
+  480px 이하
+------------------------------------- */
+@media (max-width: 480px) {
   .component05-title {
-    font-size: 32px;
+    font-size: 28px;
     margin-bottom: 15px;
   }
-  .component05-redirect-button {
-    padding: 10px 20px;
-    font-size: 14px;
-  }
+
   .component05-review-box {
-    padding: 15px;
+    padding: 18px;
     gap: 15px;
   }
+
   .component05-review-image {
     width: 70px;
     height: 70px;
   }
-  .component05-review-stars {
-    font-size: 16px;
-  }
-  .component05-review-info {
-    font-size: 12px;
-  }
+
   .component05-review-text {
     font-size: 14px;
     line-height: 1.4;
