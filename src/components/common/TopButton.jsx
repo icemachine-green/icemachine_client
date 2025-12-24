@@ -1,6 +1,5 @@
 import React from "react";
 import "./TopButton.css";
-import topIcon from "../../../public/icons/topbutton.png";
 
 const TopButton = () => {
   const scrollToTop = () => {
@@ -12,7 +11,7 @@ const TopButton = () => {
 
   return (
     <button className="top-button" onClick={scrollToTop}>
-      <img src={topIcon} alt="Top" />
+      <img src="/icons/topbutton.png" alt="Top" />
     </button>
   );
 };
