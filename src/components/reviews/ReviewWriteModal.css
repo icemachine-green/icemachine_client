@@ -1,0 +1,189 @@
+/* overlay */
+.review-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 2; /* review-page-head-sub-container때문에 */ 
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* modal container */
+.review-modal-container {
+  width: 60%;
+  max-width: 400px;
+  max-height: 90vh;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* header */
+.review-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.review-modal-header h2 {
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.review-modal-header button {
+  background: none;
+  border: none;
+  font-size: 30px;
+  cursor: pointer;
+  color: #10538E;
+}
+
+/* 별점 */
+.review-modal-star-content,.review-modal-star-container {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.review-modal-star-content {
+  font-size: 20px;
+}
+
+.review-modal-star {
+  font-size: 26px;
+  color: #E3E3E3;
+  cursor: pointer;
+  transition: color 0.15s ease;
+  margin-bottom: 10px;
+}
+
+.review-modal-star:hover,
+.review-modal-star.review-modal-active {
+  color: #FFE940;
+}
+
+/* 선택 문구 */
+.review-modal-quick-text-content {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 20px;
+}
+
+.review-modal-quick-text-section {
+  margin-top: 18px;
+}
+
+.review-modal-quick-text-btn {
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  background: #f8f8f8;
+  cursor: pointer;
+  font-size: 13px;
+  margin-right: 6px;
+  margin-bottom: 7px;
+}
+
+.review-modal-quick-text-btn:hover {
+  background: #eee;
+}
+
+/* 리뷰 내용 */
+.review-modal-container textarea {
+  width: 90%;
+  min-height: 100px;
+  margin-top: 18px;
+  padding: 10px;
+  resize: none;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+}
+
+.review-modal-container textarea::placeholder {
+  color: #bbb;
+}
+
+/* 사진 업로드 */
+.review-modal-btn-container {
+  margin: 16px 0px;
+}
+
+.review-modal-image-upload-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 60px;
+  height: 60px;
+  padding: 5px;
+
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.review-modal-image-upload-btn:hover {
+  border-color: #999;
+}
+
+.review-modal-photo-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  margin-bottom: 3px;
+}
+
+.review-modal-image-preview {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+.review-modal-image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.review-modal-image-remove-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+
+/* 작성 버튼 */
+.review-modal-submit-btn {
+  width: 100%;
+  margin: 16px 0px 20px 0px;
+  padding: 12px 0;
+  border: none;
+  border-radius: 8px;
+  background: #222;
+  color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.review-modal-submit-btn:hover {
+  background: #000;
+}
+
+

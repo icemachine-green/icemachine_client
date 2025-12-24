@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './ReviewPage.css';
+import ReviewWriteModal from './ReviewWriteModal.jsx';
 
 const reviewData = [
   {
@@ -53,11 +54,13 @@ const reviewData = [
 ];
 
 const ReviewPage = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <div className="review-page-container">
       <div className="review-page-sub-container">
         <div className="review-page-write-btn-container">
-          <button className="review-page-write-btn">리뷰 작성</button>
+          <button className="review-page-write-btn" onClick={() => setIsModalOpen(true)}>리뷰 작성</button>
         </div>
 
         <div className="review-page-head-container">
@@ -102,6 +105,8 @@ const ReviewPage = () => {
         <div className="review-page-more-btn-container">
           <button className="review-page-more-btn">더 보기</button>
         </div>
+        
+        {isModalOpen && (<ReviewWriteModal onClose={() => setIsModalOpen(false)} />)}
 
       </div>
     </div>
