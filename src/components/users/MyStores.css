@@ -1,0 +1,91 @@
+.my-stores-container {
+  margin: 0 auto;
+  max-width: 1440px;
+  padding: 0px 20px 50px 20px;
+}
+
+/* 헤더 */
+.my-stores-head {
+  position: relative;
+  height: 80px;
+  display: flex;
+  align-items: center;
+}
+
+.my-stores-back-btn {
+  position: absolute;
+  left: 0;
+  padding: 5px 20px;
+  border-radius: 20px;
+  border: none;
+  background-color: #35B4F6;
+  color: #fff;
+  cursor: pointer;
+
+  font-size: 17px;
+}
+
+.my-stores-head-title {
+  margin: 0 auto;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+/* 가로선 */
+.my-stores-underline {
+  border: 0;
+  height: 1.5px;
+  background-color: #DDDDDD;
+  margin: 0 0 50px 0;
+}
+
+/* 카드 */
+.my-stores-card-container {
+  padding: 0 70px;
+}
+
+.my-stores-card {
+  margin: 0 auto;
+  padding: 40px 0;
+  width: 700px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+  border: 2px solid #DDDDDD;
+  border-radius: 10px;
+}
+
+.my-store-card-img {
+  width: 200px;
+  height: 200px;
+}
+
+.my-stores-card-btn-container {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  width: 300px;
+}
+
+.my-stores-card-new-btn {
+  padding: 3px;
+  border: none;
+  border-radius: 5px;
+  background-color: #35B4F6;
+  font-size: 23px;
+  color: #fff;
+  box-shadow: 2px 2px 2px #c2c0c0;
+  cursor: pointer;
+}
+
+.my-stores-card-inquiry-btn {
+  padding: 3px;
+  border: none;
+  border-radius: 5px;
+  background-color: #3984D3;
+  font-size: 23px;
+  color: #fff;
+  box-shadow: 2px 2px 2px #c2c0c0;
+  cursor: pointer;
+}

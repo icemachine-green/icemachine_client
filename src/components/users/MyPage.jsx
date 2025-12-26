@@ -9,6 +9,10 @@ const MyPage = () => {
     return navigate('/mypage/profile');
   }
 
+  function redirectMyStores() {
+    return navigate('/mypage/stores');
+  }
+
   return (
       <div className='my-page-container'>
 
@@ -60,7 +64,7 @@ const MyPage = () => {
           </div>
 
           {/* 카드3-내 매장 정보 */}
-          <div className="my-page-card">
+          <div className="my-page-card" onClick={redirectMyStores}>
             <div className="my-page-card-sub-container-1">
               <img src="/icons/my_page_store_info.png" alt="매장" className="my-page-card-icon" />
               <div className="my-page-card-text">

@@ -6,7 +6,9 @@ import LoginPage from '../components/login/LoginPage.jsx';
 import SignUp from "../components/signup/SignUp.jsx";
 import MyPage from '../components/users/MyPage.jsx';
 import MyProfile from '../components/users/MyProfile.jsx';
+import MyStores from '../components/users/MyStores.jsx';
 import MyReservations from '../components/users/MyReservations.jsx';
+
 const router = createBrowserRouter([
   {
     element: <App />,
@@ -35,7 +37,11 @@ const router = createBrowserRouter([
         path: '/mypage/profile',
         element: <MyProfile />,
       },
-       {
+      {
+        path: '/mypage/stores',
+        element: <MyStores />,
+      },
+      {
         path: '/mypage/reservations', 
         element: <MyReservations />,
       },
