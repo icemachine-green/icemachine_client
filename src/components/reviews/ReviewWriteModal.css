@@ -15,6 +15,7 @@
 
 /* modal container */
 .review-modal-container {
+  user-select: none;
   width: 60%;
   max-width: 400px;
   max-height: 90vh;
@@ -97,6 +98,7 @@
 
 /* 리뷰 내용 */
 .review-modal-container textarea {
+  user-select: text;
   width: 90%;
   min-height: 100px;
   margin-top: 18px;
