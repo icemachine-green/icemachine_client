@@ -1,13 +1,13 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import App from '../App.jsx';
-import MainPage from '../components/main/MainPage.jsx';
-import ReviewPage from '../components/reviews/ReviewPage.jsx';
-import LoginPage from '../components/login/LoginPage.jsx';
-import SignUp from "../components/signup/SignUp.jsx";
-import MyPage from '../components/users/MyPage.jsx';
-import MyProfile from '../components/users/MyProfile.jsx';
-import MyStores from '../components/users/MyStores.jsx';
-import MyReservations from '../components/users/MyReservations.jsx';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import App from "../App.jsx";
+import MainPage from "../components/main/MainPage.jsx";
+import ReviewPage from "../components/reviews/ReviewPage.jsx";
+import LoginPage from "../components/login/LoginPage.jsx";
+import SignupPage from "../components/signup/SignUpPage.jsx";
+import MyPage from "../components/users/MyPage.jsx";
+import MyProfile from "../components/users/MyProfile.jsx";
+import MyStores from "../components/users/MyStores.jsx";
+import MyReservations from "../components/users/MyReservations.jsx";
 
 const router = createBrowserRouter([
   {
@@ -27,22 +27,22 @@ const router = createBrowserRouter([
       },
       {
         path: "/signup",
-        element: <SignUp />,
+        element: <SignupPage />,
       },
       {
-        path: '/mypage',
+        path: "/users/:id",
         element: <MyPage />,
       },
-       {
-        path: '/mypage/profile',
+      {
+        path: "/mypage/profile",
         element: <MyProfile />,
       },
       {
-        path: '/mypage/stores',
+        path: "/mypage/stores",
         element: <MyStores />,
       },
       {
-        path: '/mypage/reservations', 
+        path: "/mypage/reservations",
         element: <MyReservations />,
       },
       // 앞으로 다른 페이지가 추가되면 이 배열에 추가합니다.
