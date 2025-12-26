@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import './MyPage.css';
 
+
 const MyPage = () => {
   const navigate = useNavigate();
 
@@ -23,7 +24,11 @@ const MyPage = () => {
         <div className="my-page-card-container">
 
           {/* 카드1-예약 조회&취소 */}
-          <div className="my-page-card">
+            <div
+              className="my-page-card"
+              onClick={() => navigate("/mypage/reservations")}
+              style={{ cursor: "pointer" }}
+            >
             <div className="my-page-card-sub-container-1">
               <img src="/icons/my_page_reservation.png" alt="예약조회/취소" className="my-page-card-icon" />
               <div className="my-page-card-text">
