@@ -1,14 +1,11 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import "./LoginPage.css";
+import { useDispatch } from "react-redux";
+import { startKakaoLogin } from "../../store/slices/authSlice.js";
 
 const LoginPage = () => {
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  // /signup으로 리다이렉트
-  const handleRedirectToSignup = () => {
-    navigate("/signup");
-  };
   return (
     <div className="login-page">
       <div className="login-container">
@@ -23,7 +20,7 @@ const LoginPage = () => {
             className="login-kakao"
             src="/icons/kakao_login.png"
             alt="카카오톡 로그인 이미지"
-            onClick={handleRedirectToSignup}
+            onClick={() => dispatch(startKakaoLogin())}
           />
         </div>
       </div>
