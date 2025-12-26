@@ -18,7 +18,7 @@
   display: flex;
   align-items: center;
   height: 80px;
-  position: relative; /* 중앙 정렬 위해 추가 */
+  position: relative; /* 제목 절대 중앙 배치 위해 추가 */
 }
 
 /* 뒤로가기 버튼 */
@@ -31,10 +31,10 @@
   font-size: 17px;
   cursor: pointer;
   white-space: nowrap;
-  z-index: 1; /* 제목보다 위로 오게 */
+  z-index: 1; /* 제목보다 위로 */
 }
 
-/* 제목 (항상 중앙) */
+/* 제목 (항상 가로 기준 중앙) */
 .my-stores-head-title {
   position: absolute;
   left: 50%;
@@ -195,7 +195,7 @@
     padding: 0 15px 40px 15px;
   }
 
-  /* ⭐ 구조 유지: column 전환 금지 */
+  /* 구조 유지: column 전환 금지 */
   .my-stores-head {
     height: 60px;
     align-items: center;

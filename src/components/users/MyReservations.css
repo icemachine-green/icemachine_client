@@ -8,23 +8,24 @@
    헤더
 ========================= */
 .mypage-reservation-page-head {
-  position: relative;
+  position: relative; /* 제목 중앙을 위해 relative 유지 */
   display: flex;
-  justify-content: center;
   align-items: center;
   height: 80px;
 }
 
 .mypage-reservation-page-head p {
-  font-size: 32px;
+  position: absolute; /* 항상 가로 중앙 */
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 32px; /* PC 기준 고정 */
   font-weight: 700;
   margin: 0;
+  text-align: center;
 }
 
 /* 뒤로가기 버튼 */
 .reservation-back-btn {
-  position: absolute;
-  left: 0;
   padding: 5px 20px;
   border-radius: 20px;
   border: none;
@@ -32,10 +33,12 @@
   color: #fff;
   cursor: pointer;
   font-size: 17px;
+  margin-left: 0; /* 버튼은 왼쪽에 자연스럽게 위치 */
+  z-index: 1; /* 제목 위에 겹치지 않도록 */
 }
 
 /* =========================
-   가로선 (가로 길이 고정)
+   가로선
 ========================= */
 .mypage-reservation-page-underline {
   width: 100%;
@@ -44,7 +47,6 @@
   height: 1.5px;
   background-color: #dddddd;
   margin: 0 0 50px 0;
-  
 }
 
 /* =========================
@@ -148,14 +150,11 @@
 /* =========================
    예약 취소 모달
 ========================= */
-
 .mypage-reservation-modal-overlay {
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.45);
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: rgba(0, 0, 0, 0.45);
   z-index: 1000;
 }
 
@@ -225,7 +224,6 @@
   background-color: #f3f3f3;
 }
 
-
 /* =========================
    반응형
 ========================= */
@@ -233,14 +231,14 @@
 /* 1024px 이하 */
 @media (max-width: 1024px) {
   .mypage-reservation-page-head p {
-    font-size: 44px;
+    font-size: 32px;
   }
 }
 
-/* 950px 이하 (태블릿 가로 전환 구간) */
+/* 950px 이하 */
 @media (max-width: 950px) {
   .mypage-reservation-page-head p {
-    font-size: 40px;
+    font-size: 32px;
   }
 
   .mypage-reservation-list-container {
@@ -252,14 +250,14 @@
   }
 
   .mypage-reservation-date {
-    font-size: 17px;
+    font-size: 18px;
   }
 }
 
 /* 768px 이하 */
 @media (max-width: 768px) {
   .mypage-reservation-page-head p {
-    font-size: 36px;
+    font-size: 32px;
   }
 
   .mypage-reservation-card {
@@ -267,11 +265,11 @@
   }
 
   .mypage-reservation-date {
-    font-size: 16px;
+    font-size: 18px;
   }
 
   .mypage-reservation-card-actions button {
-    font-size: 13px;
+    font-size: 14px;
     padding: 6px 12px;
   }
 }
@@ -279,7 +277,7 @@
 /* 480px 이하 */
 @media (max-width: 480px) {
   .mypage-reservation-page-head p {
-    font-size: 28px;
+    font-size: 32px;
   }
 
   .reservation-back-btn {

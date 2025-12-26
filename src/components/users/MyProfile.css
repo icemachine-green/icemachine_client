@@ -1,10 +1,8 @@
 /* =================================================
-   My Profile / 반응형 CSS
+   My Profile / 반응형 CSS (제목 완전 중앙)
 ================================================= */
 
-/* =========================
-   전체 컨테이너 (PC 기준 유지)
-========================= */
+/* 전체 컨테이너 */
 .my-profile-container {
   margin: 0 auto;
   max-width: 1440px;
@@ -13,16 +11,15 @@
 
 /* 헤더 */
 .my-profile-head {
-  position: relative;
   height: 80px;
   display: flex;
   align-items: center;
+  justify-content: center;
+  position: relative; /* 제목 중앙용 */
 }
 
 /* 뒤로가기 버튼 */
 .my-profile-back-btn {
-  position: absolute;
-  left: 0;
   padding: 5px 20px;
   border-radius: 20px;
   border: none;
@@ -30,17 +27,20 @@
   color: #fff;
   cursor: pointer;
   font-size: 17px;
+  position: absolute;
+  left: 20px; /* 좌측 고정 */
 }
 
-/* 제목 중앙 정렬 */
+/* 제목 중앙 정렬 - 항상 화면 중앙 */
 .my-profile-head-title {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 32px;
+  font-size: 32px; /* PC 기준 고정 */
   font-weight: 700;
   margin: 0;
   white-space: nowrap;
+  text-align: center;
 }
 
 /* 가로선 */
@@ -117,53 +117,33 @@
 }
 
 /* =================================================
-   미디어 쿼리 ① 노트북 (≤1024px)
+   미디어 쿼리
 ================================================= */
+
+/* 1024px 이하 */
 @media (max-width: 1024px) {
-  .my-profile-card-container {
-    padding: 0 40px;
-  }
-
-  .my-profile-head-title {
-    font-size: 32px;
-  }
-
   .my-profile-back-btn {
     font-size: 16px;
     padding: 5px 18px;
+    left: 15px;
   }
 
-  .my-profile-card-text {
-    font-size: 17px;
-  }
-
-  .my-profile-change-btn {
-    font-size: 17px;
-    padding: 7px 16px;
-  }
-
-  .my-profile-withdraw-btn {
-    font-size: 15px;
-    padding: 13px 28px;
+  .my-profile-card-container {
+    padding: 0 40px;
   }
 }
 
-/* =================================================
-   미디어 쿼리 ② 태블릿 (≤950px)
-================================================= */
+/* 950px 이하 */
 @media (max-width: 950px) {
-  .my-profile-card-container {
-    padding: 0 30px;
-    max-width: 600px;
-  }
-
-  .my-profile-head-title {
-    font-size: 32px;
-  }
-
   .my-profile-back-btn {
     font-size: 15px;
     padding: 5px 16px;
+    left: 15px;
+  }
+
+  .my-profile-card-container {
+    padding: 0 30px;
+    max-width: 600px;
   }
 
   .my-profile-card-text {
@@ -182,22 +162,17 @@
   }
 }
 
-/* =================================================
-   미디어 쿼리 ③ 태블릿/소형 (≤768px)
-================================================= */
+/* 768px 이하 */
 @media (max-width: 768px) {
-  .my-profile-card-container {
-    padding: 0 20px;
-    max-width: 540px;
-  }
-
-  .my-profile-head-title {
-    font-size: 32px;
-  }
-
   .my-profile-back-btn {
     font-size: 14px;
     padding: 4px 14px;
+    left: 10px;
+  }
+
+  .my-profile-card-container {
+    padding: 0 20px;
+    max-width: 540px;
   }
 
   .my-profile-card-text {
@@ -217,26 +192,21 @@
   }
 }
 
-/* =================================================
-   미디어 쿼리 ④ 모바일 (≤480px)
-================================================= */
+/* 480px 이하 */
 @media (max-width: 480px) {
-  .my-profile-card-container {
-    padding: 0 15px;
-    max-width: 100%;
-  }
-
   .my-profile-head {
     height: 60px;
-  }
-
-  .my-profile-head-title {
-    font-size: 32px;
   }
 
   .my-profile-back-btn {
     font-size: 13px;
     padding: 4px 12px;
+    left: 10px;
+  }
+
+  .my-profile-card-container {
+    padding: 0 15px;
+    max-width: 100%;
   }
 
   .my-profile-card-text {
