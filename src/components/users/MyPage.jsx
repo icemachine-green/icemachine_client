@@ -1,6 +1,12 @@
+import { useNavigate } from 'react-router-dom';
 import './MyPage.css';
 
 const MyPage = () => {
+  const navigate = useNavigate();
+
+  function redirectMyProfile() {
+    return navigate('/mypage/profile');
+  }
 
   return (
       <div className='my-page-container'>
@@ -33,7 +39,7 @@ const MyPage = () => {
           </div>
 
           {/* 카드2-회원정보 변경 */}
-          <div className="my-page-card">
+          <div className="my-page-card" onClick={redirectMyProfile}>
             <div className="my-page-card-sub-container-1">
               <img src="/icons/my_page_change_info.png" alt="회원정보 변경" className="my-page-card-icon" />
               <div className="my-page-card-text">

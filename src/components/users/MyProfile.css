@@ -1,0 +1,105 @@
+.my-profile-container {
+  margin: 0 auto;
+  max-width: 1440px;
+  padding: 0px 20px 50px 20px;
+}
+
+/* 헤더 */
+.my-profile-head {
+  position: relative;
+  height: 80px;
+  display: flex;
+  align-items: center;
+}
+
+.my-profile-back-btn {
+  position: absolute;
+  left: 0;
+  padding: 5px 20px;
+  border-radius: 20px;
+  border: none;
+  background-color: #35B4F6;
+  color: #fff;
+  cursor: pointer;
+
+  font-size: 17px;
+}
+
+.my-profile-head-title {
+  margin: 0 auto;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+/* 가로선 */
+.my-profile-underline {
+  border: 0;
+  height: 1.5px;
+  background-color: #DDDDDD;
+  margin: 0 0 50px 0;
+}
+
+/* 입력 영역 */
+.my-profile-card-container {
+  margin: 0 auto;
+  padding: 0 50px;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.my-profile-card {
+  display: flex;
+  align-items: center;
+}
+
+/* 라벨 */
+.my-profile-card-text {
+  width: 80px;
+  text-align: right;
+  font-size: 18px;
+  font-weight: 600;
+  margin-right: 20px;
+}
+
+/* 입력 */
+.my-profile-card-input {
+  display: flex;
+  gap: 10px;
+  flex: 1;
+}
+
+.my-profile-card-input input {
+  flex: 1;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* 변경 버튼 */
+.my-profile-change-btn {
+  padding: 8px 18px;
+  border: none;
+  border-radius: 6px;
+  background-color: #2060B6;
+  color: #fff;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* 회원탈퇴 버튼 */
+.my-profile-btn-container {
+  margin-top: 60px;
+  display: flex;
+  justify-content: center;
+}
+
+.my-profile-withdraw-btn {
+  padding: 14px 30px;
+  border-radius: 8px;
+  border: none;
+  background-color: #d9534f;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
