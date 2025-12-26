@@ -1,0 +1,91 @@
+.my-page-container {
+  margin: 0 auto;
+  max-width: 1440px;
+  padding: 0px 20px 50px 20px;
+}
+
+/* 헤더 */
+.my-page-head {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.my-page-head p {
+  font-size: 50px;
+  font-weight: 700;
+}
+
+/* 가로선 */
+.my-page-underline {
+  border: 0;
+  height: 1.5px;
+  background-color: #DDDDDD;
+  margin: 0 0 50px 0;
+}
+
+/* 카드 컨테이너 */
+.my-page-card-container {
+  margin: 0 auto;
+  max-width: 700px;
+  padding: 0px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* 카드 */
+.my-page-card {
+  display: flex;
+  align-items: center;
+  padding: 0px 20px;
+  border: 2.5px solid #DDDDDD;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.my-page-card-sub-container-1,
+.my-page-card-sub-container-2 {
+  display: flex;
+  align-items: center;
+}
+
+.my-page-card-sub-container-1 {
+  width: 60%;
+}
+
+/* 아이콘 */
+.my-page-card-icon {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+/* 메인 텍스트 */
+.my-page-card-text {
+  margin-left: 30px;
+}
+
+.my-page-card-text p {
+  font-size: 28px;
+  font-weight: 600;
+}
+
+/* 세로 구분선 */
+.my-page-card-divider {
+  width: 4px;
+  height: 50px;
+  background-color: #DDDDDD;
+  margin: 0 14px;
+}
+
+/* 서브 텍스트 */
+.my-page-card-sub-text {
+  flex: 1;
+  margin-left: 20px;
+}
+
+.my-page-card-sub-text p {
+  font-size: 18px;
+  color: #8c8c8c;
+}
