@@ -89,3 +89,133 @@
   font-size: 18px;
   color: #8c8c8c;
 }
+
+/* =================================================
+   1024px 이하
+================================================= */
+@media (max-width: 1024px) {
+
+  /* 핵심: 회색 바 위치 고정 */
+  .my-page-card-divider {
+    flex-shrink: 0;
+  }
+
+  .my-page-card-sub-container-1 {
+    flex-shrink: 0;
+  }
+
+  .my-page-card-icon {
+    width: 45px;
+    height: 45px;
+  }
+
+  .my-page-card-text p {
+    font-size: 26px;
+  }
+
+  .my-page-card-sub-text p {
+    font-size: 17px;
+  }
+}
+
+/* =================================================
+   950px 이하
+================================================= */
+@media (max-width: 950px) {
+
+  .my-page-card-icon {
+    width: 42px;
+    height: 42px;
+  }
+
+  .my-page-card-text {
+    margin-left: 24px;
+  }
+
+  .my-page-card-text p {
+    font-size: 24px;
+  }
+
+  .my-page-card-sub-text {
+    margin-left: 16px;
+  }
+
+  .my-page-card-sub-text p {
+    font-size: 16px;
+  }
+}
+
+/* =================================================
+   768px 이하
+================================================= */
+@media (max-width: 768px) {
+
+  .my-page-head p {
+    font-size: 40px;
+  }
+
+  .my-page-card {
+    padding: 0px 16px;
+  }
+
+  .my-page-card-icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .my-page-card-text {
+    margin-left: 20px;
+  }
+
+  .my-page-card-text p {
+    font-size: 22px;
+  }
+
+  .my-page-card-divider {
+    height: 44px;
+  }
+
+  .my-page-card-sub-text p {
+    font-size: 15px;
+  }
+}
+
+/* =================================================
+   480px 이하 (모바일)
+================================================= */
+@media (max-width: 480px) {
+
+  .my-page-head p {
+    font-size: 32px;
+  }
+
+  .my-page-card {
+    padding: 0px 14px;
+  }
+
+  .my-page-card-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .my-page-card-text {
+    margin-left: 16px;
+  }
+
+  .my-page-card-text p {
+    font-size: 20px;
+  }
+
+  .my-page-card-divider {
+    height: 40px;
+    margin: 0 10px;
+  }
+
+  .my-page-card-sub-text {
+    margin-left: 12px;
+  }
+
+  .my-page-card-sub-text p {
+    font-size: 14px;
+  }
+}
