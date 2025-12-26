@@ -1,45 +1,64 @@
+/* =================================================
+   My Stores / Reservations Common Layout
+================================================= */
+
+/* =========================
+   전체 컨테이너 (PC 기준 유지)
+========================= */
 .my-stores-container {
   margin: 0 auto;
   max-width: 1440px;
-  padding: 0px 20px 50px 20px;
+  padding: 0 20px 50px 20px;
 }
 
-/* 헤더 */
+/* =========================
+   헤더 (뒤로가기 + 제목)
+========================= */
 .my-stores-head {
-  position: relative;
-  height: 80px;
   display: flex;
   align-items: center;
+  height: 80px;
+  position: relative; /* 중앙 정렬 위해 추가 */
 }
 
+/* 뒤로가기 버튼 */
 .my-stores-back-btn {
-  position: absolute;
-  left: 0;
-  padding: 5px 20px;
-  border-radius: 20px;
-  border: none;
   background-color: #35B4F6;
-  color: #fff;
-  cursor: pointer;
-
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 20px;
   font-size: 17px;
+  cursor: pointer;
+  white-space: nowrap;
+  z-index: 1; /* 제목보다 위로 오게 */
 }
 
+/* 제목 (항상 중앙) */
 .my-stores-head-title {
-  margin: 0 auto;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 32px;
   font-weight: 700;
+  text-align: center;
+  margin: 0;
+  white-space: nowrap;
 }
 
-/* 가로선 */
+/* =========================
+   구분선
+========================= */
 .my-stores-underline {
   border: 0;
   height: 1.5px;
   background-color: #DDDDDD;
-  margin: 0 0 50px 0;
+  margin-bottom: 50px;
 }
 
-/* 카드 */
+/* =========================
+   카드 영역
+========================= */
 .my-stores-card-container {
   padding: 0 70px;
 }
@@ -49,8 +68,8 @@
   padding: 40px 0;
   width: 700px;
   display: flex;
-  align-items: center;
   flex-direction: column;
+  align-items: center;
   gap: 20px;
   border: 2px solid #DDDDDD;
   border-radius: 10px;
@@ -68,24 +87,140 @@
   width: 300px;
 }
 
-.my-stores-card-new-btn {
-  padding: 3px;
+.my-stores-card-new-btn,
+.my-stores-card-inquiry-btn {
+  padding: 6px 0;
   border: none;
   border-radius: 5px;
-  background-color: #35B4F6;
   font-size: 23px;
-  color: #fff;
+  color: #ffffff;
   box-shadow: 2px 2px 2px #c2c0c0;
   cursor: pointer;
 }
 
+.my-stores-card-new-btn {
+  background-color: #35B4F6;
+}
+
 .my-stores-card-inquiry-btn {
-  padding: 3px;
-  border: none;
-  border-radius: 5px;
   background-color: #3984D3;
-  font-size: 23px;
-  color: #fff;
-  box-shadow: 2px 2px 2px #c2c0c0;
-  cursor: pointer;
+}
+
+/* =================================================
+   미디어 쿼리 ① 노트북 (≤1024px)
+================================================= */
+@media (max-width: 1024px) {
+  .my-stores-card-container {
+    padding: 0 50px;
+  }
+
+  .my-stores-card {
+    width: 660px;
+  }
+
+  .my-stores-head-title {
+    font-size: 32px;
+  }
+}
+
+/* =================================================
+   미디어 쿼리 ② 태블릿 (≤950px)
+================================================= */
+@media (max-width: 950px) {
+  .my-stores-card-container {
+    padding: 0 30px;
+  }
+
+  .my-stores-card {
+    width: 100%;
+    max-width: 600px;
+  }
+
+  .my-store-card-img {
+    width: 180px;
+    height: 180px;
+  }
+
+  .my-stores-card-btn-container {
+    width: 260px;
+  }
+
+  .my-stores-head-title {
+    font-size: 32px;
+  }
+
+  .my-stores-back-btn {
+    font-size: 16px;
+    padding: 5px 18px;
+  }
+}
+
+/* =================================================
+   미디어 쿼리 ③ 태블릿/소형 (≤768px)
+================================================= */
+@media (max-width: 768px) {
+  .my-stores-card-container {
+    padding: 0 20px;
+  }
+
+  .my-stores-card {
+    width: 100%;
+    max-width: 540px;
+  }
+
+  .my-store-card-img {
+    width: 160px;
+    height: 160px;
+  }
+
+  .my-stores-card-btn-container {
+    width: 240px;
+  }
+
+  .my-stores-head-title {
+    font-size: 32px;
+  }
+
+  .my-stores-back-btn {
+    font-size: 15px;
+    padding: 5px 16px;
+  }
+}
+
+/* =================================================
+   미디어 쿼리 ④ 모바일 (≤480px)
+================================================= */
+@media (max-width: 480px) {
+  .my-stores-container {
+    padding: 0 15px 40px 15px;
+  }
+
+  /* ⭐ 구조 유지: column 전환 금지 */
+  .my-stores-head {
+    height: 60px;
+    align-items: center;
+  }
+
+  .my-stores-head-title {
+    font-size: 32px;
+  }
+
+  .my-stores-back-btn {
+    font-size: 14px;
+    padding: 4px 14px;
+  }
+
+  .my-store-card-img {
+    width: 150px;
+    height: 150px;
+  }
+
+  .my-stores-card-btn-container {
+    width: 220px;
+  }
+
+  .my-stores-card-new-btn,
+  .my-stores-card-inquiry-btn {
+    font-size: 18px;
+  }
 }

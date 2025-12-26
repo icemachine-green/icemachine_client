@@ -4,7 +4,9 @@
   padding: 0px 20px 50px 20px;
 }
 
-/* 헤더 */
+/* =========================
+   헤더
+========================= */
 .my-page-head {
   display: flex;
   justify-content: center;
@@ -14,34 +16,49 @@
 .my-page-head p {
   font-size: 50px;
   font-weight: 700;
+  margin: 0;
 }
 
-/* 가로선 */
+/* =========================
+   가로선
+========================= */
 .my-page-underline {
-  border: 0;
+  width: 100%;
   height: 1.5px;
   background-color: #DDDDDD;
-  margin: 0 0 50px 0;
+  border: none;
+  margin: 30px 0 50px;
 }
 
-/* 카드 컨테이너 */
+/* =========================
+   카드 컨테이너
+========================= */
 .my-page-card-container {
   margin: 0 auto;
   max-width: 700px;
-  padding: 0px 20px;
+  padding: 0 20px;
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
-/* 카드 */
+/* =========================
+   카드
+========================= */
 .my-page-card {
   display: flex;
   align-items: center;
-  padding: 0px 20px;
+  justify-content: space-between;
+  padding: 18px 20px;
   border: 2.5px solid #DDDDDD;
   border-radius: 10px;
   cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.my-page-card:hover {
+  border-color: #10538E;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .my-page-card-sub-container-1,
@@ -50,8 +67,11 @@
   align-items: center;
 }
 
+/* 왼쪽 영역 */
 .my-page-card-sub-container-1 {
-  width: 60%;
+  display: flex;
+  align-items: center;
+  width: calc(60% - 2px); /* 회색바 공간 확보 */
 }
 
 /* 아이콘 */
@@ -69,44 +89,43 @@
 .my-page-card-text p {
   font-size: 28px;
   font-weight: 600;
+  margin: 0;
+  word-break: break-word;
 }
 
-/* 세로 구분선 */
+/* =========================
+   🔒 세로 회색 바 (고정 위치)
+========================= */
 .my-page-card-divider {
   width: 4px;
-  height: 50px;
   background-color: #DDDDDD;
-  margin: 0 14px;
+  border-radius: 2px;
+  margin: 0 16px;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 50px;
 }
 
-/* 서브 텍스트 */
-.my-page-card-sub-text {
-  flex: 1;
-  margin-left: 20px;
+/* 오른쪽 영역 */
+.my-page-card-sub-container-2 {
+  display: flex;
+  align-items: center;
+  width: calc(40% - 2px); /* 회색바 공간 확보 */
 }
 
 .my-page-card-sub-text p {
   font-size: 18px;
   color: #8c8c8c;
+  margin: 0;
+  line-height: 1.4;
 }
 
 /* =================================================
    1024px 이하
 ================================================= */
 @media (max-width: 1024px) {
-
-  /* 핵심: 회색 바 위치 고정 */
-  .my-page-card-divider {
-    flex-shrink: 0;
-  }
-
-  .my-page-card-sub-container-1 {
-    flex-shrink: 0;
-  }
-
-  .my-page-card-icon {
-    width: 45px;
-    height: 45px;
+  .my-page-head p {
+    font-size: 44px;
   }
 
   .my-page-card-text p {
@@ -122,26 +141,32 @@
    950px 이하
 ================================================= */
 @media (max-width: 950px) {
+  .my-page-head p {
+    font-size: 40px;
+  }
 
-  .my-page-card-icon {
-    width: 42px;
-    height: 42px;
+  .my-page-card {
+    padding: 16px 18px;
   }
 
   .my-page-card-text {
-    margin-left: 24px;
+    margin-left: 22px;
   }
 
   .my-page-card-text p {
     font-size: 24px;
   }
 
-  .my-page-card-sub-text {
-    margin-left: 16px;
+  .my-page-card-divider {
+    margin: 0 14px;
   }
 
-  .my-page-card-sub-text p {
-    font-size: 16px;
+  .my-page-card-sub-container-1 {
+    width: calc(60% - 2px);
+  }
+
+  .my-page-card-sub-container-2 {
+    width: calc(40% - 2px);
   }
 }
 
@@ -149,13 +174,12 @@
    768px 이하
 ================================================= */
 @media (max-width: 768px) {
-
   .my-page-head p {
-    font-size: 40px;
+    font-size: 34px;
   }
 
-  .my-page-card {
-    padding: 0px 16px;
+  .my-page-card-sub-container-1 {
+    width: calc(65% - 2px);
   }
 
   .my-page-card-icon {
@@ -163,59 +187,44 @@
     height: 38px;
   }
 
-  .my-page-card-text {
-    margin-left: 20px;
-  }
-
   .my-page-card-text p {
     font-size: 22px;
-  }
-
-  .my-page-card-divider {
-    height: 44px;
   }
 
   .my-page-card-sub-text p {
     font-size: 15px;
   }
+
+  .my-page-card-sub-container-2 {
+    width: calc(35% - 2px);
+  }
 }
 
 /* =================================================
-   480px 이하 (모바일)
+   480px 이하
 ================================================= */
 @media (max-width: 480px) {
-
   .my-page-head p {
-    font-size: 32px;
+    font-size: 34px;
   }
 
   .my-page-card {
-    padding: 0px 14px;
+    padding: 14px 14px;
   }
 
-  .my-page-card-icon {
-    width: 34px;
-    height: 34px;
+  .my-page-card-sub-container-2 {
+    display: none;
   }
 
-  .my-page-card-text {
-    margin-left: 16px;
+  .my-page-card-sub-container-1 {
+    width: 100%;
   }
 
   .my-page-card-text p {
     font-size: 20px;
   }
 
-  .my-page-card-divider {
-    height: 40px;
-    margin: 0 10px;
-  }
-
-  .my-page-card-sub-text {
-    margin-left: 12px;
-  }
-
-  .my-page-card-sub-text p {
-    font-size: 14px;
+  .my-page-card-container {
+    gap: 12px;
   }
 }

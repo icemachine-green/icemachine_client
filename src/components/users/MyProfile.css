@@ -1,3 +1,10 @@
+/* =================================================
+   My Profile / 반응형 CSS
+================================================= */
+
+/* =========================
+   전체 컨테이너 (PC 기준 유지)
+========================= */
 .my-profile-container {
   margin: 0 auto;
   max-width: 1440px;
@@ -12,6 +19,7 @@
   align-items: center;
 }
 
+/* 뒤로가기 버튼 */
 .my-profile-back-btn {
   position: absolute;
   left: 0;
@@ -24,10 +32,15 @@
   font-size: 17px;
 }
 
+/* 제목 중앙 정렬 */
 .my-profile-head-title {
-  margin: 0 auto;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 32px;
   font-weight: 700;
+  margin: 0;
+  white-space: nowrap;
 }
 
 /* 가로선 */
@@ -101,4 +114,144 @@
   color: #fff;
   font-size: 16px;
   cursor: pointer;
+}
+
+/* =================================================
+   미디어 쿼리 ① 노트북 (≤1024px)
+================================================= */
+@media (max-width: 1024px) {
+  .my-profile-card-container {
+    padding: 0 40px;
+  }
+
+  .my-profile-head-title {
+    font-size: 32px;
+  }
+
+  .my-profile-back-btn {
+    font-size: 16px;
+    padding: 5px 18px;
+  }
+
+  .my-profile-card-text {
+    font-size: 17px;
+  }
+
+  .my-profile-change-btn {
+    font-size: 17px;
+    padding: 7px 16px;
+  }
+
+  .my-profile-withdraw-btn {
+    font-size: 15px;
+    padding: 13px 28px;
+  }
+}
+
+/* =================================================
+   미디어 쿼리 ② 태블릿 (≤950px)
+================================================= */
+@media (max-width: 950px) {
+  .my-profile-card-container {
+    padding: 0 30px;
+    max-width: 600px;
+  }
+
+  .my-profile-head-title {
+    font-size: 32px;
+  }
+
+  .my-profile-back-btn {
+    font-size: 15px;
+    padding: 5px 16px;
+  }
+
+  .my-profile-card-text {
+    width: 70px;
+    font-size: 16px;
+  }
+
+  .my-profile-change-btn {
+    font-size: 16px;
+    padding: 6px 14px;
+  }
+
+  .my-profile-withdraw-btn {
+    font-size: 14px;
+    padding: 12px 26px;
+  }
+}
+
+/* =================================================
+   미디어 쿼리 ③ 태블릿/소형 (≤768px)
+================================================= */
+@media (max-width: 768px) {
+  .my-profile-card-container {
+    padding: 0 20px;
+    max-width: 540px;
+  }
+
+  .my-profile-head-title {
+    font-size: 32px;
+  }
+
+  .my-profile-back-btn {
+    font-size: 14px;
+    padding: 4px 14px;
+  }
+
+  .my-profile-card-text {
+    width: 65px;
+    font-size: 15px;
+    margin-right: 15px;
+  }
+
+  .my-profile-change-btn {
+    font-size: 15px;
+    padding: 6px 12px;
+  }
+
+  .my-profile-withdraw-btn {
+    font-size: 14px;
+    padding: 12px 24px;
+  }
+}
+
+/* =================================================
+   미디어 쿼리 ④ 모바일 (≤480px)
+================================================= */
+@media (max-width: 480px) {
+  .my-profile-card-container {
+    padding: 0 15px;
+    max-width: 100%;
+  }
+
+  .my-profile-head {
+    height: 60px;
+  }
+
+  .my-profile-head-title {
+    font-size: 32px;
+  }
+
+  .my-profile-back-btn {
+    font-size: 13px;
+    padding: 4px 12px;
+  }
+
+  .my-profile-card-text {
+    width: 60px;
+    font-size: 14px;
+    margin-right: 10px;
+  }
+
+  .my-profile-change-btn {
+    font-size: 14px;
+    padding: 5px 10px;
+  }
+
+  .my-profile-withdraw-btn {
+    font-size: 13px;
+    padding: 10px 20px;
+  }
 }
