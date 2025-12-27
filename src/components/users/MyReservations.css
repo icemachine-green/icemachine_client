@@ -8,23 +8,22 @@
    헤더
 ========================= */
 .mypage-reservation-page-head {
-  position: relative; /* 제목 중앙을 위해 relative 유지 */
+  position: relative;
   display: flex;
   align-items: center;
   height: 80px;
 }
 
 .mypage-reservation-page-head p {
-  position: absolute; /* 항상 가로 중앙 */
+  position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 32px; /* PC 기준 고정 */
+  font-size: 32px;
   font-weight: 700;
   margin: 0;
   text-align: center;
 }
 
-/* 뒤로가기 버튼 */
 .reservation-back-btn {
   padding: 5px 20px;
   border-radius: 20px;
@@ -33,8 +32,8 @@
   color: #fff;
   cursor: pointer;
   font-size: 17px;
-  margin-left: 0; /* 버튼은 왼쪽에 자연스럽게 위치 */
-  z-index: 1; /* 제목 위에 겹치지 않도록 */
+  margin-left: 0;
+  z-index: 1;
 }
 
 /* =========================
@@ -61,7 +60,6 @@
   gap: 15px;
 }
 
-/* 예약 카드 */
 .mypage-reservation-card {
   display: flex;
   justify-content: space-between;
@@ -71,25 +69,21 @@
   border-radius: 10px;
 }
 
-/* 완료 상태 */
 .mypage-reservation-card.completed {
   background-color: #f6f6f6;
 }
 
-/* 날짜 */
 .mypage-reservation-date {
   font-size: 18px;
   margin: 0;
 }
 
-/* 버튼 영역 */
 .mypage-reservation-card-actions {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-/* 버튼 공통 */
 .mypage-reservation-card-actions button {
   padding: 6px 14px;
   font-size: 14px;
@@ -98,13 +92,11 @@
   cursor: pointer;
 }
 
-/* 예약 조회 */
 .btn-view {
   background-color: #6bcf8e;
   color: #ffffff;
 }
 
-/* 취소 */
 .btn-cancel {
   background-color: #4a78ff;
   color: #ffffff;
@@ -115,7 +107,6 @@
   cursor: not-allowed;
 }
 
-/* 상태 텍스트 */
 .reservation-status {
   font-size: 14px;
   color: #8c8c8c;
@@ -148,14 +139,20 @@
 }
 
 /* =========================
-   예약 취소 모달
+   예약 취소 모달 (⭐ 수정 핵심)
 ========================= */
 .mypage-reservation-modal-overlay {
+  position: fixed;
+  /* ⭐ 핵심 */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.45);
-  z-index: 1000;
+  z-index: 9999;
 }
 
 .mypage-reservation-modal {
@@ -191,7 +188,7 @@
 }
 
 .mypage-reservation-modal-icon-img {
-  width: 33px;   
+  width: 33px;
   height: 33px;
   object-fit: contain;
 }
@@ -225,17 +222,14 @@
 }
 
 /* =========================
-   반응형
+   반응형 (그대로 유지)
 ========================= */
-
-/* 1024px 이하 */
 @media (max-width: 1024px) {
   .mypage-reservation-page-head p {
     font-size: 32px;
   }
 }
 
-/* 950px 이하 */
 @media (max-width: 950px) {
   .mypage-reservation-page-head p {
     font-size: 32px;
@@ -254,7 +248,6 @@
   }
 }
 
-/* 768px 이하 */
 @media (max-width: 768px) {
   .mypage-reservation-page-head p {
     font-size: 32px;
@@ -274,7 +267,6 @@
   }
 }
 
-/* 480px 이하 */
 @media (max-width: 480px) {
   .mypage-reservation-page-head p {
     font-size: 32px;
