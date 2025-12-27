@@ -8,6 +8,7 @@ import MyPage from "../components/users/MyPage.jsx";
 import MyProfile from "../components/users/MyProfile.jsx";
 import MyStores from "../components/users/MyStores.jsx";
 import MyReservations from "../components/users/MyReservations.jsx";
+import MyStoreCreate from "../components/users/MyStoreCreate.jsx";
 import MyReviews from "../components/users/MyReviews.jsx";
 
 const router = createBrowserRouter([
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: "/mypage/stores",
         element: <MyStores />,
+      },
+      {
+        path: "/mypage/stores/create",
+        element: <MyStoreCreate />,
       },
       {
         path: "/mypage/reservations",

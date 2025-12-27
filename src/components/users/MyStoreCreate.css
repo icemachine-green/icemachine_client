@@ -1,0 +1,179 @@
+/* =================================================
+   My Stores / Reservations Common Layout
+================================================= */
+
+/* =========================
+   전체 컨테이너 (PC 기준 유지)
+========================= */
+.my-store-create-container {
+  margin: 0 auto;
+  max-width: 1440px;
+  padding: 0 20px 50px 20px;
+}
+
+/* =========================
+   헤더 (뒤로가기 + 제목)
+========================= */
+.my-store-create-head {
+  display: flex;
+  align-items: center;
+  height: 80px;
+  position: relative; /* 제목 절대 중앙 배치 위해 추가 */
+}
+
+/* 뒤로가기 버튼 */
+.my-store-create-back-btn {
+  background-color: #35B4F6;
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 20px;
+  font-size: 17px;
+  cursor: pointer;
+  white-space: nowrap;
+  z-index: 1; /* 제목보다 위로 */
+}
+
+/* 제목 (항상 가로 기준 중앙) */
+.my-store-create-head-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 32px;
+  font-weight: 700;
+  text-align: center;
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* =========================
+   구분선
+========================= */
+.my-store-create-underline {
+  border: 0;
+  height: 1.5px;
+  background-color: #DDDDDD;
+  margin-bottom: 50px;
+}
+
+/* =========================
+   카드 영역
+========================= */
+.my-store-create-card-container {
+  margin: 0 auto;
+  padding: 20px 0;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border: 2px solid #DDDDDD;
+  border-radius: 10px;
+}
+
+.my-store-create-card {
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  width: 80%;
+  max-width: 600px;
+}
+
+.my-store-create-card-text {
+  width: 80px;
+  text-align: right;
+  font-size: 18px;
+  font-weight: 600;
+  margin-right: 20px;
+}
+
+.my-store-create-card-input {
+  display: flex;
+  gap: 5px;
+  flex: 1;
+}
+
+.my-store-create-card-input input {
+  padding: 7px;
+  flex: 1;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* 카드-제빙기 정보 영역 */
+.my-store-create-icemachine-card {
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  width: 80%;
+  max-width: 600px;
+}
+
+.my-store-create-icemachine-text-container {
+  width: 80px;
+  text-align: right;
+  margin-right: 20px;
+}
+
+.my-store-create-icemachine-text {
+  font-size: 18px;
+  font-weight: 600;
+  padding-top: 8px;
+}
+
+.my-store-create-icemachine-input-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 10px;
+}
+
+.my-store-create-icemachine-input {
+  display: flex;
+  align-items: center;
+}
+
+.my-store-create-icemachine-input span {
+  width: 50px;
+  text-align: right;
+  font-size: 15px;
+  font-weight: 500;
+  margin-right: 20px;
+  line-height: 36px;
+  color: #737272;
+}
+
+.my-store-create-icemachine-input input {
+  padding: 7px;
+  flex: 1;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* 등록버튼 없앰 */
+/* .my-store-create-change-btn {
+  padding: 8px 18px;
+  border: none;
+  border-radius: 6px;
+  background-color: #51A5E7;
+  color: #fff;
+  cursor: pointer;
+  font-size: 18px;  
+} */
+
+
+/* 하단-정보등록 버튼 */
+.my-store-create-btn-container {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;  
+}
+
+.my-store-create-btn {
+  padding: 14px 30px;
+  border-radius: 8px;
+  border: none;
+  background-color: #2060B6;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}

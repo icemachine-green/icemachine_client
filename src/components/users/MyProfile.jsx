@@ -34,7 +34,7 @@ const MyProfile = () => {
           <div className="my-profile-card">
             <span className='my-profile-card-text'>전화번호 :</span>
             <div className='my-profile-card-input'>
-              <input type="number" />
+              <input type="text" inputMode='numeric' />
               <button className="my-profile-change-btn">변경</button>
             </div>
           </div>

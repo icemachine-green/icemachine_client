@@ -8,6 +8,10 @@ const MyStores = () => {
     return navigate('/mypage');
   }
 
+  function redirectMyStoreCreate() {
+    return navigate('/mypage/stores/create');
+  }
+
   return (
     <div className='my-stores-container'>
 
@@ -27,7 +31,7 @@ const MyStores = () => {
             <img src="/icons/cafeicon.png" alt="매장" className='my-store-card-img'/>
           </div>
           <div className='my-stores-card-btn-container'>
-            <button className='my-stores-card-new-btn'>매장 새로 등록</button>
+            <button className='my-stores-card-new-btn' onClick={redirectMyStoreCreate}>매장 새로 등록</button>
             <button className='my-stores-card-inquiry-btn'>매장 정보 조회</button>
           </div>
         </div>
