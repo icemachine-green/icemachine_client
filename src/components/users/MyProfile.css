@@ -116,6 +116,90 @@
   cursor: pointer;
 }
 
+/* =========================
+   예약 취소 모달
+========================= */
+.my-profile-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.45);
+  z-index: 1000;
+}
+
+.my-profile-modal {
+  width: 320px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* 헤더 */
+.my-profile-modal-header {
+  background-color: #B9004B;
+  color: #ffffff;
+  text-align: center;
+  padding: 12px 0;
+  font-weight: 600;
+}
+
+/* 바디 */
+.my-profile-modal-body {
+  padding: 28px 20px;
+  text-align: center;
+}
+
+.my-profile-modal-icon {
+  width: 38px;
+  height: 38px;
+  margin: 0 auto 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.my-profile-modal-icon-img {
+  width: 33px;   
+  height: 33px;
+  object-fit: contain;
+}
+
+.my-profile-modal-body p {
+  margin: 0;
+  font-size: 15px;
+}
+
+/* 푸터 */
+.my-profile-modal-footer {
+  display: flex;
+  border-top: 1px solid #eeeeee;
+}
+
+.my-profile-modal-footer button {
+  flex: 1;
+  padding: 12px 0;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+}
+
+.my-profile-modal-confirm {
+  background-color: #B9004B;
+  color: #ffffff;
+}
+
+.my-profile-modal-cancel {
+  background-color: #f3f3f3;
+}
+
 /* =================================================
    미디어 쿼리
 ================================================= */
