@@ -1,0 +1,154 @@
+/* =================================================
+   My Stores / Reservations Common Layout
+================================================= */
+
+/* =========================
+   전체 컨테이너 (PC 기준 유지)
+========================= */
+.my-store-detail-container {
+  margin: 0 auto;
+  max-width: 1440px;
+  padding: 0 20px 50px 20px;
+}
+
+/* =========================
+   헤더 (뒤로가기 + 제목)
+========================= */
+.my-store-detail-head {
+  display: flex;
+  align-items: center;
+  height: 80px;
+  position: relative; /* 제목 절대 중앙 배치 위해 추가 */
+}
+
+/* 뒤로가기 버튼 */
+.my-store-detail-back-btn {
+  background-color: #35B4F6;
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 20px;
+  font-size: 17px;
+  cursor: pointer;
+  white-space: nowrap;
+  z-index: 1; /* 제목보다 위로 */
+}
+
+/* 제목 (항상 가로 기준 중앙) */
+.my-store-detail-head-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 32px;
+  font-weight: 700;
+  text-align: center;
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* =========================
+   구분선
+========================= */
+.my-store-detail-underline {
+  border: 0;
+  height: 1.5px;
+  background-color: #DDDDDD;
+  margin-bottom: 50px;
+}
+
+/* =========================
+   카드 영역
+========================= */
+/* storeList 없을 때 */
+.my-store-detail-empty {
+  margin: 100px auto;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 500;
+  color: #8E8E8E;
+}
+
+/* storeList 있을 때 */
+.my-store-detail-card-container {
+  display: grid;
+  gap: 10px;
+}
+
+.my-store-detail-card {
+  margin: 0 auto;
+  padding: 10px 20px;
+  width: 80%;
+  max-width: 600px;
+  border: 2px solid #DDDDDD;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 500;
+
+  display: grid;
+  grid-template-columns: 70px 1fr 20px;
+}
+
+/* ------------------ 화살표 ------------------ */
+.my-store-detail-arrow {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.my-store-detail-arrow.open {
+  transform: rotate(180deg);
+  color: #B4B4B4;
+}
+
+/* ------------------ 답변(토글) ------------------ */
+.my-store-detail-toggle {
+  margin: 0 auto;
+  padding: 10px 20px 30px 20px;
+  width: 80%;
+  max-width: 600px;
+  border: 2px solid #DDDDDD;
+  border-radius: 10px;
+  line-height: 5px;
+}
+
+.my-store-detail-point-line {
+  margin: 15px auto;
+  width: 60px;
+  height: 4px;
+  background-color: #DDDDDD;
+  border-radius: 10px;
+}
+
+.my-store-detail-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.my-store-detail-info :nth-child(1) {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.my-store-detail-info :nth-child(2) {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.my-store-detail-machine-info-container {
+  margin: 0 auto;
+  padding: 5px 15px;
+  width: 80%;
+  border: 1px solid #DDDDDD;
+  border-radius: 10px;
+  line-height: 2px;
+}
+
+.my-store-detail-machine-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgb(78, 78, 78);
+  font-size: 16px;
+  font-weight: 500;
+}

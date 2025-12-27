@@ -10,6 +10,7 @@ import MyStores from "../components/users/MyStores.jsx";
 import MyReservations from "../components/users/MyReservations.jsx";
 import MyStoreCreate from "../components/users/MyStoreCreate.jsx";
 import MyReviews from "../components/users/MyReviews.jsx";
+import MyStoreDetail from "../components/users/MyStoreDetail.jsx";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
       {
         path: "/mypage/stores/create",
         element: <MyStoreCreate />,
+      },
+      {
+        path: "/mypage/stores/detail",
+        element: <MyStoreDetail />,
       },
       {
         path: "/mypage/reservations",

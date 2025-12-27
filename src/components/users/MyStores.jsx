@@ -12,6 +12,10 @@ const MyStores = () => {
     return navigate('/mypage/stores/create');
   }
 
+  function redirectMyStoreDetail() {
+    return navigate('/mypage/stores/detail');
+  }
+
   return (
     <div className='my-stores-container'>
 
@@ -32,7 +36,7 @@ const MyStores = () => {
           </div>
           <div className='my-stores-card-btn-container'>
             <button className='my-stores-card-new-btn' onClick={redirectMyStoreCreate}>매장 새로 등록</button>
-            <button className='my-stores-card-inquiry-btn'>매장 정보 조회</button>
+            <button className='my-stores-card-inquiry-btn' onClick={redirectMyStoreDetail}>매장 정보 조회</button>
           </div>
         </div>
       </div>
