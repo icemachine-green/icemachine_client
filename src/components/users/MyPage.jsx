@@ -17,6 +17,10 @@ const MyPage = () => {
     return navigate('/mypage/reviews');
   }
 
+  function redirectMyLogout() {
+    return navigate('/mypage/logout');
+  }
+
   return (
       <div className='my-page-container'>
 
@@ -100,7 +104,7 @@ const MyPage = () => {
           </div>
 
           {/* 카드5-로그아웃 */}
-          <div className="my-page-card">
+          <div className="my-page-card" onClick={redirectMyLogout}>
             <div className="my-page-card-sub-container-1">
               <img src="/icons/my_page_logout.png" alt="로그아웃" className="my-page-card-icon" />
               <div className="my-page-card-text">

@@ -11,6 +11,7 @@ import MyReservations from "../components/users/MyReservations.jsx";
 import MyStoreCreate from "../components/users/MyStoreCreate.jsx";
 import MyReviews from "../components/users/MyReviews.jsx";
 import MyStoreDetail from "../components/users/MyStoreDetail.jsx";
+import MyLogout from"../components/users/MyLogout.jsx";
 
 const router = createBrowserRouter([
   {
@@ -57,8 +58,12 @@ const router = createBrowserRouter([
         element: <MyReservations />,
       },
       { path: '/mypage/reviews',
-         element: <MyReviews />, 
+        element: <MyReviews />, 
       },
+      {
+        path: '/mypage/logout',
+        element: <MyLogout />,
+      }
       // 앞으로 다른 페이지가 추가되면 이 배열에 추가합니다.
       // 예: { path: '/login', element: <LoginPage /> }
     ],
