@@ -1,0 +1,224 @@
+/* =========================
+   리뷰 테이블 컨테이너
+========================= */
+.my-reviews-table-container {
+    padding: 0 70px;
+}
+
+.my-reviews-table {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    border-collapse: collapse;
+    border: 1px solid #dddddd;
+    table-layout: fixed;
+    /* PC 기준 고정 */
+}
+
+.my-reviews-table thead {
+    background-color: #f5f8fb;
+}
+
+/* =========================
+   컬럼 가로 비율 (PC 기준)
+========================= */
+.my-reviews-table th:nth-child(1),
+.my-reviews-table td:nth-child(1) {
+    width: 140px;
+    /* 날짜 */
+}
+
+.my-reviews-table th:nth-child(2),
+.my-reviews-table td:nth-child(2) {
+    width: auto;
+    /* 리뷰 내용 */
+}
+
+.my-reviews-table th:nth-child(3),
+.my-reviews-table td:nth-child(3) {
+    width: 160px;
+    /* 별점 */
+}
+
+/* =========================
+   공통 셀
+========================= */
+.my-reviews-table th,
+.my-reviews-table td {
+    padding: 14px 12px;
+    font-size: 15px;
+    border-bottom: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;
+    vertical-align: top;
+    text-align: center;
+}
+
+.my-reviews-table th:last-child,
+.my-reviews-table td:last-child {
+    border-right: none;
+}
+
+/* =========================
+   리뷰 내용
+========================= */
+.review-content {
+    text-align: left;
+}
+
+.review-text {
+    display: flex;
+    align-items: flex-start;
+    line-height: 1.6;
+    cursor: pointer;
+}
+
+.review-text-content {
+    word-break: break-word;
+    white-space: normal;
+}
+
+/* 토글 세모 */
+.review-toggle-icon {
+    flex-shrink: 0;
+    margin-right: 6px;
+    font-size: 13px;
+    line-height: 1.6;
+    transition: transform 0.2s ease;
+}
+
+.review-toggle-icon.open {
+    transform: rotate(180deg);
+}
+
+/* =========================
+   별점
+========================= */
+.star-container {
+    display: flex;
+    justify-content: center;
+}
+
+.star-img {
+    width: 100px;
+    height: 18.5px;
+}
+
+/* =================================================
+   미디어쿼리 ① ≤1024px (노트북)
+================================================= */
+@media (max-width: 1024px) {
+    .my-reviews-table-container {
+        padding: 0 50px;
+    }
+
+    .my-reviews-table th:nth-child(1),
+    .my-reviews-table td:nth-child(1) {
+        width: 130px;
+    }
+
+    .my-reviews-table th:nth-child(3),
+    .my-reviews-table td:nth-child(3) {
+        width: 150px;
+    }
+}
+
+/* =================================================
+   미디어쿼리 ② ≤950px (태블릿)
+================================================= */
+@media (max-width: 950px) {
+    .my-reviews-table-container {
+        padding: 0 30px;
+    }
+
+    .my-reviews-table th,
+    .my-reviews-table td {
+        font-size: 14px;
+        padding: 12px 10px;
+    }
+
+    .star-img {
+        width: 90px;
+        height: auto;
+    }
+
+    .my-reviews-table th:nth-child(1),
+    .my-reviews-table td:nth-child(1) {
+        width: 120px;
+    }
+
+    .my-reviews-table th:nth-child(3),
+    .my-reviews-table td:nth-child(3) {
+        width: 130px;
+    }
+}
+
+/* =================================================
+   미디어쿼리 ③ ≤768px (소형 태블릿)
+================================================= */
+@media (max-width: 768px) {
+    .my-reviews-table-container {
+        padding: 0 20px;
+    }
+
+    .my-reviews-table th,
+    .my-reviews-table td {
+        font-size: 13px;
+        padding: 10px 8px;
+    }
+
+    .review-toggle-icon {
+        font-size: 12px;
+    }
+
+    .star-img {
+        width: 80px;
+    }
+
+    .my-reviews-table th:nth-child(1),
+    .my-reviews-table td:nth-child(1) {
+        width: 100px;
+    }
+
+    .my-reviews-table th:nth-child(3),
+    .my-reviews-table td:nth-child(3) {
+        width: 110px;
+    }
+}
+
+/* =================================================
+   미디어쿼리 ④ ≤480px (모바일)
+================================================= */
+@media (max-width: 480px) {
+    .my-reviews-table-container {
+        padding: 0 15px;
+    }
+
+    .my-reviews-table th,
+    .my-reviews-table td {
+        font-size: 12px;
+        padding: 8px 6px;
+    }
+
+    .review-text {
+        line-height: 1.5;
+    }
+
+    .review-toggle-icon {
+        font-size: 11px;
+        margin-right: 4px;
+    }
+
+    .star-img {
+        width: 70px;
+    }
+
+    .my-reviews-table th:nth-child(1),
+    .my-reviews-table td:nth-child(1) {
+        width: 85px;
+    }
+
+    .my-reviews-table th:nth-child(3),
+    .my-reviews-table td:nth-child(3) {
+        width: 90px;
+    }
+}

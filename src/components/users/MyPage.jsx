@@ -13,6 +13,10 @@ const MyPage = () => {
     return navigate('/mypage/stores');
   }
 
+  function redirectMyReviews() {
+    return navigate('/mypage/reviews');
+  }
+
   return (
       <div className='my-page-container'>
 
@@ -80,7 +84,7 @@ const MyPage = () => {
           </div>
 
           {/* 카드4-내 리뷰 내역 */}
-          <div className="my-page-card">
+          <div className="my-page-card" onClick={redirectMyReviews}>
             <div className="my-page-card-sub-container-1">
               <img src="/icons/my_page_review.png" alt="리뷰" className="my-page-card-icon" />
               <div className="my-page-card-text">
