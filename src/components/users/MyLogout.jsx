@@ -1,16 +1,23 @@
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import "./MyLogout.css";
 
 const LogoutPage = () => {
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleBack = () => {
     navigate("/mypage");
   };
 
   const handleLogout = () => {
-    alert("로그아웃 되었습니다.");
+    setIsModalOpen(true);
     // 실제 로그아웃 로직 위치
+  };
+
+  const handleModalConfirm = () => {
+    setIsModalOpen(false);
+    navigate("/");
   };
 
   return (
@@ -58,6 +65,33 @@ const LogoutPage = () => {
 
         </div>
       </div>
+
+      {/* 🔔 알림 모달 (기존 레이아웃과 완전 분리) */}
+      {isModalOpen && (
+        <div className="logout-alert-dim">
+          <div className="logout-alert-modal">
+            <div className="logout-alert-header">
+              <span>알림</span>
+              <button onClick={handleModalConfirm}>×</button>
+            </div>
+
+            <div className="logout-alert-body">
+              <img
+                src="/public/icons/checkicon.png"
+                alt="체크"
+              />
+              <p>로그아웃 되었습니다.</p>
+            </div>
+
+            <button
+              className="logout-alert-confirm"
+              onClick={handleModalConfirm}
+            >
+              확인
+            </button>
+          </div>
+        </div>
+      )}
 
     </div>
   );

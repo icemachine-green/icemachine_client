@@ -152,3 +152,76 @@
     font-size: 14px;
   }
 }
+
+/* =========================
+   로그아웃 알림 모달 (alert 대체)
+   기존 레이아웃과 완전 분리
+========================= */
+
+.logout-alert-dim {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+
+.logout-alert-modal {
+  width: 380px;
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* 상단 */
+.logout-alert-header {
+  background-color: #35B4F6;
+  color: #ffffff;
+  padding: 14px 20px;
+  font-size: 22px;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logout-alert-header button {
+  background: none;
+  border: none;
+  font-size: 26px;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+/* 본문 */
+.logout-alert-body {
+  padding: 24px 20px 18px;   /* ⬅ 위/아래 여백 감소 */
+  text-align: center;
+}
+
+.logout-alert-body img {
+  width: 48px;              /* ⬅ 아이콘 높이 소폭 감소 */
+  height: 48px;
+  margin-bottom: 14px;      /* ⬅ 간격 감소 */
+}
+
+.logout-alert-body p {
+  font-size: 22px;          /* ⬅ 텍스트 살짝 줄임 */
+  font-weight: 500;
+}
+
+/* 확인 버튼 */
+.logout-alert-confirm {
+  width: calc(100% - 40px);
+  margin: 0 20px 18px;      /* ⬅ 하단 여백 감소 */
+  padding: 12px 0;          /* ⬅ 버튼 높이 감소 */
+  background-color: #35B4F6;
+  color: #ffffff;
+  font-size: 18px;          /* ⬅ 버튼 텍스트 살짝 축소 */
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
