@@ -77,7 +77,8 @@ const MyStoreCreate = () => {
 
         {/* 등록 버튼 */}
         <div className='my-store-create-btn-container'>
-          <button className='my-store-create-btn'>매장 정보 등록하기</button>
+          <button className='my-store-later-btn'>나중에 등록하기</button>
+          <button className='my-store-create-btn'>입력한 정보 등록하기</button>
         </div>
         
       </div>
