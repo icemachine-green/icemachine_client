@@ -1,0 +1,306 @@
+/* =========================
+   페이지 컨테이너
+========================= */
+.mypage-reservation-page-container {
+    margin: 0 auto;
+    max-width: 1440px;
+    padding: 0 20px 50px;
+}
+
+/* =========================
+   헤더
+========================= */
+.mypage-reservation-page-head {
+    display: flex;
+    align-items: center;
+    height: 80px;
+}
+
+.mypage-reservation-page-head p {
+    margin: 0 auto;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.reservation-back-btn {
+    padding: 5px 20px;
+    border-radius: 20px;
+    border: none;
+    background-color: #35b4f6;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 17px;
+}
+
+/* =========================
+   가로 구분선
+========================= */
+.mypage-reservation-page-underline {
+    border: 0;
+    height: 1.5px;
+    background-color: #dddddd;
+    margin: 0 0 32px 0;
+}
+
+/* =========================
+   테이블
+========================= */
+.reservation-table-wrapper {
+    max-width: 1200px;
+    margin: 0 auto 32px;
+    border: 1.5px solid #c9c9c9;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #ffffff;
+}
+
+/* 헤더 */
+.reservation-table-header {
+    display: grid;
+    grid-template-columns: 1.2fr 2.5fr 2.3fr 1.3fr 1.3fr;
+    background-color: #eef0f3;
+    border-bottom: 1.5px solid #c9c9c9;
+}
+
+.reservation-table-header>div {
+    padding: 18px;
+    font-weight: 600;
+    font-size: 15px;
+    text-align: center;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-right: 1.5px solid #c9c9c9;
+}
+
+.reservation-table-header>div:last-child {
+    border-right: none;
+}
+
+/* row */
+.reservation-table-row {
+    display: grid;
+    grid-template-columns: 1.2fr 2.5fr 2.3fr 1.3fr 1.3fr;
+    border-bottom: 1.5px solid #c9c9c9;
+}
+
+.reservation-table-row:last-child {
+    border-bottom: none;
+}
+
+.reservation-table-row>div {
+    padding: 22px;
+    font-size: 14.5px;
+    line-height: 1.6;
+    text-align: center;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-right: 1.5px solid #c9c9c9;
+}
+
+.reservation-table-row>div:last-child {
+    border-right: none;
+}
+
+/* 정보 묶음 */
+.reservation-info,
+.engineer-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.reservation-info p,
+.engineer-info p {
+    margin: 0;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 상태 */
+.status-cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.status-badge {
+    padding: 8px 18px;
+    border-radius: 18px;
+    font-size: 13.5px;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.status-badge.complete {
+    background-color: #4a78ff;
+}
+
+.status-badge.progress {
+    background-color: #6bcf8e;
+}
+
+/* 결제 */
+.payment-info {
+    text-align: center;
+    font-weight: 600;
+    font-size: 15px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* =========================
+   페이지네이션
+========================= */
+.mypage-reservation-pagination {
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+}
+
+.mypage-reservation-pagination button {
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    border: 1px solid #dddddd;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+.mypage-reservation-pagination button.active {
+    background-color: #4a78ff;
+    color: #ffffff;
+    border-color: #4a78ff;
+}
+
+/* =========================
+   반응형
+========================= */
+
+/* 1024px */
+@media (max-width: 1024px) {
+    .reservation-table-wrapper {
+        max-width: 100%;
+    }
+
+    .reservation-table-row>div,
+    .reservation-table-header>div {
+        padding: 20px 18px;
+    }
+}
+
+/* 950px */
+@media (max-width: 950px) {
+    .mypage-reservation-page-head p {
+        font-size: 30px;
+    }
+
+    .reservation-table-row>div,
+    .reservation-table-header>div {
+        padding: 18px 16px;
+        font-size: 14px;
+    }
+}
+
+/* 768px */
+@media (max-width: 768px) {
+    .mypage-reservation-page-head {
+        height: 72px;
+    }
+
+    .mypage-reservation-page-head p {
+        font-size: 28px;
+    }
+
+    .reservation-back-btn {
+        font-size: 15px;
+        padding: 5px 16px;
+    }
+
+    .reservation-table-row>div,
+    .reservation-table-header>div {
+        padding: 16px 14px;
+        font-size: 13.5px;
+    }
+
+    .status-badge {
+        padding: 6px 14px;
+        font-size: 12.5px;
+    }
+}
+
+/* 480px 이하: 동적 grid 비율로 텍스트 최대한 한 줄 표시 */
+@media (max-width: 480px) {
+    .reservation-table-wrapper {
+        max-width: 100%;
+        margin: 0 auto 20px;
+        border: 1.5px solid #c9c9c9;
+        border-radius: 12px;
+        background-color: #ffffff;
+        overflow-x: hidden;
+        /* 가로 스크롤 제거 */
+    }
+
+    /* 컬럼 비율 동적 조정 */
+    .reservation-table-header,
+    .reservation-table-row {
+        display: grid;
+        grid-template-columns: 0.8fr 3fr 2.5fr 0.8fr 0.8fr;
+        /* 날짜 / 예약정보 / 기사정보 / 상태 / 결제 */
+    }
+
+    .reservation-table-header>div,
+    .reservation-table-row>div {
+        padding: 10px 6px;
+        font-size: 11.5px;
+        text-align: center;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .reservation-table-header>div:last-child,
+    .reservation-table-row>div:last-child {
+        border-right: none;
+    }
+
+    .reservation-info,
+    .engineer-info {
+        gap: 1px;
+    }
+
+    .reservation-info p,
+    .engineer-info p {
+        font-size: 11px;
+        line-height: 1.3;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .status-badge {
+        padding: 4px 8px;
+        font-size: 11px;
+        border-radius: 12px;
+    }
+
+    .payment-info {
+        font-size: 11px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .mypage-reservation-pagination {
+        margin-top: 16px;
+    }
+}

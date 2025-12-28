@@ -1,23 +1,26 @@
 import { useState } from "react";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./MyReservations.css";
 
 const MyReservationPage = () => {
   const navigate = useNavigate();
 
-  function redirectMyReservation() {
-    return navigate('/mypage');
+  // 마이페이지로 돌아가기
+  const redirectMyReservation = () => {
+    navigate('/mypage');
   };
 
+  // 예약 조회 페이지로 이동
+  const redirectReservationTable = () => {
+    navigate("/mypage/reservations/table");
+  };
+
+  // 예약 취소 모달 상태
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
-  const openCancelModal = () => {
-    setIsCancelModalOpen(true);
-  };
+  const openCancelModal = () => setIsCancelModalOpen(true);
+  const closeCancelModal = () => setIsCancelModalOpen(false);
 
-  const closeCancelModal = () => {
-    setIsCancelModalOpen(false);
-  };
-
+  // 예약 취소 처리
   const handleConfirmCancel = () => {
     alert("예약이 취소되었습니다.");
     setIsCancelModalOpen(false);
@@ -45,7 +48,9 @@ const MyReservationPage = () => {
             2025.12.25. (목) 오전 11:00
           </p>
           <div className="mypage-reservation-card-actions">
-            <button className="btn-view">예약 조회</button>
+            <button className="btn-view" onClick={redirectReservationTable}>
+              예약 조회
+            </button>
             <button className="btn-cancel" onClick={openCancelModal}>
               취소
             </button>
@@ -57,7 +62,9 @@ const MyReservationPage = () => {
             2025.12.24. (수) 오전 11:00
           </p>
           <div className="mypage-reservation-card-actions">
-            <button className="btn-view">예약 조회</button>
+            <button className="btn-view" onClick={redirectReservationTable}>
+              예약 조회
+            </button>
             <button className="btn-cancel" onClick={openCancelModal}>
               취소
             </button>
@@ -65,55 +72,17 @@ const MyReservationPage = () => {
         </div>
 
         {/* 완료 카드 */}
-        <div className="mypage-reservation-card completed">
-          <p className="mypage-reservation-date">
-            2025.12.23. (화) 오후 2:00
-          </p>
-          <div className="mypage-reservation-card-actions">
-            <span className="reservation-status">완료</span>
-            <button className="btn-cancel disabled">취소</button>
+        {[...Array(5)].map((_, idx) => (
+          <div key={idx} className="mypage-reservation-card completed">
+            <p className="mypage-reservation-date">
+              2025.12.23. (화) 오후 2:00
+            </p>
+            <div className="mypage-reservation-card-actions">
+              <span className="reservation-status">완료</span>
+              <button className="btn-cancel disabled">취소</button>
+            </div>
           </div>
-        </div>
-        {/* 완료 카드 */}
-        <div className="mypage-reservation-card completed">
-          <p className="mypage-reservation-date">
-            2025.12.23. (화) 오후 2:00
-          </p>
-          <div className="mypage-reservation-card-actions">
-            <span className="reservation-status">완료</span>
-            <button className="btn-cancel disabled">취소</button>
-          </div>
-        </div>
-        {/* 완료 카드 */}
-        <div className="mypage-reservation-card completed">
-          <p className="mypage-reservation-date">
-            2025.12.23. (화) 오후 2:00
-          </p>
-          <div className="mypage-reservation-card-actions">
-            <span className="reservation-status">완료</span>
-            <button className="btn-cancel disabled">취소</button>
-          </div>
-        </div>
-        {/* 완료 카드 */}
-        <div className="mypage-reservation-card completed">
-          <p className="mypage-reservation-date">
-            2025.12.23. (화) 오후 2:00
-          </p>
-          <div className="mypage-reservation-card-actions">
-            <span className="reservation-status">완료</span>
-            <button className="btn-cancel disabled">취소</button>
-          </div>
-        </div>
-        {/* 완료 카드 */}
-        <div className="mypage-reservation-card completed">
-          <p className="mypage-reservation-date">
-            2025.12.23. (화) 오후 2:00
-          </p>
-          <div className="mypage-reservation-card-actions">
-            <span className="reservation-status">완료</span>
-            <button className="btn-cancel disabled">취소</button>
-          </div>
-        </div>
+        ))}
 
       </div>
 
@@ -135,9 +104,11 @@ const MyReservationPage = () => {
 
             <div className="mypage-reservation-modal-body">
               <div className="mypage-reservation-modal-icon">
-                <img src="/public/icons/information-button.png"
+                <img
+                  src="/public/icons/information-button.png"
                   alt="알림"
-                  className="mypage-reservation-modal-icon-img"/>
+                  className="mypage-reservation-modal-icon-img"
+                />
               </div>
               <p>정말 예약을 취소하시겠습니까?</p>
             </div>
@@ -165,3 +136,4 @@ const MyReservationPage = () => {
 };
 
 export default MyReservationPage;
+
