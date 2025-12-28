@@ -23,15 +23,15 @@
 
 /* 뒤로가기 버튼 */
 .my-store-detail-back-btn {
-  background-color: #35B4F6;
-  color: #ffffff;
-  border: none;
+  padding: 5px 20px;
   border-radius: 20px;
-  padding: 6px 20px;
-  font-size: 17px;
+  border: none;
+  background-color: #35B4F6;
+  color: #fff;
   cursor: pointer;
-  white-space: nowrap;
-  z-index: 1; /* 제목보다 위로 */
+  font-size: 17px;
+  margin-left: 0;
+  z-index: 1;
 }
 
 /* 제목 (항상 가로 기준 중앙) */
@@ -41,19 +41,20 @@
   transform: translateX(-50%);
   font-size: 32px;
   font-weight: 700;
-  text-align: center;
   margin: 0;
-  white-space: nowrap;
+  text-align: center;
 }
 
 /* =========================
    구분선
 ========================= */
 .my-store-detail-underline {
+  width: 100%;
+  display: block;
   border: 0;
   height: 1.5px;
-  background-color: #DDDDDD;
-  margin-bottom: 50px;
+  background-color: #dddddd;
+  margin: 0 0 50px 0;
 }
 
 /* =========================
@@ -151,4 +152,35 @@
   color: rgb(78, 78, 78);
   font-size: 16px;
   font-weight: 500;
+}
+
+/* =========================
+   반응형
+========================= */
+@media (max-width: 480px) {
+  .my-store-detail-head p {
+    font-size: 32px;
+  }
+
+  .my-store-detail-back-btn {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  .my-store-detail-info,
+  .my-store-detail-machine-info {
+  /* display: flex;
+  align-items: center;
+  flex-wrap: wrap; */
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+  margin: 20px 0;
+  }
+
+  .my-store-detail-info p,
+  .my-store-detail-machine-info p {
+    margin: 0;
+    line-height: normal;
+  }
 }
