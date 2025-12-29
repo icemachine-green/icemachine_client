@@ -1,8 +1,31 @@
 import { useNavigate } from 'react-router-dom';
 import './MyStoreCreate.css';
+import { useRef, useState } from 'react';
 
 const MyStoreCreate = () => {
   const navigate = useNavigate();
+  const [imageFile, setImageFile] = useState([]);      // 리뷰사진: null 허용
+  const [selectedImage, setSelectedImage] = useState(null); // 선택한 리뷰사진 미리보기
+  const fileInputRef = useRef(null);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setImageFile(file);
+    setSelectedImage(URL.createObjectURL(file));
+  };
+
+  const handleRemoveImage = () => {
+    if (selectedImage) {
+      URL.revokeObjectURL(selectedImage);
+    }
+    setSelectedImage(null);
+
+    if (fileInputRef.current) {
+    fileInputRef.current.value = '';
+    }
+  };
 
   function redirectMyStore() {
     return navigate('/mypage/stores');
@@ -27,14 +50,20 @@ const MyStoreCreate = () => {
             <span className='my-store-create-card-text'>매장명 :</span>
             <div className='my-store-create-card-input'>
               <input type="text" />
-              {/* <button className="my-store-create-change-btn">등록</button> */}
+            </div>
+          </div>
+
+          <div className="my-store-create-card">
+            <span className='my-store-create-card-text'>담당자명 :</span>
+            <div className='my-store-create-card-input'>
+              <input type="text" />
             </div>
           </div>
 
           <div className="my-store-create-card">
             <span className='my-store-create-card-text'>연락처 :</span>
             <div className='my-store-create-card-input'>
-              <input type="text" inputMode='numeric' />
+              <input type="text" inputMode='numeric'  placeholder='"-"을 제외하고 입력해주세요.'/>
             </div>
           </div>
 
@@ -69,8 +98,40 @@ const MyStoreCreate = () => {
                 <span>사이즈</span>
                 <input type="text" />
               </div>
-            </div>
+              <div className='my-store-create-icemachine-image-container'>
+                <span className='my-store-create-icemachine-image-text'>제빙기 사진</span>
+                {/* 사진 업로드 & 미리보기 */}
+                <div className="my-store-create-icemachine-image-section">
+                  <div className="my-store-create-icemachine-image-btn-container">
+                    <label className="my-store-create-icemachine-image-upload-btn">
+                      <img className='my-store-create-icemachine-photo-icon' src="/icons/photoicon.png" alt="사진 아이콘" />
+                      <span className='my-store-create-icemachine-upload-text'>사진 추가</span>
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                        hidden
+                      />
+                    </label>
+                  </div>
 
+                  {selectedImage && (
+                    <div className="my-store-create-icemachine-image-preview">
+                      <img src={selectedImage} alt="preview" />
+                      <button
+                        type="button"
+                        className="my-store-create-icemachine-image-remove-btn"
+                        onClick={handleRemoveImage}
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  )}
+
+                </div>
+              </div>
+            </div>
           </div>
 
         </div>
