@@ -9,14 +9,14 @@ import { reissueThunk } from "./store/thunks/authThunk.js";
 
 function App() {
   const dispatch = useDispatch();
-  const { status } = useSelector((state) => state.auth);
+  const { status, isLoggedIn } = useSelector((state) => state.auth);
 
   useEffect(() => {
     // 앱이 처음 로딩될 때 (status가 'idle'일 때)만 실행
-    if (status === "idle") {
+    if (!isLoggedIn) {
       dispatch(reissueThunk());
     }
-  }, [status, dispatch]);
+  }, []);
 
   // 로그인 상태 확인 중이면 로딩 화면을 보여줌
   if (status === "loading" || status === "idle") {
