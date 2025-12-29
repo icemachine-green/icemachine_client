@@ -3,19 +3,32 @@ import './MyStoreDetail.css';
 import { useState } from 'react';
 
 const storeList = [
-  { name: "한옥 커피", phone: "053-333-1234", address: "대구광역시 동구 팔공로 24길 7", brand: "아이스트로", model: "ICE-70B", size: "중형(650 x 600 x 900mm)" },
-  { name: "Green 커피", phone: "053-333-1234", address: "대구광역시 동구 팔공로 24길 7", brand: "아이스트로", model: "ICE-70B", size: "중형(650 x 600 x 900mm)" },
-  { name: "Cafe Spell", phone: "053-333-1234", address: "대구광역시 동구 팔공로 24길 7", brand: "아이스트로", model: "ICE-70B", size: "중형(650 x 600 x 900mm)" },
-  { name: "아메리카노 1000", phone: "053-333-1234", address: "대구광역시 동구 팔공로 24길 7", brand: "아이스트로", model: "ICE-70B", size: "중형(650 x 600 x 900mm)" },
-  { name: "팩 다방", phone: "053-333-1234", address: "대구광역시 동구 팔공로 24길 7", brand: "아이스트로", model: "ICE-70B", size: "중형(650 x 600 x 900mm)" },
+  { store: "한옥 커피", name: "김정현", phone: "053-333-1234", address: "대구광역시 동구 팔공로 24길 7", brand: "아이스트로", model: "ICE-70B", size: "중형(650 x 600 x 900mm)" },
+  { store: "Green 커피", name: "김정현", phone: "053-333-1234", address: "대구광역시 동구 팔공로 24길 7", brand: "아이스트로", model: "ICE-70B", size: "중형(650 x 600 x 900mm)" },
+  { store: "Cafe Spell", name: "김정현", phone: "053-333-1234", address: "대구광역시 동구 팔공로 24길 7", brand: "아이스트로", model: "ICE-70B", size: "중형(650 x 600 x 900mm)" },
+  { store: "아메리카노 1000", name: "김정현", phone: "053-333-1234", address: "대구광역시 동구 팔공로 24길 7", brand: "아이스트로", model: "ICE-70B", size: "중형(650 x 600 x 900mm)" },
+  { store: "팩 다방", name: "김정현", phone: "053-333-1234", address: "대구광역시 동구 팔공로 24길 7", brand: "아이스트로", model: "ICE-70B", size: "중형(650 x 600 x 900mm)" },
 ];
 
 const MyStoreDetail = () => {
   const [openIndex, setOpenIndex] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalImage, setModalImage] = useState(null);
   const navigate = useNavigate();
 
   const toggleAnswer = (index) => {
     setOpenIndex(prev => (prev === index ? null : index));
+  };
+
+  const handleImageClick = (imageSrc, e) => {
+    e.stopPropagation(); // 카드 토글 클릭 방지
+    setModalImage(imageSrc);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setModalImage(null);
   };
 
   function redirectMyStore() {
@@ -50,7 +63,7 @@ const MyStoreDetail = () => {
                   <span className='my-store-detail-card-text'>매장명 :</span>
 
                   <span className="my-store-detail-card-name">
-                    {item.name}
+                    {item.store}
                   </span>
                   <span className={`my-store-detail-arrow ${isOpen ? "open" : ""}`}>▼</span>
                 </div>
@@ -60,6 +73,10 @@ const MyStoreDetail = () => {
                       <div className="my-store-detail-point-line"></div>
                       <div className='my-store-detail-info'>
                         <p>매장명 :</p>
+                        <p>{item.store}</p>
+                      </div>
+                      <div className='my-store-detail-info'>
+                        <p>담당자명 :</p>
                         <p>{item.name}</p>
                       </div>
                       <div className='my-store-detail-info'>
@@ -86,6 +103,10 @@ const MyStoreDetail = () => {
                           <p>사이즈 :</p>
                           <p>{item.size}</p>
                         </div>
+                        <div className='my-store-detail-machine-info'>
+                          <p>고객 등록 사진 :</p>
+                          <img className='my-store-detail-machine-photo-icon' src="/icons/jaebinggi_1.png" alt="제빙기 등록 사진" onClick={(e) => handleImageClick("/icons/jaebinggi_1.png", e)}/>
+                        </div>
                       </div>
                     </div>
                   )}
@@ -94,6 +115,27 @@ const MyStoreDetail = () => {
             );
           }))}
         </div>
+        
+        {isModalOpen && (
+          <div className="my-store-detail-modal-overlay" onClick={closeModal}>
+            <div
+              className="my-store-detail-modal-content"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img
+                src={modalImage}
+                alt="제빙기 확대 이미지"
+                className="my-store-detail-modal-image"
+              />
+              <button
+                className="my-store-detail-modal-close"
+                onClick={closeModal}
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+        )}
         
       </div>
   );
