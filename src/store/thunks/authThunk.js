@@ -46,13 +46,13 @@ export const socialSignupThunk = createAsyncThunk(
 
 // 토큰 재발급
 export const reissueThunk = createAsyncThunk(
-  "auth/reissue",
+  "auth/reissueThunk",
   async (_, { rejectWithValue }) => {
     try {
       const url = "/api/auth/reissue";
       const response = await axiosInstance.post(url);
 
-      return response.data.payload;
+      return response.data;
     } catch (error) {
       if (error.response) {
         return rejectWithValue(error.response.data);

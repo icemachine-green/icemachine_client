@@ -11,10 +11,15 @@ import MyReservations from "../components/users/MyReservations.jsx";
 import MyStoreCreate from "../components/users/MyStoreCreate.jsx";
 import MyReviews from "../components/users/MyReviews.jsx";
 import MyStoreDetail from "../components/users/MyStoreDetail.jsx";
-import MyLogout from"../components/users/MyLogout.jsx";
+import MyLogout from "../components/users/MyLogout.jsx";
 import MyReservationTable from "../components/users/MyReservationTable.jsx";
+import Social from "../components/login/Social.jsx";
 
 const router = createBrowserRouter([
+  {
+    path: "/callback/social",
+    element: <Social />,
+  },
   {
     element: <App />,
     children: [
@@ -58,11 +63,9 @@ const router = createBrowserRouter([
         path: "/mypage/reservations",
         element: <MyReservations />,
       },
-      { path: '/mypage/reviews',
-        element: <MyReviews />, 
-      },
+      { path: "/mypage/reviews", element: <MyReviews /> },
       {
-        path: '/mypage/logout',
+        path: "/mypage/logout",
         element: <MyLogout />,
       },
       {

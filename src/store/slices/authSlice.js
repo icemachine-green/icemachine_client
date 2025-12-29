@@ -52,10 +52,11 @@ const authSlice = createSlice({
         state.status = "loading";
       })
       .addCase(reissueThunk.fulfilled, (state, action) => {
+        console.log("슬라이스", action.payload);
         state.status = "succeeded";
         state.isLoggedIn = true;
-        state.user = action.payload.user;
-        state.accessToken = action.payload.accessToken;
+        state.user = action.payload.data.user;
+        state.accessToken = action.payload.data.accessToken;
       })
       .addCase(reissueThunk.rejected, (state, action) => {
         state.status = "failed";
@@ -98,4 +99,3 @@ const authSlice = createSlice({
 export const { logout, setSocialAuthInfo, clearAuthState } = authSlice.actions;
 
 export default authSlice.reducer;
-

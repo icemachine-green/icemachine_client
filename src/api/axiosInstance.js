@@ -13,7 +13,7 @@ export function injectStoreInAxios(_store) {
 
 // axios instance
 const axiosInstance = axios.create({
-  baseURL: "", // 기본 URL (공통 도메인)
+  baseURL: "http://localhost:3000", // 백엔드 기본 URL
   headers: {
     "Content-Type": "application/json", // 요청 규칙: json
   },
@@ -24,21 +24,30 @@ const axiosInstance = axios.create({
 // 모든 request를 interceptor로 가로채 토큰 만료 선 체크
 // config: request가 담김
 axiosInstance.interceptors.request.use(async (config) => {
+  // reissue 요청은 재발급 로직을 타지 않도록 함
   const noRetry = /^\/api\/auth\/reissue$/;
   let { accessToken } = store.getState().auth;
 
   try {
+    // accessToken이 있고, reissue 요청이 아닐 때만 실행
     if (accessToken && !noRetry.test(config.url)) {
       // 액세스 토큰 만료 확인
       const claims = jwtDecode(accessToken);
       const now = dayjs().unix();
+      // 만료 5분 전일 경우 재발급
       const expTime = dayjs.unix(claims.exp).add(-5, "minute").unix();
 
       if (now >= expTime) {
-        config._retry = true;
+        config._retry = true; // 재시도 플래그 (선택적)
+        console.log("Access Token 만료 감지, 재발급을 시도합니다.");
         const response = await store.dispatch(reissueThunk()).unwrap();
-        accessToken = response.data.accessToken;
-        console.log("액세스 토큰 재발급");
+
+        // ★★★★★★★★★★★★★★★★★★★★★★★★★★
+        // 여기가 수정된 부분입니다.
+        accessToken = response.accessToken;
+        // ★★★★★★★★★★★★★★★★★★★★★★★★★★
+
+        console.log("Access Token 재발급 성공");
       }
 
       config.headers["Authorization"] = `Bearer ${accessToken}`;
@@ -46,7 +55,9 @@ axiosInstance.interceptors.request.use(async (config) => {
 
     return config;
   } catch (error) {
-    console.log("axios interceptor", error);
+    console.log("axios interceptor에서 에러 발생:", error);
+    // 여기서 에러를 반환하면 요청이 중단됩니다.
+    return Promise.reject(error);
   }
 });
 
