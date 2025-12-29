@@ -41,9 +41,9 @@ const SignUpPage = () => {
       })
     );
 
-    // 회원가입 성공 시 메인 페이지로 리디렉션
+    // 회원가입 성공 시 매장 등록페이지로 리디렉션
     if (result.type.endsWith("fulfilled")) {
-      navigate("/");
+      navigate("http://localhost:5173/mypage/stores");
     }
   };
 
