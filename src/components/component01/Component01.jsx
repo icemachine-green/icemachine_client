@@ -1,7 +1,14 @@
 import React from "react";
 import './Component01.css';
+import { useNavigate } from "react-router-dom";
 
 const Component01 = () => {
+  const navigate = useNavigate();
+
+  const redirectReservation = () => {
+    navigate("/reservation");
+  };
+
   return (
   <div className="component01-container">
   <div className="component01-textwrap">
@@ -11,7 +18,7 @@ const Component01 = () => {
       얼음이<br />
       달라집니다.
     </span>
-    <button className="component01-btn">청소 예약</button>
+    <button className="component01-btn" onClick={redirectReservation}>청소 예약</button>
   </div>
 </div>
   );

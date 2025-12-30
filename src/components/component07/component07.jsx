@@ -1,13 +1,12 @@
 import React from "react";
 import "./component07.css";
+import { useNavigate } from "react-router-dom";
 
 export default function Component07() {
-  const handleReserveClick = () => {
-    // TODO: 예약 페이지 만들면 아래 alert 대신 라우팅으로 바꾸면 돼.
-    // 예) const navigate = useNavigate();  navigate("/reservation");
-    alert(
-      "청소 예약 페이지는 아직 연결되지 않았어요!\n예약 페이지를 만들고 라우터에 경로를 추가한 뒤 연결하면 됩니다."
-    );
+  const navigate = useNavigate();
+
+  const redirectReservation = () => {
+    navigate("/reservation");
   };
 
   return (
@@ -19,7 +18,7 @@ export default function Component07() {
         <button
           type="button"
           className="component07-button"
-          onClick={handleReserveClick}
+          onClick={redirectReservation}
         >
           청소 예약
         </button>
