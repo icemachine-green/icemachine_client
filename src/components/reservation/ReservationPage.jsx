@@ -1,12 +1,20 @@
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import './ReservationPage.css';
 
 const ReservationPage = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // function redirectBack() {
-  //   navigate(-1);
-  // }
+  const handleReservation = () => {
+    setIsModalOpen(true);
+    // 실제 로그아웃 로직 위치
+  };
+
+  const handleModalConfirm = () => {
+    setIsModalOpen(false);
+    navigate("/mypage/reservations");
+  };
 
   return (
     <div className='reservationpage-container'>
@@ -242,9 +250,35 @@ const ReservationPage = () => {
 
         {/* 예약 신청 버튼 */}
         <div className='reservationpage-btn-container'>
-          <button className='reservationpage-btn'>예약 신청</button>
+          <button className='reservationpage-btn' onClick={handleReservation}>예약 신청</button>
         </div>
 
+        {/* 🔔 알림 모달 (기존 레이아웃과 완전 분리) */}
+        {isModalOpen && (
+          <div className="reservation-alert-dim">
+            <div className="reservation-alert-modal">
+              <div className="reservation-alert-header">
+                <span>알림</span>
+                <button onClick={handleModalConfirm}>×</button>
+              </div>
+
+              <div className="reservation-alert-body">
+                <img
+                  src="/public/icons/checkicon.png"
+                  alt="체크"
+                />
+                <p>예약 신청이 완료되었습니다.</p>
+              </div>
+
+              <button
+                className="reservation-alert-confirm"
+                onClick={handleModalConfirm}
+              >
+                확인
+              </button>
+            </div>
+          </div>
+        )}
       </div>
   );
 };
