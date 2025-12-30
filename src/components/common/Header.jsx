@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import "./Header.css";
 
 export default function Header() {
+  const { isLoggedIn } = useSelector((state) => state.auth);
+
   return (
     <header className="header-container">
       {/* 로고 */}
@@ -16,11 +19,11 @@ export default function Header() {
       {/* 가운데 선 */}
       <div className="header-line" />
 
-      {/* 로그인 */}
-      <Link to="/login" className="header-icon-link login">
+      {/* 로그인 상태에 따른 아이콘 변경 */}
+      <Link to={isLoggedIn ? "/mypage" : "/login"} className="header-icon-link login">
         <img
-          src="/icons/login.png"
-          alt="로그인"
+          src={isLoggedIn ? "/icons/my_page.png" : "/icons/login.png"}
+          alt={isLoggedIn ? "마이페이지" : "로그인"}
           className="header-icon-login-btn"
         />
       </Link>

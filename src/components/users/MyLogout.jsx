@@ -1,9 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { logout } from "../../store/slices/authSlice";
 import "./MyLogout.css";
 
 const LogoutPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch(); // useDispatch 임포트
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleBack = () => {
@@ -11,8 +14,8 @@ const LogoutPage = () => {
   };
 
   const handleLogout = () => {
+    dispatch(logout()); // Redux logout 액션 디스패치
     setIsModalOpen(true);
-    // 실제 로그아웃 로직 위치
   };
 
   const handleModalConfirm = () => {
