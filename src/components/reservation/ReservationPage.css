@@ -1,0 +1,371 @@
+/* 전체 컨테이너 */
+.reservationpage-container {
+  margin: 0 auto;
+  max-width: 1440px;
+  margin-bottom: 50px;
+}
+
+/* 상단 이미지 */
+.reservationpage-img img {
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* 헤더 */
+.reservationpage-head {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative; /* 제목 중앙용 */
+}
+
+/* 제목 중앙 정렬 - 항상 화면 중앙 */
+.reservationpage-head-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 32px; /* PC 기준 고정 */
+  font-weight: 700;
+  margin: 0;
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* 가로선 */
+.reservationpage-underline {
+  border: 0;
+  height: 1.5px;
+  background-color: #DDDDDD;
+  margin: 20px 0;
+}
+
+/* 입력 영역 전체 */
+.reservationpage-store-info-container,
+.reservationpage-icemachine-info-form,
+.reservationpage-date-info-container,
+.reservationpage-add-info-container {
+  margin: 0 auto;
+  padding: 30px 50px;
+  max-width: 1000px;
+
+  display: grid;
+  gap: 19px;
+}
+
+/* -------------- 매장 정보 영역 -------------- */
+.reservationpage-store-info-item {
+  display: grid;
+  grid-template-columns: 73px 1fr;
+  gap: 30px;
+}
+
+.reservationpage-store-info-text {
+  text-align: right;
+}
+
+.reservationpage-store-info-addr-input input {
+  width: 80%;
+}
+
+/* -------------- 제빙기 정보 영역 -------------- */
+.reservationpage-icemachine-info-form {
+  gap: 30px;
+}
+
+.reservationpage-icemachine-info-form-section {
+  display: grid;
+  grid-template-columns: 73px 1fr;
+  gap: 30px;
+}
+
+.reservationpage-icemachine-info-section-title {
+  text-align: right;
+}
+
+.reservationpage-icemachine-info-form-row-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.reservationpage-icemachine-info-form-row {
+  display: grid;
+  grid-template-columns: 73px 1fr;
+  gap: 20px;
+}
+
+.reservationpage-icemachine-info-form-label {
+  color: #3AA0BD;
+}
+
+.reservationpage-icemachine-info-form-options {
+  display: flex;
+  gap: 25px;
+}
+
+/* -------------- 서비스 정보 영역 -------------- */
+.reservationpage-service-info-form-section {
+  display: grid;
+  grid-template-columns: 73px 1fr;
+  gap: 30px;  
+}
+
+.reservationpage-service-info-form-section-title {
+  text-align: right;
+}
+
+.reservationpage-service-info-form-options {
+  padding-top: 20px;
+  display: grid;
+  gap: 15px;
+}
+
+/* -------------- 예약 날짜/시간 영역 -------------- */
+/* 예약 날짜 영역 */
+.reservationpage-date-card {
+  display: grid;
+  grid-template-columns: 73px 1fr;
+  gap: 30px;
+}
+
+.reservationpage-date-card-text {
+  text-align: right;
+}
+
+
+/* 달력 */
+.reservationpage-calendar {
+  margin: 0 auto;
+  border: 1px solid #ddd;
+  padding: 12px;
+  width: 260px;
+}
+
+.reservationpage-calendar-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.reservationpage-calendar-week,
+.reservationpage-calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+}
+
+.reservationpage-calendar-week {
+  background-color: #dddddd;
+}
+
+.reservationpage-calendar-week span {
+  font-size: 12px;
+}
+
+.reservationpage-calendar-week :nth-child(1) {
+  color: #ff0000;
+}
+
+.reservationpage-calendar-week :nth-child(7) {
+  color: #999;
+}
+
+.reservationpage-calendar-day {
+  border: none;
+  background: none;
+  padding: 6px;
+  cursor: pointer;
+}
+
+.reservationpage-calendar-day:hover {
+  background: #f0f0f0;
+  border-radius: 4px;
+}
+
+/* 예약 시간 영역 */
+.reservationpage-time-card {
+  display: grid;
+  grid-template-columns: 73px 1fr;
+  gap: 30px;
+}
+
+.reservationpage-time-card-text {
+  text-align: right;
+}
+
+/* 시간 선택 버튼 */
+.reservationpage-time-section {
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.reservationpage-time-row {
+  display: flex;
+  align-items: center;
+}
+
+.reservationpage-time-label {
+  width: 40px;
+  font-size: 13px;
+  color: #666;
+
+}
+
+.reservationpage-time-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.reservationpage-time-btn {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: white;
+  padding: 4px 8px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.reservationpage-time-btn:hover {
+  background: #f5f5f5;
+}
+
+/* -------------- 요청사항 영역 -------------- */
+.reservationpage-req-card {
+  display: grid;
+  grid-template-columns: 73px 1fr;
+  gap: 30px;
+}
+
+.reservationpage-req-card-text {
+  text-align: right;
+}
+
+.reservationpage-req-textarea-container {
+  padding-top: 20px;
+}
+
+.reservationpage-req-textarea {
+  width: 90%;
+  min-height: 80px;
+  padding: 8px;
+  resize: vertical;
+}
+
+/* -------------- 개인정보 수집동의 영역 -------------- */
+.reservationpage-privacy-card {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 30px;
+}
+
+.reservationpage-privacy-card-text {
+  text-align: right;
+}
+
+.reservationpage-privacy-textarea-container {
+  padding-top: 20px;
+}
+
+.reservationpage-privacy-textarea {
+  width: 90%;
+  min-height: 80px;
+  padding: 8px;
+  resize: vertical;
+  cursor: not-allowed;
+}
+
+.reservationpage-privacy-agree {
+  padding-top: 5px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* 예약 신청 버튼 */
+.reservationpage-btn-container {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.reservationpage-btn {
+  padding: 5px 30px;
+  width: 180px;
+  border-radius: 30px;
+  border: none;
+  background-color: #00B1E3;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* =================================================
+   950px 이하
+================================================= */
+@media (max-width: 950px) {
+  .reservationpage-icemachine-info-form-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+}
+
+/* =================================================
+   800px 이하
+================================================= */
+@media (max-width: 800px) {
+  .reservationpage-icemachine-info-form-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+  .reservationpage-time-row {
+    align-items: flex-start;
+  }
+
+  .reservationpage-time-buttons {
+    /* display: flex;
+    flex-wrap: wrap; */
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+}
+
+/* =================================================
+   620px 이하
+================================================= */
+@media (max-width: 620px) {
+  .reservationpage-store-info-container,
+  .reservationpage-icemachine-info-form,
+  .reservationpage-date-info-container,
+  .reservationpage-add-info-container {
+    padding: 30px 20px;
+  }
+
+  .reservationpage-store-info-addr-input input {
+    width: 90%;
+  }
+}
+
+/* =================================================
+   560px 이하
+================================================= */
+@media (max-width: 560px) {
+  .reservationpage-icemachine-info-form-options {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+}
