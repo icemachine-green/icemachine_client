@@ -6,6 +6,7 @@ import { Outlet } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { reissueThunk } from "./store/thunks/authThunk.js";
+import ScrollToTop from "./components/scrolltotop/ScrollToTop.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -25,6 +26,8 @@ function App() {
 
   return (
     <>
+      <ScrollToTop />
+
       <Header />
       <main>
         <Outlet />
