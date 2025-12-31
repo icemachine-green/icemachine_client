@@ -93,7 +93,13 @@
 }
 
 .review-modal-quick-text-btn:hover {
-  background: #eee;
+  background-color: #2060b6;  
+}
+
+.review-modal-quick-text-btn.active {
+  background-color: #2060b6;
+  color: #fff;
+  border-color: #2060b6;
 }
 
 /* 리뷰 내용 */
