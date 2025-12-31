@@ -13,7 +13,9 @@ export function injectStoreInAxios(_store) {
 
 // axios instance
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3000", // 백엔드 기본 URL
+  // TODO: 실제 배포할 때 URL 수정 필요
+  // baseURL: "http://localhost:3000", // 백엔드 기본 URL 
+  baseURL: "", // 백엔드 기본 URL
   headers: {
     "Content-Type": "application/json", // 요청 규칙: json
   },
