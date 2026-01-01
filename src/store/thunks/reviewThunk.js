@@ -28,11 +28,10 @@ export const createReview = createAsyncThunk(
  */
 export const getReviews = createAsyncThunk(
   "reviews/get",
-  async (_, { rejectWithValue }) => {
+  async ({ sort = "latest"}, { rejectWithValue }) => {
     try {
-      // 모든 리뷰를 최신순으로 조회합니다.
-      const response = await api.get(`/api/reviews?sortBy=createdAt:desc`);
-      return response.data;
+      const response = await api.get(`/api/reviews?sort=${sort}`);
+      return response.data.data; // 리뷰 배열
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }
