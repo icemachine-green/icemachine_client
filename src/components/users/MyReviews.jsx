@@ -1,77 +1,47 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./MyReviews.css";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteReview, getMyReviews } from "../../store/thunks/reviewThunk";
 
 const MyReviews = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { reviews, page, totalPages, loading } = useSelector((state) => state.reviews);
+  const [openIndex, setOpenIndex] = useState(null);
 
   function redirectMyPage() {
     return navigate('/mypage');
   }
 
-  const [openIndex, setOpenIndex] = useState(null);
-
-  const reviews = [
-    {
-      date: "2025-12-26",
-      content:
-        "서비스 정말 좋았습니다. 앞으로도 자주 이용 하겠습니다. 이번 기사님도 친절하셨어요. 다음에도 꼭 다시 이용할 예정입니다. 감사합니다.",
-      rating: 5,
-    },
-    {
-      date: "2025-12-26",
-      content:
-        "전반적으로 만족스러웠습니다. 응대도 빠르고 작업도 깔끔했습니다.",
-      rating: 4,
-    },
-    {
-      date: "2025-12-26",
-      content:
-        "기사님이 정말 친절하셨고 설명도 자세해서 신뢰가 갔습니다.",
-      rating: 5,
-    },
-        {
-      date: "2025-12-26",
-      content:
-        "서비스 정말 좋았습니다. 앞으로도 자주 이용 하겠습니다. 이번 기사님도 친절하셨어요. 다음에도 꼭 다시 이용할 예정입니다. 감사합니다.",
-      rating: 5,
-    },
-    {
-      date: "2025-12-26",
-      content:
-        "전반적으로 만족스러웠습니다. 응대도 빠르고 작업도 깔끔했습니다.",
-      rating: 4,
-    },
-    {
-      date: "2025-12-26",
-      content:
-        "기사님이 정말 친절하셨고 설명도 자세해서 신뢰가 갔습니다.",
-      rating: 5,
-    },
-        {
-      date: "2025-12-26",
-      content:
-        "서비스 정말 좋았습니다. 앞으로도 자주 이용 하겠습니다. 이번 기사님도 친절하셨어요. 다음에도 꼭 다시 이용할 예정입니다. 감사합니다.",
-      rating: 5,
-    },
-    {
-      date: "2025-12-26",
-      content:
-        "전반적으로 만족스러웠습니다. 응대도 빠르고 작업도 깔끔했습니다.",
-      rating: 4,
-    },
-    {
-      date: "2025-12-26",
-      content:
-        "기사님이 정말 친절하셨고 설명도 자세해서 신뢰가 갔습니다.",
-      rating: 5,
-    },
-  ];
+  useEffect(() => {
+    dispatch(getMyReviews({ page: 1 }));
+  }, []);
 
   const toggleReview = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
+  const handleDelete = async (reviewId) => {
+    const isConfirmed = window.confirm(
+      "선택한 리뷰를 삭제하시겠습니까?"
+    );
+    if (!isConfirmed) return;
+
+    try {
+      await dispatch(deleteReview(reviewId)).unwrap();
+      alert("리뷰가 삭제되었습니다.");
+      dispatch(getMyReviews({ page }));
+    } catch (error) {
+      alert("삭제에 실패했습니다.", error);
+    }
+  };
+
+  const handlePageChange = (newPage) => {
+    dispatch(getMyReviews({ page: newPage }));
+  };
+  
   return (
     <div className="my-stores-container"> 
       {/* 상단 : 네미밍은 MyStores 영역과 동일하게 화면을 가져가기 위해 공유하여 사용*/}
@@ -95,58 +65,84 @@ const MyReviews = () => {
               <th>날짜</th>
               <th>리뷰 내용</th>
               <th>별점</th>
+              <th>관리</th>
             </tr>
           </thead>
 
           <tbody>
-            {reviews.map((review, index) => {
-              const isOpen = openIndex === index;
-              const isLong = review.content.length > 20;
+            {!loading &&
+              reviews.map((review, index) => {
+                const isOpen = openIndex === index;
+                const isLong = review.content.length > 20;
 
-              const displayText =
-                !isLong || isOpen
-                  ? review.content
-                  : review.content.slice(0, 20) + "...";
+                const displayText =
+                  !isLong || isOpen
+                    ? review.content
+                    : review.content.slice(0, 20) + "...";
 
-              return (
-                <tr key={index}>
-                  <td>{review.date}</td>
+                return (
+                  <tr key={review.id}>
+                    <td>{new Date(review.createdAt).toLocaleDateString()}</td>
 
-                  <td className="review-content">
-                    <div
-                      className="review-text"
-                      onClick={() => isLong && toggleReview(index)}
-                    >
-                      {isLong && (
-                        <span
-                          className={`review-toggle-icon ${
-                            isOpen ? "open" : ""
-                          }`}
-                        >
-                          ▼
+                    <td className="review-content">
+                      <div
+                        className="review-text"
+                        onClick={() => isLong && toggleReview(index)}
+                      >
+                        {isLong && (
+                          <span
+                            className={`review-toggle-icon ${
+                              isOpen ? "open" : ""
+                            }`}
+                          >
+                            ▼
+                          </span>
+                        )}
+                        <span className="review-text-content">
+                          {displayText}
                         </span>
-                      )}
-                      <span className="review-text-content">
-                        {displayText}
-                      </span>
-                    </div>
-                  </td>
+                      </div>
+                    </td>
 
-                  <td>
-                    <div className="star-container">
-                      <img
-                        src="/icons/star.png"
-                        alt="별점"
-                        className="star-img"
-                      />
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
+                    <td>
+                      {"★".repeat(review.rating)}
+                      {"☆".repeat(5 - review.rating)}
+                    </td>
+
+                    <td>
+                      <button
+                        className="review-delete-btn"
+                        onClick={() => handleDelete(review.id)}
+                      >
+                        삭제
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })
+            }
           </tbody>
         </table>
       </div>
+
+      <div className="pagination">
+        <button
+          disabled={page === 1}
+          onClick={() => handlePageChange(page - 1)}
+        >
+          이전
+        </button>
+
+        <span>{page} / {totalPages}</span>
+
+        <button
+          disabled={page === totalPages}
+          onClick={() => handlePageChange(page + 1)}
+        >
+          다음
+        </button>
+      </div>
+
     </div>
   );
 };

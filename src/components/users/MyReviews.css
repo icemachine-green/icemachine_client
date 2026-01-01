@@ -40,6 +40,12 @@
     /* 별점 */
 }
 
+.my-reviews-table th:nth-child(4),
+.my-reviews-table td:nth-child(4) {
+    width: 100px;
+    /* 삭제 버튼 */
+}
+
 /* =========================
    공통 셀
 ========================= */
@@ -103,6 +109,23 @@
     height: 18.5px;
 }
 
+/* =========================
+   삭제 버튼
+========================= */
+.review-delete-btn {
+  padding: 6px 10px;
+  font-size: 13px;
+  color: #fff;
+  background-color: #e74c3c;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.review-delete-btn:hover {
+  background-color: #c0392b;
+}
+
 /* =================================================
    미디어쿼리 ① ≤1024px (노트북)
 ================================================= */
@@ -119,6 +142,12 @@
     .my-reviews-table th:nth-child(3),
     .my-reviews-table td:nth-child(3) {
         width: 150px;
+    }
+
+    .my-reviews-table th:nth-child(4),
+    .my-reviews-table td:nth-child(4) {
+        width: 80px;
+        /* 삭제 버튼 */
     }
 }
 
@@ -150,6 +179,12 @@
     .my-reviews-table td:nth-child(3) {
         width: 130px;
     }
+
+    .my-reviews-table th:nth-child(4),
+    .my-reviews-table td:nth-child(4) {
+        width: 60px;
+        /* 삭제 버튼 */
+    }
 }
 
 /* =================================================
@@ -176,12 +211,18 @@
 
     .my-reviews-table th:nth-child(1),
     .my-reviews-table td:nth-child(1) {
-        width: 100px;
+        width: 80px;
     }
 
     .my-reviews-table th:nth-child(3),
     .my-reviews-table td:nth-child(3) {
-        width: 110px;
+        width: 90px;
+    }
+
+    .my-reviews-table th:nth-child(4),
+    .my-reviews-table td:nth-child(4) {
+        width: 50px;
+        /* 삭제 버튼 */
     }
 }
 
@@ -214,11 +255,17 @@
 
     .my-reviews-table th:nth-child(1),
     .my-reviews-table td:nth-child(1) {
-        width: 85px;
+        width: 73px;
     }
 
     .my-reviews-table th:nth-child(3),
     .my-reviews-table td:nth-child(3) {
-        width: 90px;
+        width: 60px;
+    }
+
+    .my-reviews-table th:nth-child(4),
+    .my-reviews-table td:nth-child(4) {
+        width: 30px;
+        /* 삭제 버튼 */
     }
 }

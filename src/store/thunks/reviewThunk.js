@@ -39,6 +39,25 @@ export const getReviews = createAsyncThunk(
 );
 
 /**
+ * 내 리뷰 목록 조회
+ * GET /api/reviews/me
+ */
+export const getMyReviews = createAsyncThunk(
+  "reviews/getMyReviews",
+  async ({ page = 1, limit = 5 }, { rejectWithValue }) => {
+    try {
+      const response = await api.get("/api/reviews/me", {
+        params: { page, limit },
+      });
+
+      return response.data.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+/**
  * 리뷰 삭제
  * DELETE /api/reviews/:reviewId
  */
