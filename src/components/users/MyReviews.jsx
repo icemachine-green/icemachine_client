@@ -73,10 +73,10 @@ const MyReviews = () => {
             {!loading &&
               reviews.map((review, index) => {
                 const isOpen = openIndex === index;
-                const isLong = review.content.length > 20;
+                const isLong = review.content ? review.content.length > 20 : false;
 
                 const displayText =
-                  !isLong || isOpen
+                  (!isLong || isOpen)
                     ? review.content
                     : review.content.slice(0, 20) + "...";
 
