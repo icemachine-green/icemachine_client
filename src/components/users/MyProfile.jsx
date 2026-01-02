@@ -3,6 +3,9 @@ import './MyProfile.css';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMyProfile, updateMyProfile, checkEmailDuplicate, withdrawUserThunk } from "../../store/thunks/userThunk.js"
+import { clearAuthState } from "../../store/slices/authSlice.js";
+import { clearUserState } from "../../store/slices/userSlice.js";
+import { clearReviewState } from "../../store/slices/reviewsSlice.js";
 import { formatPhoneNumber } from "../../utils/formatPhoneNumber.js"
 
 const MyProfile = () => {
@@ -105,6 +108,11 @@ const MyProfile = () => {
   const handleConfirmWithdraw = async () => {
     try {
       await dispatch(withdrawUserThunk()).unwrap();
+
+      dispatch(clearAuthState());
+      dispatch(clearUserState());
+      dispatch(clearReviewState());
+
       alert("회원 탈퇴가 완료되었습니다.");
       navigate("/"); // 메인
     } catch (err) {

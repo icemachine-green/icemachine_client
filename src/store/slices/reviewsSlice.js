@@ -14,7 +14,9 @@ const initialState = {
 const reviewsSlice = createSlice({
   name: 'reviews',
   initialState,
-  reducers: {},
+  reducers: {
+    clearReviewState: () => initialState,
+  },
   extraReducers: (builder) => {
     builder
       // 1. 리뷰 목록 조회 (getReviews)
@@ -78,4 +80,5 @@ const reviewsSlice = createSlice({
   },
 })
 
+export const { clearReviewState } = reviewsSlice.actions;
 export default reviewsSlice.reducer;
