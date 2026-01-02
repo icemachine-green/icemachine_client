@@ -10,17 +10,16 @@ import ScrollToTop from "./components/scrolltotop/ScrollToTop.jsx";
 
 function App() {
   const dispatch = useDispatch();
-  const { status, isLoggedIn } = useSelector((state) => state.auth);
+  // isInitializing 상태를 사용하여 초기 인증 과정을 추적합니다.
+  const { isInitializing } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    // 앱이 처음 로딩될 때 (status가 'idle'일 때)만 실행
-    if (!isLoggedIn) {
-      dispatch(reissueThunk());
-    }
-  }, []);
+    // 앱이 로딩될 때마다 항상 토큰 재발급을 시도합니다.
+    dispatch(reissueThunk());
+  }, [dispatch]); // dispatch를 의존성 배열에 추가합니다.
 
-  // 로그인 상태 확인 중이면 로딩 화면을 보여줌
-  if (status === "loading" || status === "idle") {
+  // 초기 인증 과정이 진행 중이면 로딩 화면을 보여줍니다.
+  if (isInitializing) {
     return <div>로딩 중...</div>;
   }
 

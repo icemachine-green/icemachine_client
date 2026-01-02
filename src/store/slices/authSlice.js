@@ -7,6 +7,7 @@ import {
 
 const initialState = {
   isLoggedIn: false,
+  isInitializing: true, // 앱 초기 인증 상태
   user: null,
   accessToken: null,
   status: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
@@ -44,21 +45,24 @@ const authSlice = createSlice({
       state.socialId = null;
       state.error = null;
       state.status = "idle";
+      state.isInitializing = false; // 초기화 시 false로 설정
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(reissueThunk.pending, (state) => {
+        state.isInitializing = true;
         state.status = "loading";
       })
       .addCase(reissueThunk.fulfilled, (state, action) => {
-        console.log("슬라이스", action.payload);
+        state.isInitializing = false;
         state.status = "succeeded";
         state.isLoggedIn = true;
         state.user = action.payload.data.user;
         state.accessToken = action.payload.data.accessToken;
       })
       .addCase(reissueThunk.rejected, (state, action) => {
+        state.isInitializing = false;
         state.status = "failed";
         state.isLoggedIn = false;
         state.user = null;
