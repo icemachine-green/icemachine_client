@@ -1,5 +1,5 @@
 /* =================================================
-   My Stores / Reservations Common Layout
+   My Stores Layout
 ================================================= */
 
 /* =========================
@@ -18,7 +18,7 @@
   display: flex;
   align-items: center;
   height: 80px;
-  position: relative; /* 제목 절대 중앙 배치 위해 추가 */
+  position: relative;
 }
 
 /* 뒤로가기 버튼 */
@@ -31,7 +31,7 @@
   font-size: 17px;
   cursor: pointer;
   white-space: nowrap;
-  z-index: 1; /* 제목보다 위로 */
+  z-index: 1;
 }
 
 /* 제목 (항상 가로 기준 중앙) */
@@ -53,174 +53,216 @@
   border: 0;
   height: 1.5px;
   background-color: #DDDDDD;
-  margin-bottom: 50px;
+  margin-bottom: 30px; /* 카드 목록 위에 간격 */
+}
+
+/* 매장 추가 버튼 컨테이너 */
+.my-stores-add-btn-container {
+  display: flex;
+  justify-content: flex-end; /* 오른쪽 정렬 */
+  margin-bottom: 20px;
+}
+
+/* 매장 추가 버튼 (my-stores-card-new-btn 에 스타일을 적용하므로, 이 클래스는 컨테이너의 버튼에 직접 적용되지 않음) */
+.my-stores-add-btn {
+  /* This class is for the container. The actual button uses my-stores-card-new-btn */
+  /* Reverted to simpler state */
+  background-color: #35B4F6;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.1); /* 기본 그림자 */
+  transition: none; /* 트랜지션 제거 */
+}
+
+.my-stores-add-btn:hover {
+  /* 호버 효과 제거 */
+  background-color: #35B4F6;
+  transform: translateY(0);
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+}
+
+
+/* =========================
+   카드 목록 컨테이너 (새로 추가됨)
+========================= */
+.my-stores-card-list {
+  display: flex;
+  flex-wrap: wrap; /* 여러 줄로 표시 */
+  justify-content: center; /* 카드들을 가운데 정렬 */
+  gap: 20px; /* 카드 사이 간격 */
+  padding: 0 20px; /* 좌우 패딩 */
 }
 
 /* =========================
-   카드 영역
+   개별 매장 카드 스타일
 ========================= */
-.my-stores-card-container {
-  padding: 0 70px;
-}
-
 .my-stores-card {
-  margin: 0 auto;
-  padding: 40px 0;
-  width: 700px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
-  border: 2px solid #DDDDDD;
-  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 15px;
+  width: calc(33.333% - 20px); /* 한 줄에 3개, gap 고려 */
+  box-sizing: border-box; /* 패딩 포함한 너비 계산 */
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  background-color: #ffffff;
+  transition: transform 0.2s ease-in-out;
+}
+
+.my-stores-card:hover {
+  transform: translateY(-5px);
+}
+
+.my-stores-card-img-container {
+  margin-bottom: 15px;
 }
 
 .my-store-card-img {
-  width: 200px;
-  height: 200px;
+  width: 100px; /* 이미지 크기 조정 */
+  height: 100px;
+  object-fit: contain;
 }
 
-.my-stores-card-btn-container {
-  display: flex;
-  flex-direction: column;
-  gap: 13px;
-  width: 300px;
+.my-stores-card-info p {
+  margin: 5px 0;
+  color: #555;
+  font-size: 15px;
+  line-height: 1.4;
 }
 
-.my-stores-card-new-btn,
-.my-stores-card-inquiry-btn {
-  padding: 6px 0;
-  border: none;
-  border-radius: 5px;
-  font-size: 23px;
-  color: #ffffff;
-  box-shadow: 2px 2px 2px #c2c0c0;
-  cursor: pointer;
+.my-stores-card-name {
+  font-weight: 600;
+  font-size: 18px;
+  color: #333;
 }
 
+/* 매장이 없을 때 메시지 */
+.my-stores-no-stores {
+  width: 100%; /* 컨테이너 전체 너비 */
+  text-align: center;
+  padding: 50px 0;
+  font-size: 18px;
+  color: #888;
+}
+
+/* =================================================
+   매장 새로 등록 버튼 (my-stores-card-new-btn) 스타일
+   원래 my-stores-add-btn에 있던 스타일을 여기에 적용
+================================================= */
 .my-stores-card-new-btn {
   background-color: #35B4F6;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25); /* 그림자 강조 */
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* 호버 효과 추가 */
 }
 
-.my-stores-card-inquiry-btn {
-  background-color: #3984D3;
+.my-stores-card-new-btn:hover {
+  background-color: #2a8ad4; /* 호버 시 색상 변경 */
+  transform: translateY(-3px); /* 살짝 위로 뜨는 효과 강조 */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* 그림자 더 강조 */
 }
+
 
 /* =================================================
-   미디어 쿼리 ① 노트북 (≤1024px)
+   미디어 쿼리
 ================================================= */
+
+/* 1024px 이하 (노트북) */
 @media (max-width: 1024px) {
-  .my-stores-card-container {
-    padding: 0 50px;
-  }
-
-  .my-stores-card {
-    width: 660px;
-  }
-
   .my-stores-head-title {
-    font-size: 32px;
+    font-size: 28px;
   }
-}
-
-/* =================================================
-   미디어 쿼리 ② 태블릿 (≤950px)
-================================================= */
-@media (max-width: 950px) {
-  .my-stores-card-container {
-    padding: 0 30px;
-  }
-
-  .my-stores-card {
-    width: 100%;
-    max-width: 600px;
-  }
-
-  .my-store-card-img {
-    width: 180px;
-    height: 180px;
-  }
-
-  .my-stores-card-btn-container {
-    width: 260px;
-  }
-
-  .my-stores-head-title {
-    font-size: 32px;
-  }
-
   .my-stores-back-btn {
     font-size: 16px;
     padding: 5px 18px;
   }
+  .my-stores-card-new-btn { /* 미디어 쿼리 내에서도 스타일 조정 */
+    padding: 9px 18px;
+    font-size: 15px;
+  }
+  .my-stores-card {
+    width: calc(50% - 20px); /* 한 줄에 2개 */
+  }
+  .my-stores-card-list {
+    padding: 0 10px;
+  }
 }
 
-/* =================================================
-   미디어 쿼리 ③ 태블릿/소형 (≤768px)
-================================================= */
+/* 768px 이하 (태블릿) */
 @media (max-width: 768px) {
-  .my-stores-card-container {
-    padding: 0 20px;
+  .my-stores-container {
+    padding: 0 15px 40px 15px;
   }
-
-  .my-stores-card {
-    width: 100%;
-    max-width: 540px;
-  }
-
-  .my-store-card-img {
-    width: 160px;
-    height: 160px;
-  }
-
-  .my-stores-card-btn-container {
-    width: 240px;
-  }
-
   .my-stores-head-title {
-    font-size: 32px;
+    font-size: 24px;
   }
-
   .my-stores-back-btn {
     font-size: 15px;
     padding: 5px 16px;
   }
+  .my-stores-card-new-btn { /* 미디어 쿼리 내에서도 스타일 조정 */
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+  .my-stores-card {
+    width: calc(100% - 20px); /* 한 줄에 1개 */
+  }
+  .my-stores-card-img {
+    width: 80px;
+    height: 80px;
+  }
+  .my-stores-card-name {
+    font-size: 16px;
+  }
+  .my-stores-card-info p {
+    font-size: 14px;
+  }
 }
 
-/* =================================================
-   미디어 쿼리 ④ 모바일 (≤480px)
-================================================= */
+/* 480px 이하 (모바일) */
 @media (max-width: 480px) {
-  .my-stores-container {
-    padding: 0 15px 40px 15px;
-  }
-
-  /* 구조 유지: column 전환 금지 */
   .my-stores-head {
     height: 60px;
-    align-items: center;
   }
-
   .my-stores-head-title {
-    font-size: 32px;
+    font-size: 20px;
   }
-
   .my-stores-back-btn {
     font-size: 14px;
     padding: 4px 14px;
   }
-
+  .my-stores-card-new-btn { /* 미디어 쿼리 내에서도 스타일 조정 */
+    padding: 7px 12px;
+    font-size: 13px;
+  }
+  .my-stores-card-list {
+    gap: 15px;
+  }
+  .my-stores-card {
+    padding: 10px;
+    width: calc(100% - 15px); /* 한 줄에 1개 */
+  }
   .my-store-card-img {
-    width: 150px;
-    height: 150px;
+    width: 60px;
+    height: 60px;
   }
-
-  .my-stores-card-btn-container {
-    width: 220px;
+  .my-stores-card-name {
+    font-size: 15px;
   }
-
-  .my-stores-card-new-btn,
-  .my-stores-card-inquiry-btn {
-    font-size: 18px;
+  .my-stores-card-info p {
+    font-size: 13px;
   }
 }

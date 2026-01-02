@@ -1,143 +1,204 @@
-import { useNavigate } from 'react-router-dom';
-import './MyStoreDetail.css';
-import { useState } from 'react';
-
-const storeList = [
-  { store: "한옥 커피", name: "김정현", phone: "053-333-1234", address: "대구광역시 동구 팔공로 24길 7", brand: "아이스트로", model: "ICE-70B", size: "중형(650 x 600 x 900mm)" },
-  { store: "Green 커피", name: "김정현", phone: "053-333-1234", address: "대구광역시 동구 팔공로 24길 7", brand: "아이스트로", model: "ICE-70B", size: "중형(650 x 600 x 900mm)" },
-  { store: "Cafe Spell", name: "김정현", phone: "053-333-1234", address: "대구광역시 동구 팔공로 24길 7", brand: "아이스트로", model: "ICE-70B", size: "중형(650 x 600 x 900mm)" },
-  { store: "아메리카노 1000", name: "김정현", phone: "053-333-1234", address: "대구광역시 동구 팔공로 24길 7", brand: "아이스트로", model: "ICE-70B", size: "중형(650 x 600 x 900mm)" },
-  { store: "팩 다방", name: "김정현", phone: "053-333-1234", address: "대구광역시 동구 팔공로 24길 7", brand: "아이스트로", model: "ICE-70B", size: "중형(650 x 600 x 900mm)" },
-];
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getBusinessDetailThunk,
+  deleteBusinessThunk,
+} from "../../store/thunks/businessThunk";
+import {
+  getIcemachinesByBusinessIdThunk,
+  createIcemachineThunk,
+  deleteIcemachineThunk,
+} from "../../store/thunks/icemachineThunk";
+import MyStoreEditModal from "./MyStoreEditModal";
+import MyStoreAddIcemachineModal from "./MyStoreAddIcemachineModal";
+import "./MyStoreDetail.css";
 
 const MyStoreDetail = () => {
-  const [openIndex, setOpenIndex] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalImage, setModalImage] = useState(null);
+  const { businessId } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const toggleAnswer = (index) => {
-    setOpenIndex(prev => (prev === index ? null : index));
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showAddIcemachineModal, setShowAddIcemachineModal] = useState(false);
+
+  // Redux 스토어에서 매장 상세 정보 관련 상태를 가져옵니다.
+  const { businessDetail, detailStatus, detailError } = useSelector(
+    (state) => state.business
+  );
+  // Redux 스토어에서 제빙기 관련 상태를 가져옵니다.
+  const {
+    icemachinesList,
+    listStatus: icemachineListStatus,
+    listError: icemachineListError,
+  } = useSelector((state) => state.icemachine);
+
+  useEffect(() => {
+    if (businessId) {
+      dispatch(getBusinessDetailThunk(businessId));
+      dispatch(getIcemachinesByBusinessIdThunk(businessId)); // 제빙기 목록 별도 호출
+    }
+  }, [businessId, dispatch]);
+
+  const redirectMyStores = () => navigate("/mypage/stores");
+
+  const handleDeleteBusiness = async () => {
+    if (window.confirm("정말로 이 매장을 삭제하시겠습니까?")) {
+      await dispatch(deleteBusinessThunk(businessId));
+      // 삭제 성공 여부와 관계없이 목록 페이지로 이동
+      navigate("/mypage/stores");
+    }
   };
 
-  const handleImageClick = (imageSrc, e) => {
-    e.stopPropagation(); // 카드 토글 클릭 방지
-    setModalImage(imageSrc);
-    setIsModalOpen(true);
+  const handleDeleteIcemachine = async (icemachineId) => {
+    if (window.confirm("정말로 이 제빙기를 삭제하시겠습니까?")) {
+      await dispatch(deleteIcemachineThunk(icemachineId));
+      // 삭제 후 제빙기 목록이 자동으로 업데이트되므로 추가적인 navigate 불필요
+    }
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setModalImage(null);
-  };
+  // 로딩 중이거나 에러 발생 시 UI
+  if (detailStatus === "loading" || icemachineListStatus === "loading") {
+    return (
+      <div className="my-store-detail-container">
+        <div>로딩 중...</div>
+      </div>
+    );
+  }
+  if (detailError) {
+    return (
+      <div className="my-store-detail-container">
+        <div>
+          매장 상세 정보를 불러오는 데 실패했습니다:{" "}
+          {detailError.message || "알 수 없는 오류"}
+        </div>
+      </div>
+    );
+  }
+  if (icemachineListError) {
+    return (
+      <div className="my-store-detail-container">
+        <div>
+          제빙기 목록을 불러오는 데 실패했습니다:{" "}
+          {icemachineListError.message || "알 수 없는 오류"}
+        </div>
+      </div>
+    );
+  }
 
-  function redirectMyStore() {
-    return navigate('/mypage/stores');
+  // 매장 정보가 없을 경우
+  if (!businessDetail && detailStatus === "succeeded") {
+    return (
+      <div className="my-store-detail-container">
+        <div>매장 정보를 찾을 수 없습니다.</div>
+      </div>
+    );
   }
 
   return (
-    <div className='my-store-detail-container'>
-
-        {/* 헤더 */}
-        <div className="my-store-detail-head">
-          <button className="my-store-detail-back-btn" onClick={redirectMyStore}>뒤로 가기</button>
-            <p className="my-store-detail-head-title">내 매장 정보 조회</p>
-        </div>
-
-        {/* 가로선 */}
-        <hr className="my-store-detail-underline" />
-
-        {/* 카드 */}
-        <div className="my-store-detail-card-container">
-          {storeList.length === 0 ? (
-            <div className="my-store-detail-empty">
-              등록된 매장정보가 없습니다.
-            </div>
-          ) : (
-          storeList.map((item, index) => {
-            const isOpen = openIndex === index;
-
-            return (
-              <div>
-                <div className="my-store-detail-card" key={index} onClick={() => toggleAnswer(index)}>
-                  <span className='my-store-detail-card-text'>매장명 :</span>
-
-                  <span className="my-store-detail-card-name">
-                    {item.store}
-                  </span>
-                  <span className={`my-store-detail-arrow ${isOpen ? "open" : ""}`}>▼</span>
-                </div>
-                <div>
-                  {isOpen && (
-                    <div className='my-store-detail-toggle'>
-                      <div className="my-store-detail-point-line"></div>
-                      <div className='my-store-detail-info'>
-                        <p>매장명 :</p>
-                        <p>{item.store}</p>
-                      </div>
-                      <div className='my-store-detail-info'>
-                        <p>담당자명 :</p>
-                        <p>{item.name}</p>
-                      </div>
-                      <div className='my-store-detail-info'>
-                        <p>연락처 :</p>
-                        <p>{item.phone}</p>
-                      </div>
-                      <div className='my-store-detail-info'>
-                        <p>주소 :</p>
-                        <p>{item.address}</p>
-                      </div>
-                      <div className='my-store-detail-info'>
-                        <p>제빙기</p>
-                      </div>
-                      <div className="my-store-detail-machine-info-container">
-                        <div className='my-store-detail-machine-info'>
-                          <p>브랜드 :</p>
-                          <p>{item.brand}</p>
-                        </div>
-                        <div className='my-store-detail-machine-info'>
-                          <p>모델명 :</p>
-                          <p>{item.model}</p>
-                        </div>
-                        <div className='my-store-detail-machine-info'>
-                          <p>사이즈 :</p>
-                          <p>{item.size}</p>
-                        </div>
-                        <div className='my-store-detail-machine-info'>
-                          <p>고객 등록 사진 :</p>
-                          <img className='my-store-detail-machine-photo-icon' src="/icons/jaebinggi_1.png" alt="제빙기 등록 사진" onClick={(e) => handleImageClick("/icons/jaebinggi_1.png", e)}/>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            );
-          }))}
-        </div>
-        
-        {isModalOpen && (
-          <div className="my-store-detail-modal-overlay" onClick={closeModal}>
-            <div
-              className="my-store-detail-modal-content"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <img
-                src={modalImage}
-                alt="제빙기 확대 이미지"
-                className="my-store-detail-modal-image"
-              />
-              <button
-                className="my-store-detail-modal-close"
-                onClick={closeModal}
-              >
-                ✕
-              </button>
-            </div>
-          </div>
-        )}
-        
+    <div className="my-store-detail-container">
+      {/* 헤더 */}
+      <div className="my-store-detail-head">
+        <button className="my-store-detail-back-btn" onClick={redirectMyStores}>
+          뒤로 가기
+        </button>
+        <p className="my-store-detail-head-title">매장 상세 정보</p>
       </div>
+
+      {/* 가로선 */}
+      <hr className="my-store-detail-underline" />
+
+      {/* 매장 정보 표시 */}
+            <div className="my-store-detail-content">
+                {businessDetail && (
+                    <>
+                        {/* '매장 정보 수정' button positioned here */}
+                        <button
+                            className="my-store-detail-edit-btn-in-box"
+                            onClick={() => setShowEditModal(true)}
+                        >
+                            매장 정보 수정
+                        </button>
+
+                        <h3>{businessDetail.name}</h3>
+                        <p><strong>매장 ID:</strong> {businessDetail.id}</p>
+                        <p><strong>주소:</strong> {businessDetail.mainAddress} {businessDetail.detailedAddress}</p>
+                        <p><strong>매장 연락처:</strong> {businessDetail.phoneNumber}</p>
+                        <p><strong>담당자:</strong> {businessDetail.managerName}</p>
+
+                        {/* 제빙기 섹션 헤더와 '제빙기 추가' 버튼 */}
+                        <div className="icemachine-list-header">
+                            <h4>제빙기 정보:</h4>
+                            <button
+                                className="my-store-detail-add-icemachine-btn-in-header"
+                                onClick={() => setShowAddIcemachineModal(true)}
+                            >
+                                제빙기 추가
+                            </button>
+                        </div>
+                        {icemachinesList && icemachinesList.length > 0 ? (
+                            icemachinesList.map((machine) => (
+                                <div key={machine.id} className="icemachine-detail-item">
+                                    <div className="icemachine-info">
+                                        <p><strong>제빙기 ID:</strong> {machine.id}</p>
+                                        <p><strong>모델명:</strong> {machine.modelName}</p>
+                                        <p><strong>모델 종류:</strong> {machine.modelType}</p>
+                                        <p><strong>사이즈 종류:</strong> {machine.sizeType}</p>
+                                        <p><strong>등록일:</strong> {new Date(machine.createdAt).toLocaleDateString()}</p>
+                                    </div>
+                                    <div className="icemachine-actions-per-item">
+                                        <button
+                                            className="my-store-detail-delete-icemachine-btn"
+                                            onClick={() => handleDeleteIcemachine(machine.id)}
+                                        >
+                                            제빙기 삭제
+                                        </button>
+                                        <button
+                                            className="my-store-detail-edit-icemachine-btn"
+                                            // onClick={() => handleEditIcemachine(machine.id)} // Implement later
+                                        >
+                                            제빙기 수정
+                                        </button>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <p>등록된 제빙기가 없습니다.</p>
+                        )}
+                    </>
+                )}
+            </div>
+
+            {/* 하단 기능 버튼들 (매장 삭제, 예약 하기) */}
+            <div className="my-store-detail-bottom-actions">
+                <button
+                    className="my-store-detail-delete-btn-bottom"
+                    onClick={handleDeleteBusiness}
+                >
+                    매장 삭제
+                </button>
+                <button
+                    className="my-store-detail-reserve-btn-bottom"
+                    onClick={() => navigate('/reservation')} // Redirect to reservation page
+                >
+                    예약 하기
+                </button>
+            </div>
+
+      {showEditModal && businessDetail && (
+        <MyStoreEditModal
+          business={businessDetail}
+          onClose={() => setShowEditModal(false)}
+        />
+      )}
+
+      {showAddIcemachineModal && businessDetail && (
+        <MyStoreAddIcemachineModal
+          businessId={businessDetail.id}
+          onClose={() => setShowAddIcemachineModal(false)}
+        />
+      )}
+    </div>
   );
 };
 

@@ -10,11 +10,12 @@ import MyStores from "../components/users/MyStores.jsx";
 import MyReservations from "../components/users/MyReservations.jsx";
 import MyStoreCreate from "../components/users/MyStoreCreate.jsx";
 import MyReviews from "../components/users/MyReviews.jsx";
-import MyStoreDetail from "../components/users/MyStoreDetail.jsx";
 import MyLogout from "../components/users/MyLogout.jsx";
 import MyReservationTable from "../components/users/MyReservationTable.jsx";
 import ReservationPage from "../components/reservation/ReservationPage.jsx";
 import Social from "../components/login/Social.jsx";
+
+import MyStoreDetail from "../components/users/MyStoreDetail.jsx";
 
 const router = createBrowserRouter([
   {
@@ -57,12 +58,12 @@ const router = createBrowserRouter([
         element: <MyStores />,
       },
       {
-        path: "/mypage/stores/create",
-        element: <MyStoreCreate />,
+        path: "/mypage/stores/:businessId",
+        element: <MyStoreDetail />,
       },
       {
-        path: "/mypage/stores/detail",
-        element: <MyStoreDetail />,
+        path: "/mypage/stores/create",
+        element: <MyStoreCreate />,
       },
       {
         path: "/mypage/reservations",
