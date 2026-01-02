@@ -51,7 +51,7 @@
   margin: 0 0 50px 0;
 }
 
-/* 입력 영역 */
+/* 정보 카드 */
 .my-profile-card-container {
   margin: 0 auto;
   padding: 0 50px;
@@ -62,41 +62,43 @@
 }
 
 .my-profile-card {
-  display: flex;
+  display: grid;
+  grid-template-columns: 90px 1fr 90px;
   align-items: center;
+  column-gap: 16px;
 }
 
 /* 라벨 */
 .my-profile-card-text {
-  width: 80px;
   text-align: right;
   font-size: 18px;
   font-weight: 600;
+  white-space: nowrap;
   margin-right: 20px;
 }
 
 /* 입력 */
 .my-profile-card-input {
-  display: flex;
-  gap: 10px;
-  flex: 1;
+  display: contents; /* grid의 각 컬럼을 직접 사용 */
 }
 
-.my-profile-card-input input {
-  flex: 1;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+.my-profile-card-input span {
+  font-size: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* 변경 버튼 */
 .my-profile-change-btn {
+  justify-self: start;
   padding: 8px 18px;
   border: none;
   border-radius: 6px;
   background-color: #2060B6;
   color: #fff;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 /* 회원탈퇴 버튼 */
@@ -114,6 +116,117 @@
   color: #fff;
   font-size: 16px;
   cursor: pointer;
+}
+
+/* =========================
+   정보 변경 모달
+========================= */
+.my-profile-change-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.45);
+  z-index: 1000;
+}
+
+.my-profile-change-modal {
+  width: 320px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);  
+}
+
+/* 헤더 */
+.my-profile-change-modal-header {
+  background-color: #2060B6;
+  color: #ffffff;
+  text-align: center;
+  padding: 12px 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.my-profile-modal-section-container {
+  padding: 20px 30px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.my-profile-modal-label {
+  font-size: 16px;
+  color: rgb(148, 148, 148);
+  margin-bottom: 7px;
+}
+
+.my-profile-modal-label-blue {
+  font-size: 16px;
+  color: #1858ac;
+  margin-bottom: 7px;
+}
+
+.my-profile-modal-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.my-profile-modal-key {
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.my-profile-modal-value {
+  color: rgb(105, 105, 105);
+  font-size: 16px;
+}
+
+.my-profile-modal-input {
+  padding: 4px;
+}
+
+.my-profile-hint,
+.my-profile-error {
+  color: rgb(253, 51, 51);
+  margin-bottom: 0;
+}
+
+/* 푸터 */
+.my-profile-change-modal-footer {
+  display: flex;
+  border-top: 1px solid #eeeeee;
+}
+
+.my-profile-change-modal-footer button {
+  flex: 1;
+  padding: 12px 0;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+}
+
+.my-profile-change-modal-confirm {
+  background-color: #2060B6;  
+  color: #ffffff;
+}
+
+.my-profile-change-modal-confirm:disabled {
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+}
+
+.my-profile-change-modal-cancel {
+  background-color: #f3f3f3;
 }
 
 /* =========================
@@ -289,9 +402,16 @@
   }
 
   .my-profile-card-container {
-    padding: 0 15px;
+    padding: 0 10px;
     max-width: 100%;
   }
+  
+  .my-profile-card {
+    display: grid;
+    grid-template-columns: 55px 1fr 50px;
+    align-items: center;
+    column-gap: 16px;
+  } 
 
   .my-profile-card-text {
     width: 60px;
