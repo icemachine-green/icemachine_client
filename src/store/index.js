@@ -11,6 +11,7 @@ export const store = configureStore({
     auth: authReducer,
     reviews: reviewsReducer,
     business: businessReducer,
+    user: userReducer,
   },
 });
 

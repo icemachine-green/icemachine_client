@@ -8,6 +8,8 @@ import { clearUserState } from "../../store/slices/userSlice.js";
 import { clearReviewState } from "../../store/slices/reviewsSlice.js";
 import { formatPhoneNumber } from "../../utils/formatPhoneNumber.js"
 
+const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+
 const MyProfile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -15,7 +17,10 @@ const MyProfile = () => {
 
   const [editType, setEditType] = useState(null); // name | phone | email
   const [editValue, setEditValue] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  
+  // 에러 분리
+  const [uxError, setUxError] = useState("");
+  const [serverError, setServerError] = useState("");
 
   useEffect(() => {
     dispatch(getMyProfile());
@@ -24,8 +29,24 @@ const MyProfile = () => {
   const handleChange = (e) => {
     let value = e.target.value;
 
+    setServerError(""); // 입력 시 서버 에러 초기화
+
+    // 전화번호: 숫자만
     if (editType === "phoneNumber") {
-      value = value.replace(/\D/g, ""); // 숫자만 허용
+      value = value.replace(/\D/g, "");
+    }
+
+    // 이메일: 영문 + 숫자 + 이메일 허용 문자만
+    if (editType === "email") {
+      value = value.replace(/[^A-Za-z0-9@._%+-]/g, "");
+
+      if (!emailRegex.test(value)) {
+        setUxError("이메일 형식이 올바르지 않습니다.");
+      } else {
+        setUxError("");
+      }
+    } else {
+      setUxError("");
     }
 
     setEditValue(value);
@@ -44,7 +65,7 @@ const MyProfile = () => {
   const isSaveDisabled = () => {
     if (!editValue.trim()) return true; // NOT NULL
     if (isSameValue()) return true; // 동일 값
-    if (errorMessage) return true; // 에러 존재
+    if (uxError) return true; // 에러 존재
     return false;
   };
 
@@ -52,17 +73,23 @@ const MyProfile = () => {
   const openEditModal = (type) => {
     setEditType(type);
     setEditValue("");
-    setErrorMessage("");
+    setUxError("");
+    setServerError("");
   };
 
   const closeEditModal = () => {
     setEditType(null);
     setEditValue("");
-    setErrorMessage("");
+    setUxError("");
+    setServerError("");
   };
 
   const handleSave = async () => {
     try {
+      setServerError("");
+
+      if (uxError) return;
+
       // 이메일 중복 체크 (가공 x, 입력값 그대로)
       if (editType === "email" && editValue !== me.email) {
         const exists = await dispatch(
@@ -70,7 +97,7 @@ const MyProfile = () => {
         ).unwrap();
 
         if (exists) {
-          setErrorMessage("다른 사용자가 이미 사용 중인 이메일입니다.");
+          setServerError("다른 사용자가 이미 사용 중인 이메일입니다.");
           return;
         }
       }
@@ -89,9 +116,12 @@ const MyProfile = () => {
       closeEditModal();
       alert("정보가 수정되었습니다.");
     } catch (error) {
-      console.error(error);
-      alert("수정 실패");
+      if (error?.status === 409) {
+        setServerError(error.message);
+      }
+      setServerError("일시적인 오류가 발생했습니다.");
     }
+
   };
 
   // 회원 탈퇴 버튼 클릭시 모달 처리
@@ -116,7 +146,8 @@ const MyProfile = () => {
       alert("회원 탈퇴가 완료되었습니다.");
       navigate("/"); // 메인
     } catch (err) {
-      alert(err);
+      console.log(err);
+      alert("탈퇴 처리 중 오류가 발생했습니다.");
     }
   };
 
@@ -212,7 +243,9 @@ const MyProfile = () => {
                       onChange={handleChange}
                       placeholder={
                         editType === "phoneNumber"
-                          ? "숫자만 입력(예: 01012345678)"
+                          ? "숫자만 입력 (예: 01012345678)"
+                          : editType === "email"
+                          ? "영문 이메일 입력 (예: test@email.com)"
                           : "변경할 값을 입력하세요"
                       }
                       maxLength={editType === "phoneNumber" ? 11 : undefined}
@@ -220,11 +253,17 @@ const MyProfile = () => {
                     />
                   </div>
 
-                  {/* 서버/비즈니스 에러 */}
-                  {errorMessage && (
-                    <p className="my-profile-error">{errorMessage}</p>
+                  {/* UX 에러 */}
+                  {uxError && (
+                    <p className="my-profile-error">{uxError}</p>
                   )}
-                  {/* UX 안내 */}
+
+                  {/* 서버 에러 */}
+                  {serverError && (
+                    <p className="my-profile-error">{serverError}</p>
+                  )}
+
+                  {/* 동일 값 안내 */}
                   {editValue && isSameValue() && (
                     <p className="my-profile-hint">
                       * 기존 정보와 동일한 값입니다.
