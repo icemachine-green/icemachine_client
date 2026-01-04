@@ -2,22 +2,132 @@
    리뷰 테이블 컨테이너
 ========================= */
 .my-reviews-table-container {
-    padding: 0 70px;
+  padding: 0 70px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.my-reviews-table-hint {
+  font-size: 14px;
+  font-weight: 400;
 }
 
 .my-reviews-table {
-    width: 100%;
-    max-width: 1100px;
-    margin: 0 auto;
-    border-collapse: collapse;
-    border: 1px solid #dddddd;
-    table-layout: fixed;
-    /* PC 기준 고정 */
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  border-collapse: collapse;
+  border: 1px solid #dddddd;
+  table-layout: fixed;
+  /* PC 기준 고정 */
 }
 
 .my-reviews-table thead {
-    background-color: #f5f8fb;
+  background-color: #f5f8fb;
 }
+
+.review-content-container {
+  cursor: pointer;
+}
+
+.review-content-container:hover {
+  background-color: rgb(219, 219, 219);
+}
+
+.my-reviews-pagination {
+  margin: 10px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+/* =========================
+   상세리뷰 모달
+========================= */
+.my-review-modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+.my-review-modal {
+  background: #fff;
+  padding: 20px;
+  margin-top: 50px;
+  border-radius: 8px;
+  width: 60%;
+  max-width: 500px;
+  max-height: 90%;
+  overflow-y: auto;
+}
+.my-review-modal-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+.my-review-modal-star {
+  color: #f5b300;
+  font-size: 20px;
+  font-weight: 800;
+}
+.my-review-modal-section {
+  margin-bottom: 10px;
+}
+.my-review-main-text {
+  font-size: 17px;
+  font-weight: 700;
+  color: rgb(145, 145, 145);
+}
+.my-review-sub-text {
+  font-weight: 400;
+}
+.my-review-quick-options {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-top: 5px;
+}
+.my-review-quick-option-btn {
+  background: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 3px 6px;
+  font-size: 12px;
+}
+.my-review-modal-image {
+  padding-top: 10px;
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+.my-review-modal-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+.my-review-delete-btn {
+  padding: 6px 10px;
+  background: #d9534f;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.my-review-modal-close-btn {
+  padding: 6px 10px;
+  background: #ddd;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
 
 /* =========================
    컬럼 가로 비율 (PC 기준)
@@ -38,12 +148,6 @@
 .my-reviews-table td:nth-child(3) {
     width: 160px;
     /* 별점 */
-}
-
-.my-reviews-table th:nth-child(4),
-.my-reviews-table td:nth-child(4) {
-    width: 100px;
-    /* 삭제 버튼 */
 }
 
 /* =========================
@@ -143,12 +247,6 @@
     .my-reviews-table td:nth-child(3) {
         width: 150px;
     }
-
-    .my-reviews-table th:nth-child(4),
-    .my-reviews-table td:nth-child(4) {
-        width: 80px;
-        /* 삭제 버튼 */
-    }
 }
 
 /* =================================================
@@ -178,12 +276,6 @@
     .my-reviews-table th:nth-child(3),
     .my-reviews-table td:nth-child(3) {
         width: 130px;
-    }
-
-    .my-reviews-table th:nth-child(4),
-    .my-reviews-table td:nth-child(4) {
-        width: 60px;
-        /* 삭제 버튼 */
     }
 }
 
@@ -217,12 +309,6 @@
     .my-reviews-table th:nth-child(3),
     .my-reviews-table td:nth-child(3) {
         width: 90px;
-    }
-
-    .my-reviews-table th:nth-child(4),
-    .my-reviews-table td:nth-child(4) {
-        width: 50px;
-        /* 삭제 버튼 */
     }
 }
 
@@ -261,11 +347,5 @@
     .my-reviews-table th:nth-child(3),
     .my-reviews-table td:nth-child(3) {
         width: 60px;
-    }
-
-    .my-reviews-table th:nth-child(4),
-    .my-reviews-table td:nth-child(4) {
-        width: 30px;
-        /* 삭제 버튼 */
     }
 }

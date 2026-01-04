@@ -28,15 +28,19 @@ const MyProfile = () => {
 
   const handleChange = (e) => {
     let value = e.target.value;
+    setServerError("");
 
-    setServerError(""); // 입력 시 서버 에러 초기화
-
-    // 전화번호: 숫자만
     if (editType === "phoneNumber") {
       value = value.replace(/\D/g, "");
+      value = value.slice(0, 11);
+
+      if (value.length !== 11) {
+        setUxError("전화번호는 11자리여야 합니다.");
+      } else {
+        setUxError("");
+      }
     }
 
-    // 이메일: 영문 + 숫자 + 이메일 허용 문자만
     if (editType === "email") {
       value = value.replace(/[^A-Za-z0-9@._%+-]/g, "");
 
@@ -45,7 +49,9 @@ const MyProfile = () => {
       } else {
         setUxError("");
       }
-    } else {
+    }
+
+    if (editType === "name") {
       setUxError("");
     }
 
@@ -85,6 +91,11 @@ const MyProfile = () => {
   };
 
   const handleSave = async () => {
+    if (editType === "phoneNumber" && editValue.length !== 11) {
+      setUxError("전화번호는 11자리여야 합니다.");
+      return;
+    }
+    
     try {
       setServerError("");
 
@@ -292,8 +303,8 @@ const MyProfile = () => {
         )}
 
         {/* 회원 탈퇴 버튼 */}
-        <div className='my-profile-btn-container' onClick={openWithdrawModal}>
-          <button className='my-profile-withdraw-btn'>회원 탈퇴하기</button>
+        <div className='my-profile-btn-container'>
+          <button className='my-profile-withdraw-btn' onClick={openWithdrawModal}>회원 탈퇴하기</button>
         </div>
 
         {/* 회원 탈퇴 모달 */}
