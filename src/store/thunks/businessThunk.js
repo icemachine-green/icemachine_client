@@ -1,27 +1,27 @@
-// store/thunks/businessThunk.js
+// src/store/thunks/businessThunk.js
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../api/axiosInstance.js";
 
 /**
  * 매장 및 제빙기 동시 등록
- * @param {{ businessData: object, iceMachineData: object }} { businessData, iceMachineData }
- * @returns 등록된 매장 데이터
  */
 export const createBusinessThunk = createAsyncThunk(
   "business/createBusiness",
   async ({ businessData, iceMachineData }, { rejectWithValue }) => {
     try {
-      // API가 요구하는 형식으로 페이로드를 조합합니다.
-      const payload = {
-        ...businessData,
-        iceMachines: [iceMachineData],
+      const mappedIceMachine = {
+        brand: iceMachineData.modelType || iceMachineData.brand,
+        model: iceMachineData.modelName || iceMachineData.model,
+        size: iceMachineData.sizeType || iceMachineData.size,
       };
 
-      const response = await axiosInstance.post(
-        "/api/businesses",
-        payload // 조합된 페이로드 전송
-      );
-      return response.data; // API에서 반환한 등록된 매장 정보
+      const payload = {
+        ...businessData,
+        iceMachines: [mappedIceMachine],
+      };
+
+      const response = await axiosInstance.post("/api/businesses", payload);
+      return response.data;
     } catch (error) {
       if (error.response) return rejectWithValue(error.response.data);
       return rejectWithValue(error.message);
@@ -63,8 +63,6 @@ export const getBusinessDetailThunk = createAsyncThunk(
 
 /**
  * 매장 정보 수정
- * @param {{ businessId: string, businessData: object }} { businessId, businessData }
- * @returns 업데이트된 매장 데이터
  */
 export const updateBusinessThunk = createAsyncThunk(
   "business/updateBusiness",
@@ -83,20 +81,17 @@ export const updateBusinessThunk = createAsyncThunk(
 );
 
 /**
- * 매장 삭제
- * @param {string} businessId
- * @returns 삭제 성공 메시지 또는 상태
+ * 매장 삭제 (이 부분이 Slice에서 에러가 났던 부분입니다)
  */
 export const deleteBusinessThunk = createAsyncThunk(
   "business/deleteBusiness",
   async (businessId, { rejectWithValue }) => {
     try {
       await axiosInstance.delete(`/api/businesses/${businessId}`);
-      return businessId; // 삭제된 businessId를 반환하여 상태 업데이트에 활용
+      return businessId;
     } catch (error) {
       if (error.response) return rejectWithValue(error.response.data);
       return rejectWithValue(error.message);
     }
   }
 );
-

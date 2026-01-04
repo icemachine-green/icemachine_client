@@ -1,201 +1,213 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   getBusinessDetailThunk,
   deleteBusinessThunk,
 } from "../../store/thunks/businessThunk";
 import {
   getIcemachinesByBusinessIdThunk,
-  createIcemachineThunk,
   deleteIcemachineThunk,
 } from "../../store/thunks/icemachineThunk";
-import MyStoreEditModal from "./MyStoreEditModal";
-import MyStoreAddIcemachineModal from "./MyStoreAddIcemachineModal";
+
+import MyStoreEditModal from "./MyStoreEditModal.jsx";
+import MyStoreAddIcemachineModal from "./MyStoreAddIcemachineModal.jsx";
 import "./MyStoreDetail.css";
+import { clearReservationState } from "../../store/slices/reservationSlice";
 
 const MyStoreDetail = () => {
-  const { businessId } = useParams();
-  const navigate = useNavigate();
+  const params = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const businessId = params.id || params.storeId || params.businessId;
 
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [showAddIcemachineModal, setShowAddIcemachineModal] = useState(false);
-
-  // Redux 스토어에서 매장 상세 정보 관련 상태를 가져옵니다.
-  const { businessDetail, detailStatus, detailError } = useSelector(
+  const { accessToken } = useSelector((state) => state.auth);
+  const { businessDetail, detailStatus } = useSelector(
     (state) => state.business
   );
-  // Redux 스토어에서 제빙기 관련 상태를 가져옵니다.
-  const {
-    icemachinesList,
-    listStatus: icemachineListStatus,
-    listError: icemachineListError,
-  } = useSelector((state) => state.icemachine);
+  const { icemachinesList } = useSelector((state) => state.icemachine);
+
+  const [isBusinessEditOpen, setIsBusinessEditOpen] = useState(false);
+  const [isIceMachineAddOpen, setIsIceMachineAddOpen] = useState(false);
+
+  // --- [상태: 매장 수정 시 번쩍임 효과] ---
+  const [isBusinessFlashing, setIsBusinessFlashing] = useState(false);
+
+  const handleBusinessUpdateSuccess = () => {
+    setIsBusinessFlashing(true);
+    setTimeout(() => setIsBusinessFlashing(false), 1500); // 1.5초 후 효과 제거
+  };
+
+  const getBrandLabel = (type) => {
+    const brands = {
+      HOSHIZAKI: "Hoshizaki",
+      SCOTSMAN: "Scotsman",
+      MANITOWOC: "Manitowoc",
+      ICE_O_MATIC: "Ice-O-Matic",
+      ETC: "기타",
+      UNKNOWN: "모름",
+    };
+    return brands[type] || type;
+  };
+
+  const getSizeLabel = (type) => {
+    const sizes = {
+      SMALL: "소형(~50kg)",
+      MEDIUM: "중형(51~150kg)",
+      LARGE: "대형(151kg~)",
+      UNKNOWN: "모름",
+      ETC: "기타",
+    };
+    return sizes[type] || type;
+  };
+
+  const handleNavigateToReservation = () => {
+    // 1. 기존에 남아있을 수 있는 예약 진행 상태(step 등)를 싹 비움
+    dispatch(clearReservationState());
+
+    // 2. businessId를 들고 예약 페이지로 이동
+    navigate(`/reservation?businessId=${businessId}`);
+  };
 
   useEffect(() => {
-    if (businessId) {
-      dispatch(getBusinessDetailThunk(businessId));
-      dispatch(getIcemachinesByBusinessIdThunk(businessId)); // 제빙기 목록 별도 호출
+    if (businessId && accessToken) {
+      dispatch(getBusinessDetailThunk(Number(businessId)));
+      dispatch(getIcemachinesByBusinessIdThunk(Number(businessId)));
     }
-  }, [businessId, dispatch]);
+  }, [dispatch, businessId, accessToken]);
 
-  const redirectMyStores = () => navigate("/mypage/stores");
-
-  const handleDeleteBusiness = async () => {
+  const handleDeleteStore = async () => {
     if (window.confirm("정말로 이 매장을 삭제하시겠습니까?")) {
-      await dispatch(deleteBusinessThunk(businessId));
-      // 삭제 성공 여부와 관계없이 목록 페이지로 이동
+      await dispatch(deleteBusinessThunk(Number(businessId))).unwrap();
       navigate("/mypage/stores");
     }
   };
 
-  const handleDeleteIcemachine = async (icemachineId) => {
-    if (window.confirm("정말로 이 제빙기를 삭제하시겠습니까?")) {
-      await dispatch(deleteIcemachineThunk(icemachineId));
-      // 삭제 후 제빙기 목록이 자동으로 업데이트되므로 추가적인 navigate 불필요
+  const handleDeleteIcemachine = async (id) => {
+    if (window.confirm("제빙기 정보를 삭제하시겠습니까?")) {
+      await dispatch(deleteIcemachineThunk(id)).unwrap();
+      dispatch(getIcemachinesByBusinessIdThunk(Number(businessId)));
     }
   };
 
-  // 로딩 중이거나 에러 발생 시 UI
-  if (detailStatus === "loading" || icemachineListStatus === "loading") {
-    return (
-      <div className="my-store-detail-container">
-        <div>로딩 중...</div>
-      </div>
-    );
-  }
-  if (detailError) {
-    return (
-      <div className="my-store-detail-container">
-        <div>
-          매장 상세 정보를 불러오는 데 실패했습니다:{" "}
-          {detailError.message || "알 수 없는 오류"}
-        </div>
-      </div>
-    );
-  }
-  if (icemachineListError) {
-    return (
-      <div className="my-store-detail-container">
-        <div>
-          제빙기 목록을 불러오는 데 실패했습니다:{" "}
-          {icemachineListError.message || "알 수 없는 오류"}
-        </div>
-      </div>
-    );
-  }
-
-  // 매장 정보가 없을 경우
-  if (!businessDetail && detailStatus === "succeeded") {
-    return (
-      <div className="my-store-detail-container">
-        <div>매장 정보를 찾을 수 없습니다.</div>
-      </div>
-    );
+  if (detailStatus === "loading" && !businessDetail) {
+    return <div className="my-store-detail-container">로딩 중...</div>;
   }
 
   return (
     <div className="my-store-detail-container">
-      {/* 헤더 */}
       <div className="my-store-detail-head">
-        <button className="my-store-detail-back-btn" onClick={redirectMyStores}>
-          뒤로 가기
+        <button
+          className="my-store-detail-back-btn"
+          onClick={() => navigate(-1)}
+        >
+          뒤로가기
         </button>
-        <p className="my-store-detail-head-title">매장 상세 정보</p>
+        <h2 className="my-store-detail-head-title">매장 상세 정보</h2>
       </div>
-
-      {/* 가로선 */}
       <hr className="my-store-detail-underline" />
 
-      {/* 매장 정보 표시 */}
-            <div className="my-store-detail-content">
-                {businessDetail && (
-                    <>
-                        {/* '매장 정보 수정' button positioned here */}
-                        <button
-                            className="my-store-detail-edit-btn-in-box"
-                            onClick={() => setShowEditModal(true)}
-                        >
-                            매장 정보 수정
-                        </button>
+      {/* 매장 정보 박스: 수정 성공 시 flash-update 클래스 적용 */}
+      <div
+        className={`my-store-detail-content ${
+          isBusinessFlashing ? "flash-update" : ""
+        }`}
+      >
+        {businessDetail ? (
+          <>
+            <button
+              className="my-store-detail-edit-btn-in-box"
+              onClick={() => setIsBusinessEditOpen(true)}
+            >
+              매장 정보 수정
+            </button>
 
-                        <h3>{businessDetail.name}</h3>
-                        <p><strong>매장 ID:</strong> {businessDetail.id}</p>
-                        <p><strong>주소:</strong> {businessDetail.mainAddress} {businessDetail.detailedAddress}</p>
-                        <p><strong>매장 연락처:</strong> {businessDetail.phoneNumber}</p>
-                        <p><strong>담당자:</strong> {businessDetail.managerName}</p>
+            <h3>{businessDetail.name}</h3>
+            <p>
+              <strong>주소:</strong> {businessDetail.mainAddress}{" "}
+              {businessDetail.detailedAddress}
+            </p>
+            <p>
+              <strong>매장 연락처:</strong> {businessDetail.phoneNumber}
+            </p>
+            <p>
+              <strong>담당자:</strong> {businessDetail.managerName}
+            </p>
 
-                        {/* 제빙기 섹션 헤더와 '제빙기 추가' 버튼 */}
-                        <div className="icemachine-list-header">
-                            <h4>제빙기 정보:</h4>
-                            <button
-                                className="my-store-detail-add-icemachine-btn-in-header"
-                                onClick={() => setShowAddIcemachineModal(true)}
-                            >
-                                제빙기 추가
-                            </button>
-                        </div>
-                        {icemachinesList && icemachinesList.length > 0 ? (
-                            icemachinesList.map((machine) => (
-                                <div key={machine.id} className="icemachine-detail-item">
-                                    <div className="icemachine-info">
-                                        <p><strong>제빙기 ID:</strong> {machine.id}</p>
-                                        <p><strong>모델명:</strong> {machine.modelName}</p>
-                                        <p><strong>모델 종류:</strong> {machine.modelType}</p>
-                                        <p><strong>사이즈 종류:</strong> {machine.sizeType}</p>
-                                        <p><strong>등록일:</strong> {new Date(machine.createdAt).toLocaleDateString()}</p>
-                                    </div>
-                                    <div className="icemachine-actions-per-item">
-                                        <button
-                                            className="my-store-detail-delete-icemachine-btn"
-                                            onClick={() => handleDeleteIcemachine(machine.id)}
-                                        >
-                                            제빙기 삭제
-                                        </button>
-                                        <button
-                                            className="my-store-detail-edit-icemachine-btn"
-                                            // onClick={() => handleEditIcemachine(machine.id)} // Implement later
-                                        >
-                                            제빙기 수정
-                                        </button>
-                                    </div>
-                                </div>
-                            ))
-                        ) : (
-                            <p>등록된 제빙기가 없습니다.</p>
-                        )}
-                    </>
-                )}
+            <div className="icemachine-list-header">
+              <h4>제빙기 정보:</h4>
+              <button
+                className="my-store-detail-add-icemachine-btn-in-header"
+                onClick={() => setIsIceMachineAddOpen(true)}
+              >
+                제빙기 추가
+              </button>
             </div>
 
-            {/* 하단 기능 버튼들 (매장 삭제, 예약 하기) */}
-            <div className="my-store-detail-bottom-actions">
-                <button
-                    className="my-store-detail-delete-btn-bottom"
-                    onClick={handleDeleteBusiness}
-                >
-                    매장 삭제
-                </button>
-                <button
-                    className="my-store-detail-reserve-btn-bottom"
-                    onClick={() => navigate('/reservation')} // Redirect to reservation page
-                >
-                    예약 하기
-                </button>
+            <div className="icemachine-list">
+              {icemachinesList && icemachinesList.length > 0 ? (
+                icemachinesList.map((item) => (
+                  <div key={item.id} className="icemachine-detail-item">
+                    <div className="icemachine-info">
+                      <p>
+                        <strong>모델명:</strong> {item.modelName || item.model}
+                      </p>
+                      <p>
+                        <strong>브랜드:</strong>{" "}
+                        {getBrandLabel(item.modelType || item.brand)}
+                      </p>
+                      <p>
+                        <strong>사이즈:</strong>{" "}
+                        {getSizeLabel(item.sizeType || item.size)}
+                      </p>
+                    </div>
+                    <div className="icemachine-actions-per-item">
+                      <button
+                        className="my-store-detail-delete-icemachine-btn"
+                        onClick={() => handleDeleteIcemachine(item.id)}
+                      >
+                        삭제
+                      </button>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p className="no-data">등록된 제빙기가 없습니다.</p>
+              )}
             </div>
+          </>
+        ) : (
+          <p>데이터가 없습니다.</p>
+        )}
+      </div>
 
-      {showEditModal && businessDetail && (
+      <div className="my-store-detail-bottom-actions">
+        <button
+          className="my-store-detail-delete-btn-bottom"
+          onClick={handleDeleteStore}
+        >
+          매장 삭제
+        </button>
+        <button
+          className="my-store-detail-reserve-btn-bottom"
+          onClick={handleNavigateToReservation}
+        >
+          예약 하기
+        </button>
+      </div>
+
+      {isBusinessEditOpen && (
         <MyStoreEditModal
           business={businessDetail}
-          onClose={() => setShowEditModal(false)}
+          onClose={() => setIsBusinessEditOpen(false)}
+          onUpdateSuccess={handleBusinessUpdateSuccess}
         />
       )}
 
-      {showAddIcemachineModal && businessDetail && (
+      {isIceMachineAddOpen && (
         <MyStoreAddIcemachineModal
-          businessId={businessDetail.id}
-          onClose={() => setShowAddIcemachineModal(false)}
+          businessId={businessId}
+          onClose={() => setIsIceMachineAddOpen(false)}
         />
       )}
     </div>

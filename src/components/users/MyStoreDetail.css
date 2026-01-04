@@ -219,7 +219,8 @@
   font-weight: 600;
   cursor: pointer;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
-  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease,
+    box-shadow 0.3s ease;
   border: none;
 }
 
@@ -321,4 +322,22 @@
     padding: 7px 12px;
     font-size: 13px;
   }
+}
+
+@keyframes flash-highlight {
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: #e3f2fd;
+    border: 2px solid #2196f3;
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+.flash-update {
+  animation: flash-highlight 1.5s ease-out;
+  border-radius: 8px;
 }

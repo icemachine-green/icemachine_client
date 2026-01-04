@@ -1,0 +1,119 @@
+/* Step 1 전용: 서비스 정책 선택 카드 스타일 */
+.step1-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* 사이즈 텍스트 옆 배지 */
+.size-badge {
+  background: #eff6ff;
+  color: #3b82f6;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  margin-left: 8px;
+  font-weight: 600;
+  border: 1px solid #dbeafe;
+}
+
+.policy-selection-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+/* 정책 카드 개별 아이템 */
+.policy-card-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 마우스 오버 및 선택 시 효과 */
+.policy-card-item:hover {
+  border-color: #cbd5e1;
+}
+
+.policy-card-item.selected {
+  border-color: #3b82f6;
+  background-color: #f8faff;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.08);
+}
+
+.policy-card-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* 선택 체크 동그라미 */
+.policy-check-circle {
+  width: 22px;
+  height: 22px;
+  border: 2px solid #cbd5e1;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  color: transparent; /* 평소엔 안보임 */
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.policy-card-item.selected .policy-check-circle {
+  background-color: #3b82f6;
+  border-color: #3b82f6;
+  color: #fff; /* 선택 시 흰색 체크 표시 */
+}
+
+.policy-text-group {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.policy-main-name {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #1e293b;
+  line-height: 1.4;
+}
+
+.policy-sub-info {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-top: 4px;
+  letter-spacing: -0.01em;
+}
+
+.policy-price-tag {
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: #1e293b;
+}
+
+.policy-card-item.selected .policy-price-tag {
+  color: #3b82f6;
+}
+
+/* 안내 문구 (제빙기 미선택 시) */
+.no-selection-placeholder {
+  padding: 40px 20px;
+  text-align: center;
+  color: #94a3b8;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px dashed #e2e8f0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}

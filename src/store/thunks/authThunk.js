@@ -24,6 +24,7 @@ export const socialSignupThunk = createAsyncThunk(
       const url = "/api/auth/social-signup";
 
       // 사용자에게 입력받는 값만 전달
+      // socialId와 provider는 사용자에게 노출을 막기위해 컴포넌트에서 따로 출력함.
       const { name, email, phoneNumber, provider, socialId } = args;
 
       const response = await axiosInstance.post(url, {

@@ -1,0 +1,163 @@
+/* 컨테이너 중앙 정렬 */
+.step2-container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+}
+
+.step2-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.step2-header h2 {
+  font-size: 1.4rem;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+
+.step2-header p {
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+/* 달력 중앙 정렬 래퍼 */
+.calendar-center-wrapper {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+/* react-calendar 커스텀 스타일 */
+.react-calendar {
+  width: 100% !important;
+  border: none !important;
+  font-family: inherit;
+  background: #f8fafc !important;
+  border-radius: 16px;
+  padding: 10px;
+}
+
+.react-calendar__navigation {
+  margin-bottom: 10px;
+}
+
+.react-calendar__navigation button {
+  font-weight: 700;
+  color: #334155;
+  font-size: 1rem;
+}
+
+.react-calendar__tile {
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  border-radius: 8px;
+}
+
+/* 오늘 날짜 표시 */
+.react-calendar__tile--now {
+  background: #e2e8f0 !important;
+  color: #007bff !important;
+}
+
+/* 선택된 날짜 */
+.react-calendar__tile--active {
+  background: #007bff !important;
+  color: white !important;
+  border-radius: 8px;
+}
+
+/* 시간 그리드 개선 */
+.time-grid {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 5열로 배치하여 더 균형있게 */
+  gap: 8px;
+}
+
+.time-slot-btn {
+  padding: 10px 0;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background-color: #fff;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.time-text {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.status-text {
+  font-size: 0.65rem;
+  color: #94a3b8;
+}
+
+.status-text-on {
+  font-size: 0.6rem;
+  color: #3b82f6;
+  font-weight: 400;
+}
+
+/* 호버 및 액티브 */
+.time-slot-btn:not(.disabled):hover {
+  border-color: #3b82f6;
+  background-color: #eff6ff;
+}
+
+.time-slot-btn.active {
+  background-color: #3b82f6;
+  border-color: #3b82f6;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.time-slot-btn.active .status-text-on {
+  color: #bfdbfe;
+}
+
+/* 액션 버튼 */
+.step-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 40px;
+}
+
+.prev-btn {
+  flex: 1;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  color: #64748b;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.next-btn-main {
+  flex: 2;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  background: #1e293b;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.next-btn-main:disabled {
+  background: #cbd5e1;
+  cursor: not-allowed;
+}

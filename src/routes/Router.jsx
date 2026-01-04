@@ -14,14 +14,9 @@ import MyLogout from "../components/users/MyLogout.jsx";
 import MyReservationTable from "../components/users/MyReservationTable.jsx";
 import ReservationPage from "../components/reservation/ReservationPage.jsx";
 import Social from "../components/login/Social.jsx";
-
 import MyStoreDetail from "../components/users/MyStoreDetail.jsx";
 
 const router = createBrowserRouter([
-  {
-    path: "/callback/social",
-    element: <Social />,
-  },
   {
     path: "/callback/social",
     element: <Social />,
@@ -71,7 +66,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/mypage/reviews",
-        element: <MyReviews />
+        element: <MyReviews />,
       },
       {
         path: "/mypage/logout",
