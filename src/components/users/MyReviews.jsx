@@ -74,7 +74,10 @@ const MyReviews = () => {
             {!loading && reviews.map((review) => (
               <tr key={review.id} onClick={() => openModal(review)} className="review-content-container">
                 <td>{new Date(review.createdAt).toLocaleDateString()}</td>
-                <td className="review-content">{review.content.slice(0, 20)}{review.content.length > 20 ? "..." : ""}</td>
+                <td className="review-content">
+                  {(review.content ?? "").slice(0, 20)}
+                  {(review.content?.length ?? 0) > 20 ? "..." : ""}
+                </td>
                 <td>{"★".repeat(review.rating) + "☆".repeat(5 - review.rating)}</td>
               </tr>
             ))}
