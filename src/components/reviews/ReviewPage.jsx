@@ -90,6 +90,15 @@ const ReviewPage = () => {
                   {review.content && (
                     <p className="review-page-text">{review.content}</p>
                   )}
+                  {review.quickOption && (
+                    <div className="review-page-quickoption-section">
+                      <div className="review-page-quick-options">
+                        {review.quickOption.split(",").map((opt, i) => (
+                          <button key={i} className="review-page-quick-option-btn">{opt}</button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}

@@ -159,6 +159,23 @@
   line-height: 1.6;
 }
 
+.review-page-quickoption-section {
+  margin-bottom: 10px;
+}
+.review-page-quick-options {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-top: 5px;
+}
+.review-page-quick-option-btn {
+  background: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 3px 6px;
+  font-size: 12px;
+}
+
 .review-page-more-btn-container {
   padding-bottom: 30px;
   background-color: #CED6DB;
