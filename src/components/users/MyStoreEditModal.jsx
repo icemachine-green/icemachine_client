@@ -4,9 +4,14 @@ import {
   updateBusinessThunk,
   getBusinessDetailThunk,
 } from "../../store/thunks/businessThunk.js";
+import AddressSearchModal from "./AddressSearchModal.jsx";
+import { formatPhoneNumber } from "../../utils/formatPhoneNumber.js";
 
 const MyStoreEditModal = ({ business, onClose, onUpdateSuccess }) => {
   const dispatch = useDispatch();
+  
+  // 주소 검색 모달창 관련
+  const [isOpen, setIsOpen] = useState(false);
 
   // --- [수정 위치: 입력란은 빈칸으로 시작] ---
   const [formData, setFormData] = useState({
@@ -19,7 +24,14 @@ const MyStoreEditModal = ({ business, onClose, onUpdateSuccess }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    let nextValue = value;
+
+    // 전화번호 전용 처리
+    if (name === "phoneNumber") {
+      nextValue = value.replace(/\D/g, "").slice(0, 11);
+    }
+
+    setFormData((prev) => ({ ...prev, [name]: nextValue }));
   };
 
   const handleSubmit = async (e) => {
@@ -46,6 +58,18 @@ const MyStoreEditModal = ({ business, onClose, onUpdateSuccess }) => {
           ? formData.detailedAddress
           : business.detailedAddress,
     };
+
+    // 전화번호를 "수정한 경우에만" 검증
+    if (formData.phoneNumber.trim() !== "") {
+      if (formData.phoneNumber.length !== 11) {
+        alert("전화번호는 11자리여야 합니다.");
+        return;
+      }
+
+      updatedData.phoneNumber = formatPhoneNumber(
+        formData.phoneNumber
+      );
+    }
 
     try {
       await dispatch(
@@ -105,7 +129,8 @@ const MyStoreEditModal = ({ business, onClose, onUpdateSuccess }) => {
             <input
               name="mainAddress"
               value={formData.mainAddress}
-              onChange={handleChange}
+              readOnly
+              onClick={() => setIsOpen(true)}
               placeholder="새 기본 주소"
             />
           </div>
@@ -131,6 +156,19 @@ const MyStoreEditModal = ({ business, onClose, onUpdateSuccess }) => {
           </div>
         </form>
       </div>
+
+      {/* 주소 검색 모달 */}
+      {isOpen && (
+        <AddressSearchModal
+          onClose={() => setIsOpen(false)}
+          onComplete={(data) => {
+            setFormData((prev) => ({
+              ...prev,
+              mainAddress: data.address,
+            }));
+          }}
+        />
+      )}
     </div>
   );
 };

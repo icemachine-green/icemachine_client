@@ -1,13 +1,18 @@
 import { useNavigate } from "react-router-dom";
 import "./MyStoreCreate.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createBusinessThunk } from "../../store/thunks/businessThunk";
 import { clearBusinessState } from "../../store/slices/businessSlice";
+import AddressSearchModal from "./AddressSearchModal.jsx";
+import { formatPhoneNumber } from "../../utils/formatPhoneNumber.js";
 
 const MyStoreCreate = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  // 주소 검색 모달창 관련
+  const [isOpen, setIsOpen] = useState(false);
 
   // Redux 상태 선택 (로딩 상태와 에러만 감시)
   const { createStatus, createError } = useSelector((state) => state.business);
@@ -30,7 +35,14 @@ const MyStoreCreate = () => {
   // 입력 핸들러
   const handleBusinessChange = (e) => {
     const { name, value } = e.target;
-    setBusinessInputs((prev) => ({ ...prev, [name]: value }));
+    let nextValue = value;
+
+    // 📌 전화번호 전용 처리
+    if (name === "phoneNumber") {
+      nextValue = value.replace(/\D/g, "").slice(0, 11);
+    }
+
+    setBusinessInputs((prev) => ({ ...prev, [name]: nextValue }));
   };
   const handleIceMachineChange = (e) => {
     const { name, value } = e.target;
@@ -46,10 +58,22 @@ const MyStoreCreate = () => {
         return;
       }
 
+      // 연락처 -> 백엔드로 보낼 값 가공
+      if (businessInputs.phoneNumber.length !== 11) {
+        alert("전화번호는 11자리여야 합니다.");
+        return;
+      }
+      let businessPayload = { ...businessInputs };
+      if (businessInputs.phoneNumber) {
+        businessPayload.phoneNumber = formatPhoneNumber(
+          businessInputs.phoneNumber
+        );
+      }
+
       // 2. Thunk 실행 및 결과 직접 확인
       await dispatch(
         createBusinessThunk({
-          businessData: businessInputs,
+          businessData: businessPayload,
           iceMachineData: iceMachineInputs,
         })
       ).unwrap();
@@ -122,7 +146,7 @@ const MyStoreCreate = () => {
               value={businessInputs.phoneNumber}
               onChange={handleBusinessChange}
               inputMode="numeric"
-              placeholder='"-"을 제외하고 입력해주세요.'
+              placeholder="숫자만 입력 (예: 01012345678)"
             />
           </div>
         </div>
@@ -133,7 +157,9 @@ const MyStoreCreate = () => {
               type="text"
               name="mainAddress"
               value={businessInputs.mainAddress}
-              onChange={handleBusinessChange}
+              readOnly
+              onClick={() => setIsOpen(true)}
+              placeholder="주소 검색"
             />
           </div>
         </div>
@@ -211,6 +237,19 @@ const MyStoreCreate = () => {
           {isLoading ? "등록 중..." : "등록하기"}
         </button>
       </div>
+
+      {/* 주소 검색 모달 */}
+      {isOpen && (
+        <AddressSearchModal
+          onClose={() => setIsOpen(false)}
+          onComplete={(data) => {
+            setBusinessInputs((prev) => ({
+              ...prev,
+              mainAddress: data.address,
+            }));
+          }}
+        />
+      )}
 
       {/* 성공 모달 */}
       {isModalOpen && (
