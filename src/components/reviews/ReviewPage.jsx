@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import './ReviewPage.css';
 import ReviewWriteModal from './ReviewWriteModal.jsx';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,16 +7,32 @@ import { getReviews } from '../../store/thunks/reviewThunk.js';
 const ITEMS_PER_PAGE = 6;
 
 const ReviewPage = () => {
+  const sortRef = useRef(null);
   const dispatch = useDispatch();
   const { reviews, loading, error } = useSelector((state) => state.reviews);
   
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [sort, setSort] = useState("latest");
+  const [isSortOpen, setIsSortOpen] = useState(false);
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
 
   useEffect(() => {
     dispatch(getReviews({ sort: "latest" }));
   }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (sortRef.current && !sortRef.current.contains(e.target)) {
+        setIsSortOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
 
   // 정렬 버튼 클릭 핸들러
   const handleSortChange = (nextSort) => {
@@ -50,13 +66,53 @@ const ReviewPage = () => {
           </div>
         </div>
 
-        {/* 정렬 버튼 */}
+        {/* 정렬 드롭다운 */}
         <div className="review-page-sort-container">
-          <button className={`review-page-latest-btn ${sort === "latest" ? "active" : ""}`}
-          onClick={() => handleSortChange("latest")}>최신순</button>
-          <button className={`review-page-rating-btn ${sort === "highest" ? "active" : ""}`}
-          onClick={() => handleSortChange("highest")}>별점순</button>
+          <div className="review-sort-dropdown" ref={sortRef}>
+            <button
+              className={`review-sort-button ${isSortOpen ? "active" : ""}`}
+              onClick={() => setIsSortOpen((prev) => !prev)}
+            >
+              {sort === "latest" && "최신순"}
+              {sort === "highest" && "평점 높은순"}
+              {sort === "lowest" && "평점 낮은순"}
+              <span className="review-sort-arrow">▼</span>
+            </button>
+
+            {isSortOpen && (
+              <ul className="review-sort-menu">
+                <li
+                  className={sort === "latest" ? "selected" : ""}
+                  onClick={() => {
+                    handleSortChange("latest");
+                    setIsSortOpen(false);
+                  }}
+                >
+                  최신순
+                </li>
+                <li
+                  className={sort === "highest" ? "selected" : ""}
+                  onClick={() => {
+                    handleSortChange("highest");
+                    setIsSortOpen(false);
+                  }}
+                >
+                  평점 높은순
+                </li>
+                <li
+                  className={sort === "lowest" ? "selected" : ""}
+                  onClick={() => {
+                    handleSortChange("lowest");
+                    setIsSortOpen(false);
+                  }}
+                >
+                  평점 낮은순
+                </li>
+              </ul>
+            )}
+          </div>
         </div>
+
 
         {/* 리뷰 목록 */}
         <div className="review-page-box-container">
