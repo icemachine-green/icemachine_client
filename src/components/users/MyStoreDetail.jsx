@@ -38,17 +38,17 @@ const MyStoreDetail = () => {
     setTimeout(() => setIsBusinessFlashing(false), 1500); // 1.5초 후 효과 제거
   };
 
-  const getBrandLabel = (type) => {
-    const brands = {
-      HOSHIZAKI: "Hoshizaki",
-      SCOTSMAN: "Scotsman",
-      MANITOWOC: "Manitowoc",
-      ICE_O_MATIC: "Ice-O-Matic",
-      ETC: "기타",
-      UNKNOWN: "모름",
-    };
-    return brands[type] || type;
-  };
+  // const getBrandLabel = (type) => {
+  //   const brands = {
+  //     HOSHIZAKI: "Hoshizaki",
+  //     SCOTSMAN: "Scotsman",
+  //     MANITOWOC: "Manitowoc",
+  //     ICE_O_MATIC: "Ice-O-Matic",
+  //     ETC: "기타",
+  //     UNKNOWN: "모름",
+  //   };
+  //   return brands[type] || type;
+  // };
 
   const getSizeLabel = (type) => {
     const sizes = {
@@ -150,12 +150,12 @@ const MyStoreDetail = () => {
                   <div key={item.id} className="icemachine-detail-item">
                     <div className="icemachine-info">
                       <p>
-                        <strong>모델명:</strong> {item.modelName || item.model}
+                        <strong>브랜드 / 모델명:</strong> {item.modelName || item.model}
                       </p>
-                      <p>
+                      {/* <p>
                         <strong>브랜드:</strong>{" "}
                         {getBrandLabel(item.modelType || item.brand)}
-                      </p>
+                      </p> */}
                       <p>
                         <strong>사이즈:</strong>{" "}
                         {getSizeLabel(item.sizeType || item.size)}
