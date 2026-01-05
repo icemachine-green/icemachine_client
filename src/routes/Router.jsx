@@ -73,7 +73,7 @@ const router = createBrowserRouter([
         element: <MyLogout />,
       },
       {
-        path: "/mypage/reservations/table",
+        path: "/mypage/reservations/table/:reservationId",
         element: <MyReservationTable />,
       },
       {

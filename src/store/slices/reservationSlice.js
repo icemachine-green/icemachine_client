@@ -1,7 +1,12 @@
+/**
+ * @file store/slices/reservationSlice.js
+ */
 import { createSlice } from "@reduxjs/toolkit";
 import {
   fetchAvailabilityThunk,
   createReservationThunk,
+  fetchMyReservationsThunk, // 추가된 Thunk
+  cancelReservationThunk, // 추가된 Thunk
 } from "../thunks/reservationThunk.js";
 
 const initialState = {
@@ -22,6 +27,9 @@ const initialState = {
   disabledSlots: [],
 
   durations: { 1: 1, 2: 1, 5: 2 }, // 정책별 소요 시간
+
+  // 내 예약 내역 관리용 (추가)
+  myReservations: [],
   lastReservation: null,
   error: null,
 };
@@ -50,12 +58,13 @@ const reservationSlice = createSlice({
     clearReservationState: (state) => initialState,
   },
   extraReducers: (builder) => {
-    // 가용성 조회
+    // 1. 가용성 조회 (기존 유지)
+    builder.addCase(fetchAvailabilityThunk.fulfilled, (state, action) => {
+      state.disabledSlots = action.payload.data.disabled;
+    });
+
+    // 2. 예약 생성 (기존 유지)
     builder
-      .addCase(fetchAvailabilityThunk.fulfilled, (state, action) => {
-        state.disabledSlots = action.payload.data.disabled; // [{date, time, reason}, ...]
-      })
-      // 예약 생성
       .addCase(createReservationThunk.pending, (state) => {
         state.status = "loading";
       })
@@ -67,6 +76,36 @@ const reservationSlice = createSlice({
         state.status = "failed";
         state.error = action.payload;
       });
+
+    // 3. 내 예약 목록 조회 (신규 추가)
+    builder
+      .addCase(fetchMyReservationsThunk.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchMyReservationsThunk.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.myReservations = action.payload.data;
+      })
+      .addCase(fetchMyReservationsThunk.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      });
+
+    // 4. 예약 취소 (신규 추가)
+    builder
+      .addCase(cancelReservationThunk.fulfilled, (state, action) => {
+        const { reservationId } = action.payload;
+        // 목록 내 해당 예약의 상태를 즉시 'CANCELED'로 업데이트 (UX 개선)
+        const target = state.myReservations.find(
+          (res) => res.id === reservationId
+        );
+        if (target) {
+          target.status = "CANCELED";
+        }
+      })
+      .addCase(cancelReservationThunk.rejected, (state, action) => {
+        state.error = action.payload;
+      });
   },
 });
 
@@ -76,4 +115,5 @@ export const {
   setReservationTime,
   clearReservationState,
 } = reservationSlice.actions;
+
 export default reservationSlice.reducer;

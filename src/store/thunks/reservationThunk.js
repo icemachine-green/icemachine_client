@@ -37,3 +37,37 @@ export const createReservationThunk = createAsyncThunk(
     }
   }
 );
+
+// 내 예약 목록 조회 (필터 포함)
+export const fetchMyReservationsThunk = createAsyncThunk(
+  "reservation/fetchMyReservations",
+  async ({ userId, status }, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get(
+        `/api/reservations/by-user/${userId}`,
+        {
+          params: { status: status !== "ALL" ? status : undefined },
+        }
+      );
+      return response.data; // { code: "00", msg: "정상 처리", data: [...] }
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+// 예약 취소
+export const cancelReservationThunk = createAsyncThunk(
+  "reservation/cancelReservation",
+  async (reservationId, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.patch(
+        `/api/reservations/cancel/${reservationId}`
+      );
+      return { reservationId, ...response.data };
+    } catch (error) {
+      // 백엔드에서 던지는 "24시간 전 취소 불가" 에러 메시지를 가로챔
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
