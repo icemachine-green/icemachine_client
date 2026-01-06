@@ -128,3 +128,101 @@
   color: #fff;
   border: none;
 }
+
+/* --- 모바일 및 태블릿 대응 미디어 쿼리 --- */
+
+@media (max-width: 768px) {
+  .MyReservationTable-div-container {
+    padding: 15px;
+    margin: 20px auto;
+  }
+
+  .MyReservationTable-div-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .MyReservationTable-button-download {
+    width: 100%; /* 모바일에서 버튼 클릭이 쉽도록 확장 */
+    text-align: center;
+  }
+
+  /* 테이블 헤더 숨김 (모바일은 카드 형식이므로 필요 없음) */
+  .MyReservationTable-div-header {
+    display: none;
+  }
+
+  /* 테이블 로우를 독립적인 카드 형태로 변경 */
+  .MyReservationTable-div-row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    padding: 20px;
+    margin-bottom: 15px;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0,05);
+  }
+
+  .MyReservationTable-div-row:hover {
+    background: #fff; /* 모바일은 호버 효과 제거 또는 유지 */
+  }
+
+  /* 각 셀의 간격 및 정렬 조정 */
+  .MyReservationTable-div-td {
+    width: 100%;
+    margin-bottom: 12px;
+  }
+
+  .MyReservationTable-div-td:last-child {
+    margin-bottom: 0;
+    padding-top: 10px;
+    border-top: 1px dashed #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* 서비스 정보 행 정렬 변경 */
+  .sub-info-row {
+    justify-content: flex-start;
+  }
+
+  /* 상태 배지 위치 조정 */
+  .status-cell {
+    order: -1; /* 상태를 가장 위로 올림 */
+    margin-bottom: 8px;
+  }
+
+  /* 가격 정보 강조 */
+  .payment-cell {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: baseline;
+    width: 100%;
+  }
+
+  .price-text {
+    font-size: 20px;
+  }
+}
+
+/* 초소형 모바일 대응 (iPhone SE 등) */
+@media (max-width: 480px) {
+  .MyReservationTable-h2-title {
+    font-size: 20px;
+  }
+  
+  .sub-info-row {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  
+  .divider {
+    display: none; /* 좁은 화면에서 구분선 제거 */
+  }
+}
