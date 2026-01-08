@@ -1,0 +1,53 @@
+/* 타이틀 스켈레톤 */
+.skeleton-c03-title {
+  width: 300px;
+  height: 60px;
+  margin-bottom: 25px;
+}
+
+/* 구분선 스켈레톤 */
+.skeleton-c03-separator {
+  width: 80px;
+  height: 4px;
+  margin: 0 0 50px 0;
+}
+
+/* 이미지 카드 스켈레톤 */
+.skeleton-c03-image {
+  width: 100%;
+  aspect-ratio: 1 / 1; /* 정사각형 이미지 비율 유지 */
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+/* 숫자 원형 스켈레톤 */
+.skeleton-c03-number {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* 텍스트 스켈레톤 */
+.skeleton-c03-text {
+  width: 100px;
+  height: 25px;
+}
+
+/* =====================================================
+   반응형 동기화
+===================================================== */
+
+@media (max-width: 1024px) {
+  .skeleton-c03-title { width: 250px; height: 48px; }
+  .skeleton-c03-text { width: 80px; }
+}
+
+@media (max-width: 950px) {
+  .skeleton-c03-title { width: 200px; height: 42px; }
+}
+
+@media (max-width: 480px) {
+  .skeleton-c03-title { width: 180px; height: 34px; }
+  .skeleton-c03-text { width: 70px; }
+}

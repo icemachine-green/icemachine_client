@@ -1,0 +1,64 @@
+/* 기본 컨테이너는 원본의 스타일을 상당수 공유합니다 */
+.skeleton-container {
+  background-image: none !important; /* 이미지 로딩 전이므로 제거 */
+  background-color: #f9f9f9; /* 배경 이미지 대신 깔끔한 배경 */
+}
+
+.skeleton-item {
+  border: none;
+}
+
+/* '제빙기 청소 업체' 라벨 크기 재현 */
+.skeleton-minititle {
+  width: 220px;
+  height: 45px;
+  border-radius: 30px;
+}
+
+/* 메인 타이틀 그룹 */
+.skeleton-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.skeleton-title-line {
+  width: 100%;
+  height: 80px;
+}
+
+.skeleton-title-line.half {
+  width: 60%;
+}
+
+/* '청소 예약' 버튼 크기 재현 */
+.skeleton-btn {
+  width: 350px;
+  height: 70px;
+  border-radius: 40px;
+}
+
+/* ---------- 반응형 동기화 ---------- */
+
+@media (max-width: 1200px) {
+  .skeleton-minititle { width: 180px; height: 38px; }
+  .skeleton-title-line { height: 60px; }
+  .skeleton-btn { width: 280px; height: 60px; }
+}
+
+@media (max-width: 768px) {
+  .skeleton-minititle { width: 150px; height: 32px; }
+  .skeleton-title-line { height: 50px; }
+  .skeleton-btn { width: 200px; height: 50px; }
+  
+  /* 태블릿에서는 중앙 정렬 */
+  .skeleton-title-group {
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .skeleton-minititle { width: 120px; height: 28px; }
+  .skeleton-title-line { height: 40px; }
+  .skeleton-btn { width: 160px; height: 45px; }
+}

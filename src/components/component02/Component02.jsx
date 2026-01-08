@@ -1,7 +1,12 @@
 import React from "react";
 import "./Component02.css";
+import Component02Skeleton from "../common/Skeleton/Component02Skeleton.jsx";
 
-const Component02 = () => {
+const Component02 = ({ isLoading }) => {
+  if (isLoading) {
+    return <Component02Skeleton />;
+  }
+
   return (
     <div className="component02-container">
       <div className="component02-text">

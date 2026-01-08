@@ -1,0 +1,75 @@
+/* 컨테이너 기본 설정 공유 */
+.skeleton-container {
+  background-color: transparent;
+}
+
+/* 제목 스켈레톤 */
+.skeleton-c02-title {
+  width: 80%;
+  height: 60px;
+  margin-bottom: 40px;
+  margin-top: 50px;
+}
+
+/* 구분선 스켈레톤 */
+.skeleton-c02-separator {
+  width: 80px;
+  height: 4px;
+  margin-bottom: 30px;
+}
+
+/* 본문 라인 그룹 */
+.skeleton-c02-paragraph-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skeleton-c02-line {
+  width: 90%;
+  height: 35px;
+}
+
+.skeleton-c02-line.half {
+  width: 50%;
+}
+
+/* 이미지 스켈레톤 */
+.skeleton-c02-image {
+  width: 35%;
+  height: 300px; /* 대략적인 이미지 높이 확보 */
+  border-radius: 15px;
+}
+
+/* =====================================================
+   반응형 동기화
+===================================================== */
+
+@media (max-width: 1024px) {
+  .skeleton-c02-title { height: 50px; }
+  .skeleton-c02-line { height: 30px; }
+  .skeleton-c02-image { height: 250px; }
+}
+
+@media (max-width: 950px) {
+  .skeleton-c02-title { height: 42px; }
+  .skeleton-c02-line { height: 26px; }
+  .skeleton-c02-image { width: 28%; height: 200px; }
+}
+
+@media (max-width: 768px) {
+  .skeleton-c02-title { width: 100%; height: 38px; }
+  .skeleton-c02-line { width: 100%; height: 24px; }
+  .skeleton-c02-image { 
+    width: 50% !important; 
+    height: 180px; 
+    align-self: center;
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .skeleton-c02-title { height: 32px; }
+  .skeleton-c02-line { height: 20px; }
+  .skeleton-c02-image { width: 70% !important; height: 150px; }
+}

@@ -1,5 +1,6 @@
-import React from "react";
+import React from "react"; 
 import "./Component03.css";
+import Component03Skeleton from "../common/Skeleton/Component03Skeleton.jsx";
 
 const serviceSteps = [
   {
@@ -24,7 +25,15 @@ const serviceSteps = [
   },
 ];
 
-const Component03 = () => {
+// props로 isLoading을 전달받는 구조로 변경
+const Component03 = ({ isLoading }) => {
+  
+  // 1. 로딩 중일 때는 스켈레톤을 반환
+  if (isLoading) {
+    return <Component03Skeleton />;
+  }
+
+  // 2. 로딩이 끝나면 실제 컨텐츠 반환
   return (
     <div className="component03-background">
       <div className="component03-content-wrapper">
@@ -43,7 +52,6 @@ const Component03 = () => {
 
               <div className="component03-step-text-container">
                 <span className="component03-step-number">{step.number}</span>
-
                 <span className="component03-step-text">{step.text}</span>
               </div>
             </div>
