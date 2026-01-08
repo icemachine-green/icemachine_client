@@ -1,0 +1,28 @@
+/* 공통 크기 정의 */
+.skeleton-label { width: 100px; height: 20px; margin-bottom: 12px; }
+.skeleton-small-btn { width: 50px; height: 24px; border-radius: 4px; }
+.skeleton-box { width: 100%; height: 60px; border-radius: 8px; padding: 15px; box-sizing: border-box; }
+.skeleton-circle { width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0; }
+.skeleton-next-btn { width: 100%; height: 50px; border-radius: 8px; margin-top: 20px; }
+
+/* 카드 형태 */
+.machine-card.skeleton-card {
+  height: 120px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+}
+
+.policy-card-item.skeleton-card-wide {
+  height: 80px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+}
+
+/* 텍스트 라인 */
+.skeleton-line-m { width: 60%; height: 18px; border-radius: 4px; }
+.skeleton-line-s { width: 40%; height: 14px; border-radius: 4px; }
+.skeleton-line-xs { width: 60px; height: 18px; border-radius: 4px; }
+
+.skeleton-container .reservation-info-group {
+  margin-bottom: 24px;
+}
