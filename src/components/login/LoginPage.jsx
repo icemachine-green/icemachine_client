@@ -3,7 +3,8 @@ import "./LoginPage.css";
 
 const LoginPage = () => {
   const handleKakaoLogin = () => {
-    window.location.href = "http://localhost:3000/api/auth/kakao/authorize"; // TODO: 환경변수설정
+    window.location.href =
+      "http://localhost:3000/api/auth/kakao/authorize/client";
   };
 
   return (

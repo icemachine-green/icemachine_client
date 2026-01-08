@@ -1,12 +1,9 @@
-/**
- * @file store/slices/reservationSlice.js
- */
 import { createSlice } from "@reduxjs/toolkit";
 import {
   fetchAvailabilityThunk,
   createReservationThunk,
-  fetchMyReservationsThunk, // 추가된 Thunk
-  cancelReservationThunk, // 추가된 Thunk
+  fetchMyReservationsThunk,
+  cancelReservationThunk,
 } from "../thunks/reservationThunk.js";
 
 const initialState = {
@@ -26,9 +23,21 @@ const initialState = {
   // API에서 받아온 예약 불가 시간들
   disabledSlots: [],
 
-  durations: { 1: 1, 2: 1, 5: 2 }, // 정책별 소요 시간
+  // 정책별 소요 시간 (시간 단위)
+  durations: {
+    1: 1,
+    2: 1,
+    3: 2,
+    4: 1,
+    5: 1,
+    6: 2,
+    7: 3,
+    8: 1,
+    9: 2,
+    10: 3,
+    11: 4,
+  },
 
-  // 내 예약 내역 관리용 (추가)
   myReservations: [],
   lastReservation: null,
   error: null,
@@ -44,6 +53,12 @@ const reservationSlice = createSlice({
     updateSelection: (state, action) => {
       state.selection = { ...state.selection, ...action.payload };
     },
+    // 날짜 변경 시 기존 선택 시간을 초기화하기 위한 리듀서
+    resetTime: (state) => {
+      state.selection.reservedDate = "";
+      state.selection.serviceStartTime = "";
+      state.selection.serviceEndTime = "";
+    },
     setReservationTime: (state, action) => {
       const { date, time } = action.payload;
       const duration = state.durations[state.selection.servicePolicyId] || 1;
@@ -58,12 +73,10 @@ const reservationSlice = createSlice({
     clearReservationState: (state) => initialState,
   },
   extraReducers: (builder) => {
-    // 1. 가용성 조회 (기존 유지)
     builder.addCase(fetchAvailabilityThunk.fulfilled, (state, action) => {
       state.disabledSlots = action.payload.data.disabled;
     });
 
-    // 2. 예약 생성 (기존 유지)
     builder
       .addCase(createReservationThunk.pending, (state) => {
         state.status = "loading";
@@ -77,41 +90,27 @@ const reservationSlice = createSlice({
         state.error = action.payload;
       });
 
-    // 3. 내 예약 목록 조회 (신규 추가)
-    builder
-      .addCase(fetchMyReservationsThunk.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(fetchMyReservationsThunk.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        state.myReservations = action.payload.data;
-      })
-      .addCase(fetchMyReservationsThunk.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.payload;
-      });
+    builder.addCase(fetchMyReservationsThunk.fulfilled, (state, action) => {
+      state.status = "succeeded";
+      state.myReservations = action.payload.data;
+    });
 
-    // 4. 예약 취소 (신규 추가)
-    builder
-      .addCase(cancelReservationThunk.fulfilled, (state, action) => {
-        const { reservationId } = action.payload;
-        // 목록 내 해당 예약의 상태를 즉시 'CANCELED'로 업데이트 (UX 개선)
-        const target = state.myReservations.find(
-          (res) => res.id === reservationId
-        );
-        if (target) {
-          target.status = "CANCELED";
-        }
-      })
-      .addCase(cancelReservationThunk.rejected, (state, action) => {
-        state.error = action.payload;
-      });
+    builder.addCase(cancelReservationThunk.fulfilled, (state, action) => {
+      const { reservationId } = action.payload;
+      const target = state.myReservations.find(
+        (res) => res.id === reservationId
+      );
+      if (target) {
+        target.status = "CANCELED";
+      }
+    });
   },
 });
 
 export const {
   setStep,
   updateSelection,
+  resetTime, // export 추가
   setReservationTime,
   clearReservationState,
 } = reservationSlice.actions;

@@ -9,7 +9,8 @@ import axiosInstance from "../../api/axiosInstance.js";
 export const startKakaoLoginThunk = createAsyncThunk(
   "auth/startKakaoLogin",
   async () => {
-    window.location.href = "http://localhost:3000/api/auth/kakao/authorize";
+    window.location.href =
+      "http://localhost:3000/api/auth/kakao/authorize/client";
   }
 );
 

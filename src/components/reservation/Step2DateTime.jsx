@@ -9,26 +9,46 @@ import { fetchAvailabilityThunk } from "../../store/thunks/reservationThunk";
 import {
   setStep,
   setReservationTime,
+  resetTime, // resetTime 추가
 } from "../../store/slices/reservationSlice";
+
+const SERVICE_POLICIES = [
+  { id: 1, duration: 60 },
+  { id: 2, duration: 60 },
+  { id: 3, duration: 120 },
+  { id: 4, duration: 60 },
+  { id: 5, duration: 60 },
+  { id: 6, duration: 120 },
+  { id: 7, duration: 180 },
+  { id: 8, duration: 60 },
+  { id: 9, duration: 120 },
+  { id: 10, duration: 180 },
+  { id: 11, duration: 240 },
+];
 
 const Step2DateTime = () => {
   const dispatch = useDispatch();
-  
+
   // 리덕스 state에서 loading 상태를 추가로 가져옵니다.
   const { selection, disabledSlots, loading } = useSelector(
     (state) => state.reservation
   );
 
-  // 로컬 상태: 달력 날짜 제어
+  // 로컬 상태로 선택된 날짜 관리
   const [selectedDate, setSelectedDate] = useState(
     selection.reservedDate ? new Date(selection.reservedDate) : new Date()
   );
 
-  // 현재 날짜 기준 제한 설정
-  const minDate = new Date(); 
+  const minDate = new Date();
   const maxDate = new Date();
-  maxDate.setMonth(maxDate.getMonth() + 2); 
+  maxDate.setMonth(maxDate.getMonth() + 2);
 
+  // 날짜 선택이 변경될 때 Redux의 시간 정보 초기화
+  useEffect(() => {
+    dispatch(resetTime());
+  }, [selectedDate, dispatch]);
+
+  // 가용 시간 조회 API 호출
   useEffect(() => {
     const startDate = minDate.toLocaleDateString("sv-SE");
     const endDate = maxDate.toLocaleDateString("sv-SE");
@@ -43,26 +63,40 @@ const Step2DateTime = () => {
   }, [dispatch, selection.servicePolicyId]);
 
   const timeOptions = [
-    "09:00", "10:00", "11:00", "12:00", "13:00",
-    "14:00", "15:00", "16:00", "17:00", "18:00",
+    "09:00",
+    "10:00",
+    "11:00",
+    "12:00",
+    "13:00",
+    "14:00",
+    "15:00",
+    "16:00",
+    "17:00",
   ];
 
-  const getFilteredTimes = () => {
-    const dateStr = selectedDate.toLocaleDateString("sv-SE");
-    const unavailableTimes = disabledSlots
-      .filter((slot) => slot.date === dateStr)
-      .map((slot) => slot.time);
+  const dateStr = selectedDate.toLocaleDateString("sv-SE");
+  const unavailableTimes = (disabledSlots || [])
+    .filter((slot) => slot.date === dateStr)
+    .map((slot) => slot.time);
 
-    return timeOptions.map((time) => ({
+  const currentPolicy = SERVICE_POLICIES.find(
+    (p) => p.id === selection.servicePolicyId
+  );
+  const duration = currentPolicy?.duration || 60;
+
+  const filteredTimes = timeOptions
+    .filter((time) => {
+      const [hour, min] = time.split(":").map(Number);
+      const startMinutes = hour * 60 + min;
+      // 18:00 퇴근(1080분) 기준 필터링
+      return startMinutes + duration <= 1080;
+    })
+    .map((time) => ({
       time,
       isBlocked: unavailableTimes.includes(time),
     }));
-  };
-
-  const filteredTimes = getFilteredTimes();
 
   const handleTimeClick = (time) => {
-    const dateStr = selectedDate.toLocaleDateString("sv-SE");
     dispatch(setReservationTime({ date: dateStr, time }));
   };
 
@@ -76,7 +110,9 @@ const Step2DateTime = () => {
     <div className="step2-container">
       <div className="step2-header">
         <h2>방문 일정 선택</h2>
-        <p>원하시는 날짜와 시간을 선택해 주세요.</p>
+        <p>
+          서비스 소요 시간을 고려하여 18:00까지 작업 가능한 시간만 표시됩니다.
+        </p>
       </div>
 
       <div className="reservation-info-group">
@@ -87,9 +123,7 @@ const Step2DateTime = () => {
             value={selectedDate}
             minDate={minDate}
             maxDate={maxDate}
-            formatDay={(locale, date) =>
-              date.toLocaleString("en", { day: "numeric" })
-            }
+            formatDay={(locale, date) => date.getDate()}
             calendarType="gregory"
             prev2Label={null}
             next2Label={null}
@@ -113,11 +147,9 @@ const Step2DateTime = () => {
                 onClick={() => handleTimeClick(time)}
               >
                 <span className="time-text">{time}</span>
-                {isBlocked ? (
-                  <span className="status-text">마감</span>
-                ) : (
-                  <span className="status-text-on">가능</span>
-                )}
+                <span className={isBlocked ? "status-text" : "status-text-on"}>
+                  {isBlocked ? "마감" : "가능"}
+                </span>
               </button>
             );
           })}
