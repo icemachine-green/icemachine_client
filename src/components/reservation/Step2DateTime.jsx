@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./Step2DateTime.css";
+import Step2DateTimeSkeleton from "../common/Skeleton/Step2DateTimeSkeleton.jsx"; // 스켈레톤 컴포넌트 임포트
 
 import { fetchAvailabilityThunk } from "../../store/thunks/reservationThunk";
 import {
@@ -12,7 +13,9 @@ import {
 
 const Step2DateTime = () => {
   const dispatch = useDispatch();
-  const { selection, disabledSlots } = useSelector(
+  
+  // 리덕스 state에서 loading 상태를 추가로 가져옵니다.
+  const { selection, disabledSlots, loading } = useSelector(
     (state) => state.reservation
   );
 
@@ -22,9 +25,9 @@ const Step2DateTime = () => {
   );
 
   // 현재 날짜 기준 제한 설정
-  const minDate = new Date(); // 오늘 이전 선택 불가
+  const minDate = new Date(); 
   const maxDate = new Date();
-  maxDate.setMonth(maxDate.getMonth() + 2); // 2개월 뒤까지만 가능
+  maxDate.setMonth(maxDate.getMonth() + 2); 
 
   useEffect(() => {
     const startDate = minDate.toLocaleDateString("sv-SE");
@@ -40,16 +43,8 @@ const Step2DateTime = () => {
   }, [dispatch, selection.servicePolicyId]);
 
   const timeOptions = [
-    "09:00",
-    "10:00",
-    "11:00",
-    "12:00",
-    "13:00",
-    "14:00",
-    "15:00",
-    "16:00",
-    "17:00",
-    "18:00",
+    "09:00", "10:00", "11:00", "12:00", "13:00",
+    "14:00", "15:00", "16:00", "17:00", "18:00",
   ];
 
   const getFilteredTimes = () => {
@@ -71,6 +66,12 @@ const Step2DateTime = () => {
     dispatch(setReservationTime({ date: dateStr, time }));
   };
 
+  // --- 스켈레톤 적용 부분 ---
+  if (loading) {
+    return <Step2DateTimeSkeleton />;
+  }
+  // -----------------------
+
   return (
     <div className="step2-container">
       <div className="step2-header">
@@ -85,12 +86,12 @@ const Step2DateTime = () => {
             onChange={setSelectedDate}
             value={selectedDate}
             minDate={minDate}
-            maxDate={maxDate} // 2개월 제한 적용
+            maxDate={maxDate}
             formatDay={(locale, date) =>
               date.toLocaleString("en", { day: "numeric" })
             }
             calendarType="gregory"
-            prev2Label={null} // 년 단위 이동 삭제 (2개월 내 이동이므로 불필요)
+            prev2Label={null}
             next2Label={null}
           />
         </div>
