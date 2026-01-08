@@ -1,0 +1,39 @@
+/* 제목 스켈레톤 */
+.skeleton-c07-title {
+  width: 200px;
+  height: 50px;
+  margin-bottom: 25px;
+}
+
+/* 구분선 스켈레톤 */
+.skeleton-c07-separator {
+  width: 80px;
+  height: 4px;
+  margin-bottom: 40px;
+}
+
+/* 예약 버튼 스켈레톤 */
+.skeleton-c07-button {
+  width: 280px;
+  height: 70px;
+  border-radius: 20px;
+}
+
+/* =====================================================
+   반응형 동기화
+===================================================== */
+
+@media (max-width: 1024px) {
+  .skeleton-c07-title { width: 160px; height: 40px; }
+  .skeleton-c07-button { width: 230px; height: 60px; }
+}
+
+@media (max-width: 768px) {
+  .skeleton-c07-title { height: 32px; }
+  .skeleton-c07-button { width: 180px; height: 50px; border-radius: 16px; }
+}
+
+@media (max-width: 480px) {
+  .skeleton-c07-title { width: 140px; height: 28px; }
+  .skeleton-c07-button { width: 150px; height: 44px; border-radius: 14px; }
+}

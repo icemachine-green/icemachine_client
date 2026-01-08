@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./Component05.css";
+import Component05Skeleton from "../common/Skeleton/Component05Skeleton.jsx";
 
 const reviewData = [
   {
@@ -53,13 +54,19 @@ const reviewData = [
   },
 ];
 
-const Component05 = () => {
+const Component05 = ({ isLoading }) => {
   const navigate = useNavigate();
 
   const handleRedirect = () => {
-    navigate("/reviews"); // Redirect to the reviews page
+    navigate("/reviews");
   };
 
+  // 1. 로딩 중일 때는 스켈레톤 반환
+  if (isLoading) {
+    return <Component05Skeleton />;
+  }
+
+  // 2. 로딩 완료 시 실제 UI 반환
   return (
     <div className="component05-background">
       <div className="component05-content-wrapper">

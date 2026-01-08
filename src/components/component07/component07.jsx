@@ -1,14 +1,21 @@
 import React from "react";
 import "./component07.css";
 import { useNavigate } from "react-router-dom";
+import Component07Skeleton from "../common/Skeleton/Component07Skeleton.jsx";
 
-export default function Component07() {
+export default function Component07({ isLoading }) {
   const navigate = useNavigate();
 
   const redirectReservation = () => {
     navigate("/reservation");
   };
 
+  // 1. 로딩 중일 때는 스켈레톤 반환
+  if (isLoading) {
+    return <Component07Skeleton />;
+  }
+
+  // 2. 로딩 완료 시 실제 컨텐츠 반환
   return (
     <section className="component07-background">
       <div className="component07-content">

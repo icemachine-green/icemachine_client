@@ -1,0 +1,75 @@
+/* 타이틀 및 헤더 */
+.skeleton-c05-title {
+  width: 150px;
+  height: 60px;
+  margin-bottom: 25px;
+}
+
+.skeleton-c05-separator {
+  width: 80px;
+  height: 4px;
+  margin-bottom: 20px;
+}
+
+.skeleton-c05-button {
+  width: 140px;
+  height: 50px;
+  border-radius: 8px;
+}
+
+/* 리뷰 카드 내부 */
+.skeleton-c05-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.skeleton-c05-stars {
+  width: 100px;
+  height: 20px;
+}
+
+.skeleton-c05-info {
+  width: 120px;
+  height: 14px;
+}
+
+.skeleton-c05-text-line {
+  width: 100%;
+  height: 16px;
+  margin-bottom: 10px;
+}
+
+.skeleton-c05-text-line.half {
+  width: 60%;
+}
+
+/* =====================================================
+   반응형 동기화
+===================================================== */
+
+@media (max-width: 1024px) {
+  .skeleton-c05-title { height: 48px; }
+  .skeleton-c05-button { height: 44px; }
+}
+
+@media (max-width: 768px) {
+  .skeleton-c05-avatar {
+    width: 80px;
+    height: 80px;
+  }
+  /* 모바일 센터 정렬 대응 */
+  .component05-review-box {
+    align-items: center;
+  }
+  .component05-review-top {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .skeleton-c05-avatar { width: 70px; height: 70px; }
+}

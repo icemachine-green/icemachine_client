@@ -1,0 +1,34 @@
+/* 타이틀 및 구분선 */
+.skeleton-c06-title {
+  width: 120px;
+  height: 50px;
+  margin-bottom: 25px;
+}
+
+.skeleton-c06-separator {
+  width: 80px;
+  height: 4px;
+  margin: 0 0 40px 0;
+}
+
+/* FAQ 버튼 스켈레톤 */
+.skeleton-c06-button {
+  width: 100%;
+  height: 55px; /* 원본 버튼 높이와 유사하게 */
+  border-radius: 50px; /* 원본 버튼의 알약 모양 유지 */
+}
+
+/* 반응형 높이 조절 */
+@media screen and (max-width: 1024px) {
+  .skeleton-c06-title { height: 40px; }
+  .skeleton-c06-button { height: 48px; }
+}
+
+@media screen and (max-width: 768px) {
+  .skeleton-c06-title { height: 32px; }
+  .skeleton-c06-button { height: 42px; }
+}
+
+@media screen and (max-width: 480px) {
+  .skeleton-c06-button { height: 36px; }
+}
