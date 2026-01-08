@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import dayjs from "dayjs";
 import {
   fetchMyReservationsThunk,
   cancelReservationThunk,
@@ -11,18 +12,31 @@ const MyReservationPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // 리덕스 상태 가져오기
   const { user } = useSelector((state) => state.auth);
-  const { myReservations, status: apiStatus } = useSelector(
-    (state) => state.reservation
-  );
+  const {
+    myReservations,
+    status: apiStatus,
+    lastReservation,
+  } = useSelector((state) => state.reservation);
 
-  // 로컬 상태 관리
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
   const [selectedReservationId, setSelectedReservationId] = useState(null);
-  const [filterStatus, setFilterStatus] = useState("ALL"); // 필터링용
+  const [filterStatus, setFilterStatus] = useState("CONFIRMED");
 
-  // 컴포넌트 마운트 시 및 필터 변경 시 데이터 호출
+  const [flashId, setFlashId] = useState(null);
+  const [flashType, setFlashType] = useState("");
+
+  const cardRefs = useRef({});
+
+  const scrollToTarget = (id) => {
+    if (cardRefs.current[id]) {
+      cardRefs.current[id].scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+  };
+
   useEffect(() => {
     if (user?.id) {
       dispatch(
@@ -30,6 +44,27 @@ const MyReservationPage = () => {
       );
     }
   }, [user?.id, filterStatus, dispatch]);
+
+  useEffect(() => {
+    if (lastReservation?.id) {
+      setFlashType("new");
+      setFlashId(lastReservation.id);
+
+      const scrollTimer = setTimeout(() => {
+        scrollToTarget(lastReservation.id);
+      }, 300);
+
+      const flashTimer = setTimeout(() => {
+        setFlashId(null);
+        setFlashType("");
+      }, 2000);
+
+      return () => {
+        clearTimeout(scrollTimer);
+        clearTimeout(flashTimer);
+      };
+    }
+  }, [lastReservation]);
 
   const redirectMyPage = () => navigate("/mypage");
   const redirectReservationTable = (id) =>
@@ -45,23 +80,30 @@ const MyReservationPage = () => {
     setIsCancelModalOpen(false);
   };
 
-  // 실제 취소 요청 연동
   const handleConfirmCancel = async () => {
     if (!selectedReservationId) return;
-
     try {
-      // unwrap()을 사용해야 thunk의 에러(24시간 전 등)를 catch에서 잡을 수 있습니다.
       await dispatch(cancelReservationThunk(selectedReservationId)).unwrap();
-      alert("예약이 성공적으로 취소되었습니다.");
+
+      setFlashType("cancel");
+      setFlashId(selectedReservationId);
+      scrollToTarget(selectedReservationId);
+
+      setTimeout(() => {
+        setFlashId(null);
+        setFlashType("");
+        dispatch(
+          fetchMyReservationsThunk({ userId: user.id, status: filterStatus })
+        );
+        alert("예약이 성공적으로 취소되었습니다.");
+      }, 800);
     } catch (error) {
-      // 서버에서 보낸 에러 메시지 (Error: 서비스 시작 24시간 전...) 출력
-      alert(error.message || "취소에 실패했습니다. 고객센터에 문의하세요.");
+      alert(error.message || "취소에 실패했습니다.");
     } finally {
       closeCancelModal();
     }
   };
 
-  // 상태값에 따른 라벨 및 스타일 클래스 반환
   const getStatusInfo = (status) => {
     switch (status) {
       case "CONFIRMED":
@@ -71,15 +113,21 @@ const MyReservationPage = () => {
       case "CANCELED":
         return { label: "취소됨", class: "status-canceled" };
       case "START":
-        return { label: "서비스중", class: "status-start" };
+        return { label: "서비스 중", class: "status-start" };
       default:
         return { label: "대기", class: "status-pending" };
     }
   };
 
+  const checkIsWithin24Hours = (reservedDate, serviceWindow) => {
+    const startTime = serviceWindow.split(" ~ ")[0];
+    const startDateTime = dayjs(`${reservedDate} ${startTime}`);
+    const now = dayjs();
+    return startDateTime.diff(now, "hour") < 24;
+  };
+
   return (
     <div className="MyReservationPage-div-container">
-      {/* 헤더 */}
       <div className="MyReservationPage-div-head">
         <button
           className="MyReservationPage-button-back"
@@ -92,24 +140,29 @@ const MyReservationPage = () => {
 
       <hr className="MyReservationPage-hr-underline" />
 
-      {/* 상태 필터 탭 (추가) */}
-      <div className="MyReservationPage-div-tabs">
-        {["ALL", "CONFIRMED", "COMPLETED", "CANCELED"].map((s) => (
-          <button
-            key={s}
-            className={`MyReservationPage-button-tab ${
-              filterStatus === s ? "active" : ""
-            }`}
-            onClick={() => setFilterStatus(s)}
-          >
-            {s === "ALL" ? "전체" : getStatusInfo(s).label}
-          </button>
-        ))}
+      {/* 안내 문구가 포함된 탭 영역 */}
+      <div className="MyReservationPage-div-tabs-wrapper">
+        <div className="MyReservationPage-div-tabs">
+          {["CONFIRMED", "COMPLETED", "CANCELED"].map((s) => (
+            <button
+              key={s}
+              className={`MyReservationPage-button-tab ${
+                filterStatus === s ? "active" : ""
+              }`}
+              onClick={() => setFilterStatus(s)}
+            >
+              {getStatusInfo(s).label}
+            </button>
+          ))}
+        </div>
+        {/* ★ 추가: 우측 상단 안내 문구 */}
+        <span className="MyReservationPage-span-policy-hint">
+          *예약 방문 시간 기준 24시간 전까지만 취소 가능합니다.
+        </span>
       </div>
 
-      {/* 예약 리스트 */}
       <div className="MyReservationPage-div-list">
-        {apiStatus === "loading" ? (
+        {apiStatus === "loading" && !flashId ? (
           <p className="MyReservationPage-p-loading">
             데이터를 불러오는 중입니다...
           </p>
@@ -118,55 +171,80 @@ const MyReservationPage = () => {
             조회된 예약 내역이 없습니다.
           </p>
         ) : (
-          myReservations.map((res) => {
-            const statusInfo = getStatusInfo(res.status);
-            const isCancelable =
-              res.status === "CONFIRMED" || res.status === "PENDING";
+          myReservations
+            .slice()
+            .sort((a, b) => {
+              const timeA = new Date(
+                `${a.reservedDate} ${a.serviceWindow.split(" ~ ")[0]}`
+              );
+              const timeB = new Date(
+                `${b.reservedDate} ${b.serviceWindow.split(" ~ ")[0]}`
+              );
+              return timeA - timeB;
+            })
+            .map((res) => {
+              const statusInfo = getStatusInfo(res.status);
+              const isWithin24Hours = checkIsWithin24Hours(
+                res.reservedDate,
+                res.serviceWindow
+              );
+              const isCancelable =
+                (res.status === "CONFIRMED" || res.status === "PENDING") &&
+                !isWithin24Hours;
+              const isFlash = flashId === res.id;
 
-            return (
-              <div
-                key={res.id}
-                className={`MyReservationPage-div-card ${res.status.toLowerCase()}`}
-              >
-                <div className="MyReservationPage-div-card-info">
-                  <span
-                    className={`MyReservationPage-span-status ${statusInfo.class}`}
-                  >
-                    {statusInfo.label}
-                  </span>
-                  <p className="MyReservationPage-p-date">
-                    {res.reservedDate} | {res.serviceWindow}
-                  </p>
-                  <p className="MyReservationPage-p-engineer">
-                    기사: {res.engineerName || "배정 중"}{" "}
-                    {res.engineerPhone && `(${res.engineerPhone})`}
-                  </p>
-                </div>
+              return (
+                <div
+                  key={res.id}
+                  ref={(el) => (cardRefs.current[res.id] = el)}
+                  className={`MyReservationPage-div-card ${res.status.toLowerCase()} ${
+                    isFlash ? `effect-flash-${flashType}` : ""
+                  }`}
+                >
+                  <div className="MyReservationPage-div-card-info">
+                    <span
+                      className={`MyReservationPage-span-status ${statusInfo.class}`}
+                    >
+                      {statusInfo.label}
+                    </span>
+                    <p className="MyReservationPage-p-date">
+                      {res.reservedDate} | {res.serviceWindow}
+                    </p>
+                    <p className="MyReservationPage-p-engineer">
+                      기사: {res.engineerName || "배정 중"}
+                      {res.engineerPhone && ` (${res.engineerPhone})`}
+                    </p>
+                  </div>
 
-                <div className="MyReservationPage-div-card-actions">
-                  <button
-                    className="MyReservationPage-button-view"
-                    onClick={() => redirectReservationTable(res.id)}
-                  >
-                    상세 조회
-                  </button>
-                  <button
-                    className={`MyReservationPage-button-cancel ${
-                      !isCancelable ? "disabled" : ""
-                    }`}
-                    onClick={() => isCancelable && openCancelModal(res.id)}
-                    disabled={!isCancelable}
-                  >
-                    {res.status === "CANCELED" ? "취소됨" : "취소하기"}
-                  </button>
+                  <div className="MyReservationPage-div-card-actions">
+                    <button
+                      className="MyReservationPage-button-view"
+                      onClick={() => redirectReservationTable(res.id)}
+                    >
+                      상세 조회
+                    </button>
+                    <button
+                      className={`MyReservationPage-button-cancel ${
+                        !isCancelable ? "disabled" : ""
+                      }`}
+                      onClick={() => isCancelable && openCancelModal(res.id)}
+                      disabled={!isCancelable}
+                    >
+                      {res.status === "CANCELED"
+                        ? "취소됨"
+                        : isWithin24Hours &&
+                          (res.status === "CONFIRMED" ||
+                            res.status === "PENDING")
+                        ? "취소불가"
+                        : "취소하기"}
+                    </button>
+                  </div>
                 </div>
-              </div>
-            );
-          })
+              );
+            })
         )}
       </div>
 
-      {/* 모달 생략 (동일한 네이밍 규칙 적용) */}
       {isCancelModalOpen && (
         <div className="MyReservationPage-div-modal-overlay">
           <div className="MyReservationPage-div-modal">

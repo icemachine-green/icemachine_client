@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom"; // 임포트 확인
+import { useNavigate } from "react-router-dom";
 import { setStep } from "../../store/slices/reservationSlice";
 import { createReservationThunk } from "../../store/thunks/reservationThunk";
 import "./Step3Confirm.css";
@@ -98,7 +98,7 @@ const SERVICE_POLICIES = [
 
 const Step3Confirm = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // ✅ 철자 확인: navigate
+  const navigate = useNavigate();
 
   const { businessDetail } = useSelector((state) => state.business);
   const { icemachinesList } = useSelector((state) => state.icemachine);
@@ -110,6 +110,16 @@ const Step3Confirm = () => {
   const selectedPolicy = SERVICE_POLICIES.find(
     (p) => p.id === selection.servicePolicyId
   );
+
+  // ★ 추가: 24시간 이내 예약인지 확인하는 로직
+  const isImmediateNoCancel = () => {
+    if (!selection.serviceStartTime) return false;
+    const startTimeStr = selection.serviceStartTime.replace(/-/g, "/");
+    const start = new Date(startTimeStr);
+    const now = new Date();
+    const diffInHours = (start - now) / (1000 * 60 * 60);
+    return diffInHours < 24;
+  };
 
   const formatDateTimeFull = (dateTimeStr) => {
     if (!dateTimeStr) return "-";
@@ -126,19 +136,12 @@ const Step3Confirm = () => {
     if (!window.confirm("입력하신 정보로 예약을 확정하시겠습니까?")) return;
 
     try {
-      // 1. 날짜만 따로 추출 (reservedDate용)
       const reservedDate = selection.serviceStartTime.split(" ")[0];
-
-      // 2. 종료 시간 계산 (serviceEndTime용)
-      // 시작 시간 문자열을 Date 객체로 변환
-      const startTimeStr = selection.serviceStartTime.replace(/-/g, "/"); // 호환성을 위한 변환
+      const startTimeStr = selection.serviceStartTime.replace(/-/g, "/");
       const start = new Date(startTimeStr);
-
-      // 선택된 정책의 소요 시간을 가져와서 더해줌 (없으면 기본 60분)
       const durationMinutes = selectedPolicy?.duration || 60;
       const end = new Date(start.getTime() + durationMinutes * 60000);
 
-      // 다시 "YYYY-MM-DD HH:mm:ss" 형식으로 포맷팅
       const formatToFullStr = (date) => {
         const pad = (n) => String(n).padStart(2, "0");
         return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(
@@ -153,13 +156,9 @@ const Step3Confirm = () => {
         serviceStartTime: selection.serviceStartTime.includes(":")
           ? selection.serviceStartTime
           : selection.serviceStartTime + ":00",
-
-        // 🔥 서버가 요구하는 필수 데이터 추가
-        reservedDate: reservedDate, // "YYYY-MM-DD"
-        serviceEndTime: formatToFullStr(end), // 시작 시간 + duration 계산된 값
+        reservedDate: reservedDate,
+        serviceEndTime: formatToFullStr(end),
       };
-
-      console.log("보내는 데이터:", finalData); // 전송 전 확인용
 
       await dispatch(createReservationThunk(finalData)).unwrap();
       alert("예약이 성공적으로 완료되었습니다!");
@@ -220,6 +219,24 @@ const Step3Confirm = () => {
             <span className="notice">현장 결제 (카드/계좌이체 가능)</span>
           </div>
         </div>
+      </div>
+
+      {/* ★ 추가: 취소 정책 고지 섹션 */}
+      <div className="policy-notice-wrapper">
+        <p className="policy-standard">
+          • 예약 취소는 예약 시작 시간 24시간 전까지만 가능합니다.
+        </p>
+        {isImmediateNoCancel() && (
+          <div className="policy-warning-box">
+            <p className="warning-title">⚠️ 즉시 취소 불가 안내</p>
+            <p className="warning-desc">
+              현재 선택하신 일시는 서비스 시작까지 <strong>24시간 미만</strong>
+              으로 남았습니다. 확정 후에는{" "}
+              <strong>단순 변심으로 인한 취소가 불가능</strong>하오니 신중히
+              결정해 주세요.
+            </p>
+          </div>
+        )}
       </div>
 
       <div className="step-actions">
