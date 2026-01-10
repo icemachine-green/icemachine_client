@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './ReviewPage.css';
 import ReviewWriteModal from './ReviewWriteModal.jsx';
+import ReviewPageSkeleton from '../common/Skeleton/ReviewPageSkeleton.jsx'; // 스켈레톤 임포트
 import { useDispatch, useSelector } from 'react-redux';
 import { getReviews } from '../../store/thunks/reviewThunk.js';
 
@@ -33,7 +34,6 @@ const ReviewPage = () => {
     };
   }, []);
 
-
   // 정렬 버튼 클릭 핸들러
   const handleSortChange = (nextSort) => {
     if (sort === nextSort) return;
@@ -47,6 +47,11 @@ const ReviewPage = () => {
   const handleLoadMore = () => {
     setVisibleCount((prev) => prev + ITEMS_PER_PAGE);
   };
+
+  // 로딩 중일 때 스켈레톤 화면 표시
+  if (loading) {
+    return <ReviewPageSkeleton />;
+  }
 
   return (
     <div className="review-page-container">
@@ -116,52 +121,50 @@ const ReviewPage = () => {
 
         {/* 리뷰 목록 */}
         <div className="review-page-box-container">
-          {loading && <p>리뷰를 불러오는 중입니다...</p>}
           {error && <p>리뷰 조회 중 오류가 발생했습니다.</p>}
 
-          {!loading &&
-            reviews.slice(0, visibleCount).map((review, index) => (
-              <div key={index} className="review-page-box">
-                {review.imageUrl && (
-                  <img
-                    src={review.imageUrl}
-                    alt="review"
-                    className="review-page-image"
-                  />
-                )}
+          {reviews.slice(0, visibleCount).map((review, index) => (
+            <div key={index} className="review-page-box">
+              {review.imageUrl && (
+                <img
+                  src={review.imageUrl}
+                  alt="review"
+                  className="review-page-image"
+                />
+              )}
 
-                <div className="review-page-content">
-                  <div className="review-page-top">
-                    <span className="review-page-stars">
-                      {"★".repeat(review.rating)}
-                      {"☆".repeat(5 - review.rating)}
-                    </span>
-                    <span className="review-page-info">
-                      {review.user_name} | {new Date(review.createdAt).toLocaleDateString()}
-                    </span>
-                  </div>
-
-                  <hr className="review-page-underline" />
-
-                  {review.content && (
-                    <p className="review-page-text">{review.content}</p>
-                  )}
-                  {review.quickOption && (
-                    <div className="review-page-quickoption-section">
-                      <div className="review-page-quick-options">
-                        {review.quickOption.split(",").map((opt, i) => (
-                          <button key={i} className="review-page-quick-option-btn">{opt}</button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+              <div className="review-page-content">
+                <div className="review-page-top">
+                  <span className="review-page-stars">
+                    {"★".repeat(review.rating)}
+                    {"☆".repeat(5 - review.rating)}
+                  </span>
+                  <span className="review-page-info">
+                    {review.user_name} | {new Date(review.createdAt).toLocaleDateString()}
+                  </span>
                 </div>
+
+                <hr className="review-page-underline" />
+
+                {review.content && (
+                  <p className="review-page-text">{review.content}</p>
+                )}
+                {review.quickOption && (
+                  <div className="review-page-quickoption-section">
+                    <div className="review-page-quick-options">
+                      {review.quickOption.split(",").map((opt, i) => (
+                        <button key={i} className="review-page-quick-option-btn">{opt}</button>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
-            ))}
+            </div>
+          ))}
         </div>
 
         {/* 더보기 */}
-        {!loading && visibleCount < reviews.length && (
+        {visibleCount < reviews.length && (
           <div className="review-page-more-btn-container">
             <button className="review-page-more-btn" onClick={handleLoadMore}>더 보기</button>
           </div>

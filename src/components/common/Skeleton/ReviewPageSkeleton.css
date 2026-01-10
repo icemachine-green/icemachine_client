@@ -1,0 +1,102 @@
+/* ReviewPage 전용 스켈레톤 크기 정의 */
+
+/* 버튼 및 헤더 */
+.skeleton-write-btn {
+    width: 170px;
+    height: 42px;
+    border-radius: 22px;
+    margin-bottom: 30px;
+}
+
+.skeleton-head-title {
+    width: 300px;
+    height: 60px;
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.skeleton-sort-btn {
+    width: 100px;
+    height: 32px;
+    border-radius: 10px;
+}
+
+/* 리뷰 카드 내부 요소 */
+.skeleton-review-img {
+    width: 110px;
+    min-width: 110px;
+    height: 110px;
+    border-radius: 12px;
+}
+
+.skeleton-review-stars {
+    width: 100px;
+    height: 20px;
+}
+
+.skeleton-review-info {
+    width: 120px;
+    height: 18px;
+}
+
+.skeleton-review-text-long {
+    width: 95%;
+    height: 16px;
+    margin-bottom: 8px;
+}
+
+.skeleton-review-text-short {
+    width: 60%;
+    height: 16px;
+    margin-bottom: 15px;
+}
+
+.skeleton-quick-tag {
+    width: 60px;
+    height: 24px;
+    border-radius: 4px;
+    margin-right: 5px;
+}
+
+/* 더보기 버튼 */
+.skeleton-more-btn {
+    width: 300px;
+    height: 52px;
+    border-radius: 40px;
+    margin: 0 auto;
+}
+
+/* --- 실제 레이아웃 유지 (구조적 일관성) --- */
+.skeleton-container .review-page-box {
+    background-color: white;
+    border-radius: 12px;
+    padding: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+/* 모바일 대응 미디어 쿼리 (실제 CSS와 동일하게) */
+@media (max-width: 768px) {
+    .skeleton-container .review-page-box {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .skeleton-review-img {
+        width: 90px;
+        height: 90px;
+    }
+
+    .skeleton-more-btn {
+        width: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .skeleton-head-title {
+        width: 200px;
+        height: 40px;
+    }
+}
