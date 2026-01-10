@@ -1,6 +1,6 @@
 /**
  * @file Step3Confirm.jsx
- * @description DB 연동 및 예약 확정 로직 (404 에러 방지 버전)
+ * @description 제빙기 섹션 독립 분리 및 데이터 항목 최적화 완료 버전
  */
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,16 +13,15 @@ const Step3Confirm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // 1. 리덕스에서 필요한 모든 데이터 가져오기
+  // 1. 리덕스 데이터 추출
   const { businessDetail } = useSelector((state) => state.business);
   const { icemachinesList } = useSelector((state) => state.icemachine);
   const { selection } = useSelector((state) => state.reservation);
-  // 🚩 Step 1에서 불러온 진짜 정책 리스트 사용
   const { items: policies } = useSelector(
     (state) => state.servicePolicy || { items: [] }
   );
 
-  // 2. 선택된 제빙기 및 정책 정보 매핑 (DB 데이터 기반)
+  // 2. 매핑 데이터 (선택된 제빙기 및 정책)
   const selectedMachine = icemachinesList?.find(
     (m) => m.id === selection.iceMachineId
   );
@@ -30,7 +29,7 @@ const Step3Confirm = () => {
     (p) => p.id === selection.servicePolicyId
   );
 
-  // 서비스 타입 한글 변환 함수
+  // 서비스 타입 한글 변환
   const getServiceTypeName = (type) => {
     const names = {
       VISIT_CHECK: "방문 점검",
@@ -42,6 +41,28 @@ const Step3Confirm = () => {
     return names[type] || type;
   };
 
+  // 🚩 요구사항 4: 한국어 일시 포맷팅 (00분 제외)
+  const formatKoreanDateTime = (dateTimeStr) => {
+    if (!dateTimeStr) return "-";
+    try {
+      const [datePart, timePart] = dateTimeStr.split(" ");
+      const dateObj = new Date(datePart.replace(/-/g, "/"));
+      const month = dateObj.getMonth() + 1;
+      const date = dateObj.getDate();
+      const weekDays = ["일", "월", "화", "수", "목", "금", "토"];
+      const dayName = weekDays[dateObj.getDay()];
+
+      const timeMatch = timePart.match(/(\d{2}):(\d{2})/);
+      const hour = parseInt(timeMatch[1], 10);
+      const ampm = hour < 12 ? "오전" : "오후";
+      const displayHour = hour % 12 === 0 ? 12 : hour % 12;
+
+      return `${month}월 ${date}일(${dayName}) ${ampm} ${displayHour}시`;
+    } catch (e) {
+      return dateTimeStr;
+    }
+  };
+
   const isImmediateNoCancel = () => {
     if (!selection.serviceStartTime) return false;
     const startTimeStr = selection.serviceStartTime.replace(/-/g, "/");
@@ -51,27 +72,15 @@ const Step3Confirm = () => {
     return diffInHours < 24;
   };
 
-  const formatDateTimeFull = (dateTimeStr) => {
-    if (!dateTimeStr) return "-";
-    try {
-      const [date, time] = dateTimeStr.split(" ");
-      const [y, m, d] = date.split("-");
-      return `${y}년 ${m}월 ${d}일 ${time}`;
-    } catch (e) {
-      return dateTimeStr;
-    }
-  };
-
   const handleFinalSubmit = async () => {
     if (!window.confirm("입력하신 정보로 예약을 확정하시겠습니까?")) return;
 
     try {
       const reservedDate = selection.serviceStartTime.split(" ")[0];
-      const startTimeStr = selection.serviceStartTime.replace(/-/g, "/");
-      const start = new Date(startTimeStr);
-      // 🚩 DB 필드명에 맞춰 duration 확인
       const durationMinutes =
         selectedPolicy?.standardDuration || selectedPolicy?.duration || 60;
+      const startTimeStr = selection.serviceStartTime.replace(/-/g, "/");
+      const start = new Date(startTimeStr);
       const end = new Date(start.getTime() + durationMinutes * 60000);
 
       const formatToFullStr = (date) => {
@@ -81,7 +90,6 @@ const Step3Confirm = () => {
         )} ${pad(date.getHours())}:${pad(date.getMinutes())}:00`;
       };
 
-      // 🚩 백엔드 DTO 규격에 맞게 전송 데이터 구성
       const finalData = {
         businessId: businessDetail.id,
         iceMachineId: selection.iceMachineId,
@@ -93,13 +101,10 @@ const Step3Confirm = () => {
         serviceEndTime: formatToFullStr(end),
       };
 
-      console.log("📤 [최종 제출 데이터]:", finalData);
-
       await dispatch(createReservationThunk(finalData)).unwrap();
       alert("예약이 성공적으로 완료되었습니다!");
       navigate("/mypage/reservations");
     } catch (error) {
-      console.error("❌ 예약 실패 상세:", error);
       alert(`오류가 발생했습니다: ${error.message || "다시 시도해주세요."}`);
     }
   };
@@ -112,6 +117,7 @@ const Step3Confirm = () => {
       </div>
 
       <div className="confirm-card">
+        {/* 1. 방문 매장 섹션 */}
         <div className="confirm-section">
           <label>방문 매장</label>
           <div className="confirm-value">
@@ -122,29 +128,50 @@ const Step3Confirm = () => {
           </div>
         </div>
 
+        {/* 🚩 2. 대상 제빙기 섹션 (독립 분리) */}
+        <div className="confirm-section">
+          <label>서비스 대상 제빙기</label>
+          <div className="confirm-value">
+            <strong>
+              {selectedMachine?.fullModelName || selectedMachine?.model}
+            </strong>
+            <span>{selectedMachine.sizeType}</span>
+          </div>
+        </div>
+
+        {/* 🚩 3. 신청 서비스 섹션 (Type, Note, 소요 시간) */}
         <div className="confirm-section">
           <label>신청 서비스</label>
           <div className="confirm-value">
-            {/* 🚩 한글 이름 변환 적용 */}
             <strong>{getServiceTypeName(selectedPolicy?.serviceType)}</strong>
-            <span>
-              {selectedMachine?.modelName || selectedMachine?.model} ·{" "}
+            <span
+              style={{
+                color: "#64748b",
+                marginBottom: "6px",
+                lineHeight: "1.5",
+              }}
+            >
+              {selectedPolicy?.note}
+            </span>
+            <span style={{ fontWeight: "600", color: "#475569" }}>
+              예상 소요 시간:{" "}
               {selectedPolicy?.standardDuration || selectedPolicy?.duration}분
-              소요
             </span>
           </div>
         </div>
 
+        {/* 🚩 4. 방문 예정 일시 (하이라이트 섹션) */}
         <div className="confirm-section highlight">
           <label>방문 예정 일시</label>
           <div className="confirm-value">
             <strong className="text-blue">
-              {formatDateTimeFull(selection.serviceStartTime)}
+              {formatKoreanDateTime(selection.serviceStartTime)}
             </strong>
             <span>배정된 기사님이 해당 시간에 맞춰 방문합니다.</span>
           </div>
         </div>
 
+        {/* 5. 결제 예정 금액 섹션 */}
         <div className="confirm-section total">
           <label>결제 예정 금액</label>
           <div className="confirm-value">
@@ -159,6 +186,7 @@ const Step3Confirm = () => {
         </div>
       </div>
 
+      {/* 정책 안내 및 취소 불가 안내 */}
       <div className="policy-notice-wrapper">
         <p className="policy-standard">
           • 예약 취소는 예약 시작 시간 24시간 전까지만 가능합니다.
@@ -176,6 +204,7 @@ const Step3Confirm = () => {
         )}
       </div>
 
+      {/* 하단 버튼 액션 */}
       <div className="step-actions">
         <button className="prev-btn" onClick={() => dispatch(setStep(2))}>
           일정 수정
