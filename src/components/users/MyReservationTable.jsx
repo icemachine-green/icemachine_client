@@ -2,54 +2,63 @@ import React, { useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchMyReservationsThunk } from "../../store/thunks/reservationThunk";
-import { SERVICE_POLICY_MAP } from "../../constants/servicePolicy";
+import { fetchServicePoliciesThunk } from "../../store/thunks/servicePolicyThunk";
+import { getBusinessesThunk } from "../../store/thunks/businessThunk";
 import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
+import jspdf from "jspdf";
 import "./MyReservationTable.css";
 
-const MyReservationTablePage = () => {
+const MyReservationTable = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { reservationId } = useParams();
-  const printRef = useRef(); // PDF로 출력할 영역 지정
+  const printRef = useRef();
 
   const { user } = useSelector((state) => state.auth);
   const { myReservations, status: apiStatus } = useSelector(
     (state) => state.reservation
   );
+  const { items: policyItems, status: policyStatus } = useSelector(
+    (state) => state.servicePolicy
+  );
+  const { businessesList } = useSelector((state) => state.business);
 
   useEffect(() => {
     if (user?.id && myReservations.length === 0) {
       dispatch(fetchMyReservationsThunk({ userId: user.id, status: "ALL" }));
     }
-  }, [user?.id, myReservations.length, dispatch]);
+    if (policyStatus === "idle") {
+      dispatch(fetchServicePoliciesThunk());
+    }
+    if (businessesList.length === 0) {
+      dispatch(getBusinessesThunk());
+    }
+  }, [
+    user?.id,
+    myReservations.length,
+    policyStatus,
+    businessesList.length,
+    dispatch,
+  ]);
 
   const displayData = reservationId
     ? myReservations.filter((r) => String(r.id) === String(reservationId))
     : myReservations;
 
-  // PDF 생성 및 저장 함수
   const handleDownloadPDF = async () => {
     const element = printRef.current;
     if (!element) return;
-
     try {
-      // 1. HTML 영역을 Canvas로 변환 (scale을 높여 화질 개선)
       const canvas = await html2canvas(element, { scale: 2 });
       const imgData = canvas.toDataURL("image/png");
-
-      // 2. PDF 설정 (A4 기준)
-      const pdf = new jsPDF("p", "mm", "a4");
+      const pdf = new jspdf("p", "mm", "a4");
       const imgProps = pdf.getImageProperties(imgData);
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-      // 3. 이미지 삽입 및 저장
       pdf.addImage(imgData, "PNG", 0, 10, pdfWidth, pdfHeight);
-      pdf.save(`reservation_receipt_${reservationId || "list"}.pdf`);
+      pdf.save(`예약상세_${reservationId || "내역"}.pdf`);
     } catch (error) {
-      console.error("PDF 생성 중 오류 발생:", error);
-      alert("PDF를 생성하는 데 실패했습니다.");
+      console.error("PDF 생성 오류:", error);
     }
   };
 
@@ -72,7 +81,6 @@ const MyReservationTablePage = () => {
 
   return (
     <div className="MyReservationTable-div-container">
-      {/* 상단 버튼 영역 (PDF 포함 안 됨) */}
       <div className="MyReservationTable-div-head">
         <div className="MyReservationTable-div-head-left">
           <button
@@ -95,25 +103,30 @@ const MyReservationTablePage = () => {
 
       <hr className="MyReservationTable-hr-underline" />
 
-      {/* PDF로 캡처될 영역 시작 */}
       <div className="MyReservationTable-print-area" ref={printRef}>
         <div className="MyReservationTable-div-wrapper">
           <div className="MyReservationTable-div-header">
-            <div className="MyReservationTable-div-th">방문 일시</div>
-            <div className="MyReservationTable-div-th">서비스 및 담당자</div>
-            <div className="MyReservationTable-div-th">엔지니어 정보</div>
-            <div className="MyReservationTable-div-th">진행 상태</div>
-            <div className="MyReservationTable-div-th">결제 예정액</div>
+            <div className="MyReservationTable-div-th">방문 일정</div>
+            <div className="MyReservationTable-div-th">서비스 및 기기</div>
+            <div className="MyReservationTable-div-th">매장 및 장소</div>
+            <div className="MyReservationTable-div-th">엔지니어</div>
+            <div className="MyReservationTable-div-th">결제 및 상태</div>
           </div>
 
-          {apiStatus === "loading" ? (
-            <div className="MyReservationTable-div-message">
-              데이터 로딩 중...
-            </div>
+          {apiStatus === "loading" || policyStatus === "loading" ? (
+            <div className="MyReservationTable-div-message">로딩 중...</div>
           ) : displayData.length > 0 ? (
             displayData.map((res) => {
               const statusInfo = getStatusDisplay(res.status);
-              const policy = SERVICE_POLICY_MAP[res.servicePolicyId];
+              const policy = policyItems.find(
+                (p) => String(p.id) === String(res.servicePolicyId)
+              );
+              const business = businessesList.find(
+                (b) => String(b.id) === String(res.businessId)
+              );
+              const machine = business?.IceMachines?.find(
+                (m) => String(m.id) === String(res.iceMachineId)
+              );
 
               return (
                 <div key={res.id} className="MyReservationTable-div-row">
@@ -129,12 +142,31 @@ const MyReservationTablePage = () => {
                   <div className="MyReservationTable-div-td info-cell">
                     <div className="cell-content">
                       <p className="main-text">
-                        {policy?.name || "점검 항목 확인"}
+                        {policy?.serviceType}
+                        <span className="policy-desc">
+                          ({policy?.description})
+                        </span>
                       </p>
-                      <div className="sub-info-row">
-                        <span>담당자: {user?.name}님</span>
-                        <span className="divider">|</span>
-                        <span>매장 No.{res.businessId}</span>
+                      {policy?.note && (
+                        <p className="note-highlight">※ {policy.note}</p>
+                      )}
+                      <p className="sub-text">
+                        {machine
+                          ? `${machine.brandName} ${machine.modelName} (${machine.sizeType})`
+                          : `규격: ${policy?.sizeType || "-"}`}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="MyReservationTable-div-td business-cell">
+                    <div className="cell-content">
+                      <p className="main-text">{business?.name}</p>
+                      <div className="address-box">
+                        <p className="sub-text">{business?.mainAddress}</p>
+                        <p className="sub-text">
+                          T. {business?.phoneNumber} |{" "}
+                          {business?.managerName || user?.name}님
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -142,12 +174,12 @@ const MyReservationTablePage = () => {
                   <div className="MyReservationTable-div-td engineer-cell">
                     <div className="cell-content">
                       {res.engineerName ? (
-                        <div className="engineer-info-card">
+                        <>
                           <strong className="main-text">
                             {res.engineerName} 기사님
                           </strong>
                           <p className="sub-text">{res.engineerPhone}</p>
-                        </div>
+                        </>
                       ) : (
                         <span className="waiting-text">배정 진행 중</span>
                       )}
@@ -155,19 +187,15 @@ const MyReservationTablePage = () => {
                   </div>
 
                   <div className="MyReservationTable-div-td status-cell">
-                    <span
-                      className={`MyReservationTable-span-badge ${statusInfo.class}`}
-                    >
-                      {statusInfo.text}
-                    </span>
-                  </div>
-
-                  <div className="MyReservationTable-div-td payment-cell">
                     <div className="cell-content">
+                      <span
+                        className={`MyReservationTable-span-badge ${statusInfo.class}`}
+                      >
+                        {statusInfo.text}
+                      </span>
                       <strong className="price-text">
-                        {policy ? `${policy.price.toLocaleString()}원` : "0원"}
+                        {Number(policy?.price || 0).toLocaleString()}원
                       </strong>
-                      <p className="sub-text">현장 결제</p>
                     </div>
                   </div>
                 </div>
@@ -179,22 +207,9 @@ const MyReservationTablePage = () => {
             </div>
           )}
         </div>
-
-        {/* PDF 저장 시에만 의미 있는 하단 문구 */}
-        <div
-          className="print-only-footer"
-          style={{
-            marginTop: "20px",
-            fontSize: "12px",
-            color: "#999",
-            textAlign: "center",
-          }}
-        >
-          본 서류는 예약 확인용 영수증이며, 실제 결제는 현장에서 이루어집니다.
-        </div>
       </div>
     </div>
   );
 };
 
-export default MyReservationTablePage;
+export default MyReservationTable;

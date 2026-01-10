@@ -1,18 +1,17 @@
-// src/store/thunks/businessThunk.js
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../api/axiosInstance.js";
 
-/**
- * 매장 및 제빙기 동시 등록
- */
 export const createBusinessThunk = createAsyncThunk(
   "business/createBusiness",
   async ({ businessData, iceMachineData }, { rejectWithValue }) => {
     try {
+      // 🚩 백엔드 Sequelize 모델 규격: brandName, modelName, sizeType
       const mappedIceMachine = {
-        brand: iceMachineData.modelType || iceMachineData.brand,
-        model: iceMachineData.modelName || iceMachineData.model,
-        size: iceMachineData.sizeType || iceMachineData.size,
+        brandName:
+          iceMachineData.brand || iceMachineData.brandName || "호시자키",
+        modelName:
+          iceMachineData.model || iceMachineData.modelName || "모델명 모름",
+        sizeType: iceMachineData.size || iceMachineData.sizeType || "소형",
       };
 
       const payload = {
@@ -23,15 +22,11 @@ export const createBusinessThunk = createAsyncThunk(
       const response = await axiosInstance.post("/api/businesses", payload);
       return response.data;
     } catch (error) {
-      if (error.response) return rejectWithValue(error.response.data);
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response?.data || error.message);
     }
   }
 );
 
-/**
- * 사용자의 모든 매장 목록 조회
- */
 export const getBusinessesThunk = createAsyncThunk(
   "business/getBusinesses",
   async (_, { rejectWithValue }) => {
@@ -39,15 +34,11 @@ export const getBusinessesThunk = createAsyncThunk(
       const response = await axiosInstance.get("/api/businesses");
       return response.data;
     } catch (error) {
-      if (error.response) return rejectWithValue(error.response.data);
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response?.data || error.message);
     }
   }
 );
 
-/**
- * 특정 매장의 상세 정보 조회
- */
 export const getBusinessDetailThunk = createAsyncThunk(
   "business/getBusinessDetail",
   async (businessId, { rejectWithValue }) => {
@@ -55,15 +46,11 @@ export const getBusinessDetailThunk = createAsyncThunk(
       const response = await axiosInstance.get(`/api/businesses/${businessId}`);
       return response.data;
     } catch (error) {
-      if (error.response) return rejectWithValue(error.response.data);
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response?.data || error.message);
     }
   }
 );
 
-/**
- * 매장 정보 수정
- */
 export const updateBusinessThunk = createAsyncThunk(
   "business/updateBusiness",
   async ({ businessId, businessData }, { rejectWithValue }) => {
@@ -74,15 +61,11 @@ export const updateBusinessThunk = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
-      if (error.response) return rejectWithValue(error.response.data);
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response?.data || error.message);
     }
   }
 );
 
-/**
- * 매장 삭제 (이 부분이 Slice에서 에러가 났던 부분입니다)
- */
 export const deleteBusinessThunk = createAsyncThunk(
   "business/deleteBusiness",
   async (businessId, { rejectWithValue }) => {
@@ -90,8 +73,7 @@ export const deleteBusinessThunk = createAsyncThunk(
       await axiosInstance.delete(`/api/businesses/${businessId}`);
       return businessId;
     } catch (error) {
-      if (error.response) return rejectWithValue(error.response.data);
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response?.data || error.message);
     }
   }
 );

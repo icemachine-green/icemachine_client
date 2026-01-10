@@ -1,3 +1,7 @@
+/**
+ * @file Step3Confirm.jsx
+ * @description DB 연동 및 예약 확정 로직 (404 에러 방지 버전)
+ */
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -5,113 +9,39 @@ import { setStep } from "../../store/slices/reservationSlice";
 import { createReservationThunk } from "../../store/thunks/reservationThunk";
 import "./Step3Confirm.css";
 
-const SERVICE_POLICIES = [
-  {
-    id: 1,
-    size: "소형",
-    spec: "~50kg",
-    name: "소형 제빙기 방문 점검",
-    duration: 60,
-    price: 30000,
-  },
-  {
-    id: 2,
-    size: "소형",
-    spec: "~50kg",
-    name: "소형 제빙기 기본 청소",
-    duration: 60,
-    price: 50000,
-  },
-  {
-    id: 3,
-    size: "소형",
-    spec: "~50kg",
-    name: "소형 제빙기 집중 청소",
-    duration: 120,
-    price: 80000,
-  },
-  {
-    id: 4,
-    size: "중형",
-    spec: "51~150kg",
-    name: "중형 제빙기 방문 점검",
-    duration: 60,
-    price: 40000,
-  },
-  {
-    id: 5,
-    size: "중형",
-    spec: "51~150kg",
-    name: "중형 제빙기 기본 청소",
-    duration: 60,
-    price: 60000,
-  },
-  {
-    id: 6,
-    size: "중형",
-    spec: "51~150kg",
-    name: "중형 제빙기 집중 청소",
-    duration: 120,
-    price: 100000,
-  },
-  {
-    id: 7,
-    size: "중형",
-    spec: "51~150kg",
-    name: "중형 제빙기 프리미엄 청소",
-    duration: 180,
-    price: 150000,
-  },
-  {
-    id: 8,
-    size: "대형",
-    spec: "151kg~",
-    name: "대형 제빙기 방문 점검",
-    duration: 60,
-    price: 50000,
-  },
-  {
-    id: 9,
-    size: "대형",
-    spec: "151kg~",
-    name: "대형 제빙기 기본 청소",
-    duration: 120,
-    price: 100000,
-  },
-  {
-    id: 10,
-    size: "대형",
-    spec: "151kg~",
-    name: "대형 제빙기 집중 청소",
-    duration: 180,
-    price: 180000,
-  },
-  {
-    id: 11,
-    size: "대형",
-    spec: "151kg~",
-    name: "대형 제빙기 프리미엄 청소",
-    duration: 240,
-    price: 250000,
-  },
-];
-
 const Step3Confirm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // 1. 리덕스에서 필요한 모든 데이터 가져오기
   const { businessDetail } = useSelector((state) => state.business);
   const { icemachinesList } = useSelector((state) => state.icemachine);
   const { selection } = useSelector((state) => state.reservation);
+  // 🚩 Step 1에서 불러온 진짜 정책 리스트 사용
+  const { items: policies } = useSelector(
+    (state) => state.servicePolicy || { items: [] }
+  );
 
+  // 2. 선택된 제빙기 및 정책 정보 매핑 (DB 데이터 기반)
   const selectedMachine = icemachinesList?.find(
     (m) => m.id === selection.iceMachineId
   );
-  const selectedPolicy = SERVICE_POLICIES.find(
+  const selectedPolicy = policies.find(
     (p) => p.id === selection.servicePolicyId
   );
 
-  // ★ 추가: 24시간 이내 예약인지 확인하는 로직
+  // 서비스 타입 한글 변환 함수
+  const getServiceTypeName = (type) => {
+    const names = {
+      VISIT_CHECK: "방문 점검",
+      STANDARD_CLEAN: "기본 청소",
+      DEEP_CLEAN: "집중 청소",
+      PREMIUM_CLEAN: "프리미엄 청소",
+      SUBSCRIPTION: "정기 구독",
+    };
+    return names[type] || type;
+  };
+
   const isImmediateNoCancel = () => {
     if (!selection.serviceStartTime) return false;
     const startTimeStr = selection.serviceStartTime.replace(/-/g, "/");
@@ -139,7 +69,9 @@ const Step3Confirm = () => {
       const reservedDate = selection.serviceStartTime.split(" ")[0];
       const startTimeStr = selection.serviceStartTime.replace(/-/g, "/");
       const start = new Date(startTimeStr);
-      const durationMinutes = selectedPolicy?.duration || 60;
+      // 🚩 DB 필드명에 맞춰 duration 확인
+      const durationMinutes =
+        selectedPolicy?.standardDuration || selectedPolicy?.duration || 60;
       const end = new Date(start.getTime() + durationMinutes * 60000);
 
       const formatToFullStr = (date) => {
@@ -149,6 +81,7 @@ const Step3Confirm = () => {
         )} ${pad(date.getHours())}:${pad(date.getMinutes())}:00`;
       };
 
+      // 🚩 백엔드 DTO 규격에 맞게 전송 데이터 구성
       const finalData = {
         businessId: businessDetail.id,
         iceMachineId: selection.iceMachineId,
@@ -160,10 +93,13 @@ const Step3Confirm = () => {
         serviceEndTime: formatToFullStr(end),
       };
 
+      console.log("📤 [최종 제출 데이터]:", finalData);
+
       await dispatch(createReservationThunk(finalData)).unwrap();
       alert("예약이 성공적으로 완료되었습니다!");
       navigate("/mypage/reservations");
     } catch (error) {
+      console.error("❌ 예약 실패 상세:", error);
       alert(`오류가 발생했습니다: ${error.message || "다시 시도해주세요."}`);
     }
   };
@@ -189,10 +125,12 @@ const Step3Confirm = () => {
         <div className="confirm-section">
           <label>신청 서비스</label>
           <div className="confirm-value">
-            <strong>{selectedPolicy?.name || "서비스 정보 없음"}</strong>
+            {/* 🚩 한글 이름 변환 적용 */}
+            <strong>{getServiceTypeName(selectedPolicy?.serviceType)}</strong>
             <span>
               {selectedMachine?.modelName || selectedMachine?.model} ·{" "}
-              {selectedPolicy?.duration}분 소요
+              {selectedPolicy?.standardDuration || selectedPolicy?.duration}분
+              소요
             </span>
           </div>
         </div>
@@ -221,7 +159,6 @@ const Step3Confirm = () => {
         </div>
       </div>
 
-      {/* ★ 추가: 취소 정책 고지 섹션 */}
       <div className="policy-notice-wrapper">
         <p className="policy-standard">
           • 예약 취소는 예약 시작 시간 24시간 전까지만 가능합니다.

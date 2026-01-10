@@ -8,15 +8,14 @@
   position: relative;
 
   /* 배경 이미지 + 오른쪽 반투명 그라데이션만 */
-  background-image:
-      linear-gradient(
-        to left,
-        rgba(131, 171, 196, 0.6) 0%,
-        rgba(131, 171, 196, 0.6) 53%,
-        rgba(131, 171, 196, 0) 53%,
-        rgba(131, 171, 196, 0) 100%
-      ), 
-      url('/icons/engineer_1920_1080.png');
+  background-image: linear-gradient(
+      to left,
+      rgba(131, 171, 196, 0.6) 0%,
+      rgba(131, 171, 196, 0.6) 53%,
+      rgba(131, 171, 196, 0) 53%,
+      rgba(131, 171, 196, 0) 100%
+    ),
+    url("/icons/engineer_1920_1080.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -42,7 +41,7 @@
 .component01-minititle {
   display: inline-block;
   width: fit-content;
-  background-color: #10538E;
+  background-color: #10538e;
   color: #fff;
   font-size: 30px;
   font-weight: 500;
@@ -58,9 +57,7 @@
   font-weight: 700;
   line-height: 1.25;
   margin-bottom: 30px;
-  text-shadow: 
-    0 1px 2px rgba(0, 0, 0, 0.25),
-    0 4px 12px rgba(0, 0, 0, 0.25);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 /* '청소 예약' 버튼 */
@@ -83,7 +80,7 @@
 /* ---------- 1140px 이하 ---------- */
 @media (max-width: 1200px) {
   .component01-textwrap {
-    width: 50%;            /* 글자 묶음 폭 조금 줄임 */
+    width: 50%; /* 글자 묶음 폭 조금 줄임 */
     gap: clamp(30px, 3vw, 50px);
   }
 
@@ -168,4 +165,3 @@
     padding: 6px clamp(20px, 4vw, 60px);
   }
 }
-

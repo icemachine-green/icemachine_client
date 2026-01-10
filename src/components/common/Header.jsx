@@ -16,11 +16,14 @@ export default function Header() {
         />
       </Link>
 
-      {/* 가운데 선 */}
+      {/* 가운데 선 - 모바일은 숨김 처리 스타일 적용 */}
       <div className="header-line" />
 
       {/* 로그인 상태에 따른 아이콘 변경 */}
-      <Link to={isLoggedIn ? "/mypage" : "/login"} className="header-icon-link login">
+      <Link
+        to={isLoggedIn ? "/mypage" : "/login"}
+        className="header-icon-link login"
+      >
         <img
           src={isLoggedIn ? "/icons/my_page.png" : "/icons/login.png"}
           alt={isLoggedIn ? "마이페이지" : "로그인"}

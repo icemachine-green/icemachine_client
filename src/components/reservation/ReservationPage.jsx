@@ -4,26 +4,13 @@ import { useSearchParams } from "react-router-dom";
 
 import { getBusinessDetailThunk } from "../../store/thunks/businessThunk";
 import { getIcemachinesByBusinessIdThunk } from "../../store/thunks/icemachineThunk";
+import { fetchServicePoliciesThunk } from "../../store/thunks/servicePolicyThunk";
 import { updateSelection, setStep } from "../../store/slices/reservationSlice";
 
 import Step1StoreInfo from "./Step1StoreInfo.jsx";
 import Step2DateTime from "./Step2DateTime.jsx";
 import Step3Confirm from "./Step3Confirm.jsx";
 import "./ReservationPage.css";
-
-const POLICY_NAMES = {
-  1: "소형 방문 점검",
-  2: "소형 기본 청소",
-  3: "소형 집중 청소",
-  4: "중형 방문 점검",
-  5: "중형 기본 청소",
-  6: "중형 집중 청소",
-  7: "중형 프리미엄 청소",
-  8: "대형 방문 점검",
-  9: "대형 기본 청소",
-  10: "대형 집중 청소",
-  11: "대형 프리미엄 청소",
-};
 
 const ReservationPage = () => {
   const [searchParams] = useSearchParams();
@@ -35,8 +22,15 @@ const ReservationPage = () => {
   const { businessDetail } = useSelector((state) => state.business);
   const { icemachinesList } = useSelector((state) => state.icemachine);
   const { selection } = useSelector((state) => state.reservation);
+  // 에러 방지용 기본값 설정
+  const { items: policies = [] } = useSelector(
+    (state) => state.servicePolicy || {}
+  );
 
   useEffect(() => {
+    // 페이지 진입 시 정책 데이터 로드
+    dispatch(fetchServicePoliciesThunk());
+
     if (urlBusinessId) {
       const bId = Number(urlBusinessId);
       dispatch(updateSelection({ businessId: bId }));
@@ -49,7 +43,25 @@ const ReservationPage = () => {
   const selectedMachine = icemachinesList?.find(
     (m) => m.id === selection.iceMachineId
   );
-  const selectedPolicyName = POLICY_NAMES[selection.servicePolicyId];
+
+  // policies가 비어있을 경우를 대비해 안전하게 참조
+  const currentPolicy = Array.isArray(policies)
+    ? policies.find((p) => p.id === selection.servicePolicyId)
+    : null;
+
+  const getPolicyDisplayName = (policy) => {
+    if (!policy) return "미선택";
+    const typeMap = {
+      VISIT_CHECK: "방문 점검",
+      STANDARD_CLEAN: "기본 청소",
+      DEEP_CLEAN: "집중 청소",
+      PREMIUM_CLEAN: "프리미엄 청소",
+      SUBSCRIPTION: "정기 구독",
+    };
+    return `${policy.sizeType || ""} ${
+      typeMap[policy.serviceType] || policy.serviceType || ""
+    }`;
+  };
 
   const renderStep = () => {
     switch (currentStep) {
@@ -66,12 +78,10 @@ const ReservationPage = () => {
 
   return (
     <div className="reservationpage-container">
-      {/* 상단 비주얼 영역 */}
       <div className="reservationpage-img">
         <img src="/icons/blue-ice_1440.png" alt="header" />
       </div>
 
-      {/* 타이틀 영역 */}
       <div className="reservationpage-head">
         <p className="reservationpage-head-title">
           제빙기 예약 서비스 ({currentStep}/3)
@@ -79,11 +89,9 @@ const ReservationPage = () => {
       </div>
       <hr className="reservationpage-underline" />
 
-      {/* 메인 콘텐츠 영역 (중앙 정렬됨) */}
       <div className="reservationpage-content">
         <div className="step-main-content">{renderStep()}</div>
 
-        {/* 요약 명세 카드 */}
         <aside className="reservation-summary-side">
           <h3>현재 선택 정보</h3>
 
@@ -106,7 +114,7 @@ const ReservationPage = () => {
           <div className="summary-item">
             <span className="summary-label">신청 서비스</span>
             <div className="summary-value">
-              {selectedPolicyName || "미선택"}
+              {getPolicyDisplayName(currentPolicy)}
             </div>
           </div>
 

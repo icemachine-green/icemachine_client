@@ -7,6 +7,10 @@ import { clearBusinessState } from "../../store/slices/businessSlice";
 import AddressSearchModal from "./AddressSearchModal.jsx";
 import { formatPhoneNumber } from "../../utils/formatPhoneNumber.js";
 
+/**
+ * @file MyStoreCreate.jsx
+ * @description 매장 및 제빙기 통합 등록 컴포넌트 (백엔드 규격 최적화 완료)
+ */
 const MyStoreCreate = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -14,10 +18,10 @@ const MyStoreCreate = () => {
   // 주소 검색 모달창 관련
   const [isOpen, setIsOpen] = useState(false);
 
-  // Redux 상태 선택 (로딩 상태와 에러만 감시)
-  const { createStatus, createError } = useSelector((state) => state.business);
+  // Redux 상태 선택
+  const { createStatus } = useSelector((state) => state.business);
 
-  // 입력 상태 관리
+  // 1. 매장 입력 상태
   const [businessInputs, setBusinessInputs] = useState({
     name: "",
     managerName: "",
@@ -25,52 +29,54 @@ const MyStoreCreate = () => {
     mainAddress: "",
     detailedAddress: "",
   });
+
+  // 2. 제빙기 입력 상태 (🚩 백엔드 규격에 맞춘 초기값 설정)
   const [iceMachineInputs, setIceMachineInputs] = useState({
     brand: "",
     model: "",
-    size: "",
+    size: "소형", // 기본값 설정
   });
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // 입력 핸들러
+  // 매장 입력 핸들러
   const handleBusinessChange = (e) => {
     const { name, value } = e.target;
     let nextValue = value;
 
-    // 📌 전화번호 전용 처리
     if (name === "phoneNumber") {
       nextValue = value.replace(/\D/g, "").slice(0, 11);
     }
 
     setBusinessInputs((prev) => ({ ...prev, [name]: nextValue }));
   };
+
+  // 제빙기 입력 핸들러
   const handleIceMachineChange = (e) => {
     const { name, value } = e.target;
     setIceMachineInputs((prev) => ({ ...prev, [name]: value }));
   };
 
-  // 폼 제출 핸들러 (unwrap을 사용하여 성공 시 즉시 모달 오픈)
+  // 폼 제출 핸들러
   const handleSubmit = async () => {
     try {
-      // 1. 유효성 검사 (간단하게 추가)
       if (!businessInputs.name || !businessInputs.mainAddress) {
         alert("매장명과 주소는 필수 입력 항목입니다.");
         return;
       }
 
-      // 연락처 -> 백엔드로 보낼 값 가공
       if (businessInputs.phoneNumber.length !== 11) {
         alert("전화번호는 11자리여야 합니다.");
         return;
       }
-      let businessPayload = { ...businessInputs };
-      if (businessInputs.phoneNumber) {
-        businessPayload.phoneNumber = formatPhoneNumber(
-          businessInputs.phoneNumber
-        );
-      }
 
-      // 2. Thunk 실행 및 결과 직접 확인
+      // 전화번호 포맷팅 (01012345678 -> 010-1234-5678)
+      let businessPayload = { ...businessInputs };
+      businessPayload.phoneNumber = formatPhoneNumber(
+        businessInputs.phoneNumber
+      );
+
+      // 🚩 Thunk 실행 (내부에서 brand_name, model_name 등으로 매핑됨)
       await dispatch(
         createBusinessThunk({
           businessData: businessPayload,
@@ -78,20 +84,17 @@ const MyStoreCreate = () => {
         })
       ).unwrap();
 
-      // 3. 여기까지 오면 성공이므로 모달을 띄웁니다.
       setIsModalOpen(true);
     } catch (err) {
-      // 실패 시 에러 처리
       console.error("등록 실패 상세:", err);
       alert("매장 등록에 실패했습니다: " + (err.message || "서버 오류"));
     }
   };
 
-  // 모달 확인 버튼 핸들러
+  // 성공 모달 확인 버튼
   const handleModalConfirm = () => {
     setIsModalOpen(false);
     dispatch(clearBusinessState());
-    // 목록 페이지로 이동
     navigate("/mypage/stores");
   };
 
@@ -113,14 +116,16 @@ const MyStoreCreate = () => {
       </div>
       <hr className="my-store-create-underline" />
 
-      {/* 카드 */}
+      {/* 카드 섹션 */}
       <div className="my-store-create-card-container">
+        {/* 매장 정보 */}
         <div className="my-store-create-card">
           <span className="my-store-create-card-text">매장명 :</span>
           <div className="my-store-create-card-input">
             <input
               type="text"
               name="name"
+              placeholder="매장 이름을 입력해 주세요"
               value={businessInputs.name}
               onChange={handleBusinessChange}
             />
@@ -132,6 +137,7 @@ const MyStoreCreate = () => {
             <input
               type="text"
               name="managerName"
+              placeholder="담당자 성함을 입력해 주세요"
               value={businessInputs.managerName}
               onChange={handleBusinessChange}
             />
@@ -159,7 +165,7 @@ const MyStoreCreate = () => {
               value={businessInputs.mainAddress}
               readOnly
               onClick={() => setIsOpen(true)}
-              placeholder="주소 검색"
+              placeholder="주소 검색을 클릭해 주세요"
             />
           </div>
         </div>
@@ -169,15 +175,19 @@ const MyStoreCreate = () => {
             <input
               type="text"
               name="detailedAddress"
+              placeholder="나머지 상세 주소를 입력해 주세요"
               value={businessInputs.detailedAddress}
               onChange={handleBusinessChange}
             />
           </div>
         </div>
 
+        {/* 제빙기 정보 섹션 (🚩 백엔드 시더 및 모델 규격 반영) */}
         <div className="my-store-create-icemachine-card">
           <div className="my-store-create-icemachine-text-container">
-            <span className="my-store-create-icemachine-text">제빙기 :</span>
+            <span className="my-store-create-icemachine-text">
+              제빙기 정보 :
+            </span>
           </div>
           <div className="my-store-create-icemachine-input-container">
             <div className="my-store-create-icemachine-input">
@@ -188,12 +198,12 @@ const MyStoreCreate = () => {
                 onChange={handleIceMachineChange}
               >
                 <option value="">선택하세요</option>
-                <option value="HOSHIZAKI">Hoshizaki</option>
-                <option value="SCOTSMAN">Scotsman</option>
-                <option value="MANITOWOC">Manitowoc</option>
-                <option value="ICE_O_MATIC">Ice-O-Matic</option>
-                <option value="ETC">기타</option>
-                <option value="UNKNOWN">모름</option>
+                <option value="호시자키">호시자키(Hoshizaki)</option>
+                <option value="카이저">카이저(Kaiser)</option>
+                <option value="아이스트로">아이스트로(Icetro)</option>
+                <option value="네오트">네오트(Neot)</option>
+                <option value="세아">세아(Se-ah)</option>
+                <option value="직접입력">기타/직접입력</option>
               </select>
             </div>
             <div className="my-store-create-icemachine-input">
@@ -201,6 +211,7 @@ const MyStoreCreate = () => {
               <input
                 type="text"
                 name="model"
+                placeholder="예: IM-45NE"
                 value={iceMachineInputs.model}
                 onChange={handleIceMachineChange}
               />
@@ -212,19 +223,16 @@ const MyStoreCreate = () => {
                 value={iceMachineInputs.size}
                 onChange={handleIceMachineChange}
               >
-                <option value="">선택하세요</option>
-                <option value="SMALL">소형(~50kg)</option>
-                <option value="MEDIUM">중형(51~150kg)</option>
-                <option value="LARGE">대형(151kg~)</option>
-                <option value="UNKNOWN">모름</option>
-                <option value="ETC">기타</option>
+                <option value="소형">소형(~50kg)</option>
+                <option value="중형">중형(51~150kg)</option>
+                <option value="대형">대형(151kg~)</option>
               </select>
             </div>
           </div>
         </div>
       </div>
 
-      {/* 등록 버튼 */}
+      {/* 하단 버튼 */}
       <div className="my-store-create-btn-container">
         <button className="my-store-later-btn" onClick={redirectMyStore}>
           나중에 등록하기
@@ -247,11 +255,12 @@ const MyStoreCreate = () => {
               ...prev,
               mainAddress: data.address,
             }));
+            setIsOpen(false);
           }}
         />
       )}
 
-      {/* 성공 모달 */}
+      {/* 성공 안내 모달 */}
       {isModalOpen && (
         <div className="reservation-alert-dim">
           <div className="reservation-alert-modal">

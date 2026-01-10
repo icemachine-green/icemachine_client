@@ -1,40 +1,32 @@
+/**
+ * @file Step2DateTime.jsx
+ * @description 방문 일정 선택 (DB에서 가져온 정책 소요시간 적용)
+ */
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./Step2DateTime.css";
-import Step2DateTimeSkeleton from "../common/Skeleton/Step2DateTimeSkeleton.jsx"; // 스켈레톤 컴포넌트 임포트
+import Step2DateTimeSkeleton from "../common/Skeleton/Step2DateTimeSkeleton.jsx";
 
 import { fetchAvailabilityThunk } from "../../store/thunks/reservationThunk";
 import {
   setStep,
   setReservationTime,
-  resetTime, // resetTime 추가
+  resetTime,
 } from "../../store/slices/reservationSlice";
-
-const SERVICE_POLICIES = [
-  { id: 1, duration: 60 },
-  { id: 2, duration: 60 },
-  { id: 3, duration: 120 },
-  { id: 4, duration: 60 },
-  { id: 5, duration: 60 },
-  { id: 6, duration: 120 },
-  { id: 7, duration: 180 },
-  { id: 8, duration: 60 },
-  { id: 9, duration: 120 },
-  { id: 10, duration: 180 },
-  { id: 11, duration: 240 },
-];
 
 const Step2DateTime = () => {
   const dispatch = useDispatch();
 
-  // 리덕스 state에서 loading 상태를 추가로 가져옵니다.
+  // 1. Redux에서 정책(policies)과 예약 상태 가져오기
+  const { items: policies } = useSelector(
+    (state) => state.servicePolicy || { items: [] }
+  );
   const { selection, disabledSlots, loading } = useSelector(
     (state) => state.reservation
   );
 
-  // 로컬 상태로 선택된 날짜 관리
   const [selectedDate, setSelectedDate] = useState(
     selection.reservedDate ? new Date(selection.reservedDate) : new Date()
   );
@@ -43,7 +35,7 @@ const Step2DateTime = () => {
   const maxDate = new Date();
   maxDate.setMonth(maxDate.getMonth() + 2);
 
-  // 날짜 선택이 변경될 때 Redux의 시간 정보 초기화
+  // 날짜 변경 시 리덕스 시간 초기화
   useEffect(() => {
     dispatch(resetTime());
   }, [selectedDate, dispatch]);
@@ -79,10 +71,16 @@ const Step2DateTime = () => {
     .filter((slot) => slot.date === dateStr)
     .map((slot) => slot.time);
 
-  const currentPolicy = SERVICE_POLICIES.find(
+  // 🚩 [수정 포인트] 가짜 리스트 대신 DB에서 가져온 policies에서 현재 선택된 정책 찾기
+  const currentPolicy = policies.find(
     (p) => p.id === selection.servicePolicyId
   );
-  const duration = currentPolicy?.duration || 60;
+
+  // 🚩 DB 필드명에 따라 duration 혹은 standardDuration 사용 (사장님 DB 필드명 확인)
+  const duration =
+    currentPolicy?.standardDuration || currentPolicy?.duration || 60;
+
+  console.log(`⏱️ [Step2 검증] 선택된 정책 소요시간: ${duration}분`);
 
   const filteredTimes = timeOptions
     .filter((time) => {
@@ -100,18 +98,17 @@ const Step2DateTime = () => {
     dispatch(setReservationTime({ date: dateStr, time }));
   };
 
-  // --- 스켈레톤 적용 부분 ---
   if (loading) {
     return <Step2DateTimeSkeleton />;
   }
-  // -----------------------
 
   return (
     <div className="step2-container">
       <div className="step2-header">
         <h2>방문 일정 선택</h2>
         <p>
-          서비스 소요 시간을 고려하여 18:00까지 작업 가능한 시간만 표시됩니다.
+          서비스 소요 시간({duration}분)을 고려하여 18:00까지 작업 가능한 시간만
+          표시됩니다.
         </p>
       </div>
 

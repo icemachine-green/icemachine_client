@@ -6,6 +6,8 @@ import {
   fetchMyReservationsThunk,
   cancelReservationThunk,
 } from "../../store/thunks/reservationThunk";
+import { fetchServicePoliciesThunk } from "../../store/thunks/servicePolicyThunk";
+import { getBusinessesThunk } from "../../store/thunks/businessThunk";
 import "./MyReservations.css";
 
 const MyReservationPage = () => {
@@ -18,6 +20,9 @@ const MyReservationPage = () => {
     status: apiStatus,
     lastReservation,
   } = useSelector((state) => state.reservation);
+
+  const { items: policyItems } = useSelector((state) => state.servicePolicy);
+  const { businessesList } = useSelector((state) => state.business);
 
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
   const [selectedReservationId, setSelectedReservationId] = useState(null);
@@ -42,6 +47,8 @@ const MyReservationPage = () => {
       dispatch(
         fetchMyReservationsThunk({ userId: user.id, status: filterStatus })
       );
+      dispatch(fetchServicePoliciesThunk());
+      dispatch(getBusinessesThunk());
     }
   }, [user?.id, filterStatus, dispatch]);
 
@@ -126,6 +133,16 @@ const MyReservationPage = () => {
     return startDateTime.diff(now, "hour") < 24;
   };
 
+  // 🚩 수정됨: 필드명을 name으로 매칭
+  const getBusinessName = (businessId) => {
+    if (!businessesList || businessesList.length === 0)
+      return "매장 정보 확인 중...";
+    const store = businessesList.find(
+      (b) => String(b.id) === String(businessId)
+    );
+    return store ? store.name : "정보 없음";
+  };
+
   return (
     <div className="MyReservationPage-div-container">
       <div className="MyReservationPage-div-head">
@@ -140,7 +157,6 @@ const MyReservationPage = () => {
 
       <hr className="MyReservationPage-hr-underline" />
 
-      {/* 안내 문구가 포함된 탭 영역 */}
       <div className="MyReservationPage-div-tabs-wrapper">
         <div className="MyReservationPage-div-tabs">
           {["CONFIRMED", "COMPLETED", "CANCELED"].map((s) => (
@@ -155,7 +171,6 @@ const MyReservationPage = () => {
             </button>
           ))}
         </div>
-        {/* ★ 추가: 우측 상단 안내 문구 */}
         <span className="MyReservationPage-span-policy-hint">
           *예약 방문 시간 기준 24시간 전까지만 취소 가능합니다.
         </span>
@@ -193,6 +208,11 @@ const MyReservationPage = () => {
                 !isWithin24Hours;
               const isFlash = flashId === res.id;
 
+              const policy = policyItems.find(
+                (p) => String(p.id) === String(res.servicePolicyId)
+              );
+              const businessName = getBusinessName(res.businessId);
+
               return (
                 <div
                   key={res.id}
@@ -202,14 +222,27 @@ const MyReservationPage = () => {
                   }`}
                 >
                   <div className="MyReservationPage-div-card-info">
-                    <span
-                      className={`MyReservationPage-span-status ${statusInfo.class}`}
-                    >
-                      {statusInfo.label}
-                    </span>
+                    <div className="MyReservationPage-div-card-header">
+                      <span className="MyReservationPage-span-store-name">
+                        {businessName}
+                      </span>
+                      <span
+                        className={`MyReservationPage-span-status ${statusInfo.class}`}
+                      >
+                        {statusInfo.label}
+                      </span>
+                    </div>
+
+                    <p className="MyReservationPage-p-service-type">
+                      {policy
+                        ? `${policy.serviceType} [${policy.sizeType}]`
+                        : "서비스 항목 확인 중"}
+                    </p>
+
                     <p className="MyReservationPage-p-date">
                       {res.reservedDate} | {res.serviceWindow}
                     </p>
+
                     <p className="MyReservationPage-p-engineer">
                       기사: {res.engineerName || "배정 중"}
                       {res.engineerPhone && ` (${res.engineerPhone})`}

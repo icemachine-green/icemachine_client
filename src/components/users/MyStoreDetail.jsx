@@ -29,45 +29,23 @@ const MyStoreDetail = () => {
 
   const [isBusinessEditOpen, setIsBusinessEditOpen] = useState(false);
   const [isIceMachineAddOpen, setIsIceMachineAddOpen] = useState(false);
-
-  // --- [상태: 매장 수정 시 번쩍임 효과] ---
   const [isBusinessFlashing, setIsBusinessFlashing] = useState(false);
 
+  // 1. 매장 정보 갱신 및 효과
   const handleBusinessUpdateSuccess = () => {
     setIsBusinessFlashing(true);
-    setTimeout(() => setIsBusinessFlashing(false), 1500); // 1.5초 후 효과 제거
+    dispatch(getBusinessDetailThunk(Number(businessId))); // 다시 불러오기
+    setTimeout(() => setIsBusinessFlashing(false), 1500);
   };
 
-  // const getBrandLabel = (type) => {
-  //   const brands = {
-  //     HOSHIZAKI: "Hoshizaki",
-  //     SCOTSMAN: "Scotsman",
-  //     MANITOWOC: "Manitowoc",
-  //     ICE_O_MATIC: "Ice-O-Matic",
-  //     ETC: "기타",
-  //     UNKNOWN: "모름",
-  //   };
-  //   return brands[type] || type;
-  // };
-
-  const getSizeLabel = (type) => {
-    const sizes = {
-      SMALL: "소형(~50kg)",
-      MEDIUM: "중형(51~150kg)",
-      LARGE: "대형(151kg~)",
-      UNKNOWN: "모름",
-      ETC: "기타",
-    };
-    return sizes[type] || type;
+  // 🚩 2. 제빙기 등록 성공 시 목록 다시 불러오기
+  const handleIceMachineAddSuccess = () => {
+    dispatch(getIcemachinesByBusinessIdThunk(Number(businessId)));
+    setIsIceMachineAddOpen(false); // 모달 닫기
   };
 
-  const handleNavigateToReservation = () => {
-    // 1. 기존에 남아있을 수 있는 예약 진행 상태(step 등)를 싹 비움
-    dispatch(clearReservationState());
-
-    // 2. businessId를 들고 예약 페이지로 이동
-    navigate(`/reservation?businessId=${businessId}`);
-  };
+  // 🚩 3. 데이터 표시 보정 (DB 저장된 문자열 그대로 출력)
+  const formatValue = (val) => val || "정보 없음";
 
   useEffect(() => {
     if (businessId && accessToken) {
@@ -107,7 +85,6 @@ const MyStoreDetail = () => {
       </div>
       <hr className="my-store-detail-underline" />
 
-      {/* 매장 정보 박스: 수정 성공 시 flash-update 클래스 적용 */}
       <div
         className={`my-store-detail-content ${
           isBusinessFlashing ? "flash-update" : ""
@@ -135,7 +112,7 @@ const MyStoreDetail = () => {
             </p>
 
             <div className="icemachine-list-header">
-              <h4>제빙기 정보:</h4>
+              <h4>등록된 제빙기</h4>
               <button
                 className="my-store-detail-add-icemachine-btn-in-header"
                 onClick={() => setIsIceMachineAddOpen(true)}
@@ -149,16 +126,15 @@ const MyStoreDetail = () => {
                 icemachinesList.map((item) => (
                   <div key={item.id} className="icemachine-detail-item">
                     <div className="icemachine-info">
+                      {/* 🚩 DB 컬럼명에 맞춰 brandName, modelName, sizeType으로 매핑 */}
                       <p>
-                        <strong>브랜드 / 모델명:</strong> {item.modelName || item.model}
+                        <strong>브랜드:</strong> {formatValue(item.brandName)}
                       </p>
-                      {/* <p>
-                        <strong>브랜드:</strong>{" "}
-                        {getBrandLabel(item.modelType || item.brand)}
-                      </p> */}
                       <p>
-                        <strong>사이즈:</strong>{" "}
-                        {getSizeLabel(item.sizeType || item.size)}
+                        <strong>모델명:</strong> {formatValue(item.modelName)}
+                      </p>
+                      <p>
+                        <strong>사이즈:</strong> {formatValue(item.sizeType)}
                       </p>
                     </div>
                     <div className="icemachine-actions-per-item">
@@ -190,7 +166,7 @@ const MyStoreDetail = () => {
         </button>
         <button
           className="my-store-detail-reserve-btn-bottom"
-          onClick={handleNavigateToReservation}
+          onClick={() => navigate(`/reservation?businessId=${businessId}`)}
         >
           예약 하기
         </button>
@@ -208,6 +184,7 @@ const MyStoreDetail = () => {
         <MyStoreAddIcemachineModal
           businessId={businessId}
           onClose={() => setIsIceMachineAddOpen(false)}
+          onSuccess={handleIceMachineAddSuccess} // 🚩 성공 콜백 추가
         />
       )}
     </div>
