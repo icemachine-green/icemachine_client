@@ -6,7 +6,7 @@ import "./MyLogout.css";
 
 const LogoutPage = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch(); // useDispatch 임포트
+  const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleBack = () => {
@@ -14,7 +14,7 @@ const LogoutPage = () => {
   };
 
   const handleLogout = () => {
-    dispatch(logout()); // Redux logout 액션 디스패치
+    dispatch(logout());
     setIsModalOpen(true);
   };
 
@@ -25,69 +25,50 @@ const LogoutPage = () => {
 
   return (
     <div className="logout-page-container">
-
-      {/* 상단 헤더 영역 */}
+      {/* 상단 헤더 영역 - 제목 왼쪽, 버튼 오른쪽 */}
       <div className="logout-page-head">
-        <button className="logout-back-btn" onClick={handleBack}>
-          뒤로 가기
+        <h1 className="logout-page-title">로그아웃</h1>
+        <button className="common-btn-back" onClick={handleBack}>
+          〈 뒤로 가기
         </button>
-        <p>로그아웃</p>
       </div>
 
-      <hr className="logout-page-underline" />
-
-      {/* 로그아웃 카드 */}
-      <div className="logout-card-wrapper">
+      <div className="logout-content-wrapper">
         <div className="logout-card">
-
-          <div className="logout-icon">
-            <img
-              src="/public/icons/my_page_logout.png"
-              alt="로그아웃"
-            />
+          <div className="logout-icon-circle">
+            {/* 시안에 있는 전원 아이콘 등 적절한 이미지 경로로 수정하세요 */}
+            <img src="/public/icons/my_page_logout.png" alt="로그아웃" />
           </div>
 
-          <p className="logout-message">
-            로그아웃 하시겠습니까?
+          <h2 className="logout-main-text">로그아웃 하시겠습니까?</h2>
+          <p className="logout-sub-text">
+            언제든 다시 돌아와 제빙기를 관리해 주세요.
           </p>
 
           <div className="logout-btn-group">
-            <button
-              className="logout-btn-confirm"
-              onClick={handleLogout}
-            >
-              예
-            </button>
-            <button
-              className="logout-btn-cancel"
-              onClick={handleBack}
-            >
+            <button className="btn-no" onClick={handleBack}>
               아니오
             </button>
+            <button className="btn-yes" onClick={handleLogout}>
+              예
+            </button>
           </div>
-
         </div>
       </div>
 
-      {/* 🔔 알림 모달 (기존 레이아웃과 완전 분리) */}
+      {/* 🔔 로그아웃 완료 알림 모달 */}
       {isModalOpen && (
         <div className="logout-alert-dim">
           <div className="logout-alert-modal">
-            <div className="logout-alert-header">
-              <span>알림</span>
-              <button onClick={handleModalConfirm}>×</button>
-            </div>
-
             <div className="logout-alert-body">
-              <img
-                src="/public/icons/checkicon.png"
-                alt="체크"
-              />
-              <p>로그아웃 되었습니다.</p>
+              <div className="check-icon-wrapper">
+                <img src="/public/icons/checkicon.png" alt="체크" />
+              </div>
+              <h3>로그아웃 완료</h3>
+              <p>안전하게 로그아웃 되었습니다.</p>
             </div>
-
             <button
-              className="logout-alert-confirm"
+              className="logout-alert-confirm-btn"
               onClick={handleModalConfirm}
             >
               확인
@@ -95,7 +76,6 @@ const LogoutPage = () => {
           </div>
         </div>
       )}
-
     </div>
   );
 };

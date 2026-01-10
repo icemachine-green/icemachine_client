@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import {
   updateBusinessThunk,
@@ -10,14 +10,15 @@ import "./MyStoreEditModal.css";
 
 const MyStoreEditModal = ({ business, onClose, onUpdateSuccess }) => {
   const dispatch = useDispatch();
-  const [isOpen, setIsOpen] = useState(false);
+  const [isAddressOpen, setIsAddressOpen] = useState(false);
 
+  // 초기값을 기존 데이터로 설정하여 '무엇을 수정할지' 직관적으로 보이게 함
   const [formData, setFormData] = useState({
-    name: "",
-    managerName: "",
-    phoneNumber: "",
-    mainAddress: "",
-    detailedAddress: "",
+    name: business?.name || "",
+    managerName: business?.managerName || "",
+    phoneNumber: business?.phoneNumber?.replace(/-/g, "") || "",
+    mainAddress: business?.mainAddress || "",
+    detailedAddress: business?.detailedAddress || "",
   });
 
   const handleChange = (e) => {
@@ -33,36 +34,29 @@ const MyStoreEditModal = ({ business, onClose, onUpdateSuccess }) => {
     e.preventDefault();
     if (!business?.id) return;
 
-    const updatedData = {
-      name: formData.name.trim() !== "" ? formData.name : business.name,
-      managerName:
-        formData.managerName.trim() !== ""
-          ? formData.managerName
-          : business.managerName,
-      phoneNumber:
-        formData.phoneNumber.trim() !== ""
-          ? formData.phoneNumber
-          : business.phoneNumber,
-      mainAddress:
-        formData.mainAddress.trim() !== ""
-          ? formData.mainAddress
-          : business.mainAddress,
-      detailedAddress:
-        formData.detailedAddress.trim() !== ""
-          ? formData.detailedAddress
-          : business.detailedAddress,
-    };
+    // 변경된 항목만 추출 (PATCH의 핵심)
+    const updatedData = {};
+    if (formData.name !== business.name) updatedData.name = formData.name;
+    if (formData.managerName !== business.managerName)
+      updatedData.managerName = formData.managerName;
+    if (formData.mainAddress !== business.mainAddress)
+      updatedData.mainAddress = formData.mainAddress;
+    if (formData.detailedAddress !== (business.detailedAddress || ""))
+      updatedData.detailedAddress = formData.detailedAddress;
 
-    if (
-      formData.phoneNumber.trim() !== "" &&
-      formData.phoneNumber.length !== 11
-    ) {
-      alert("전화번호는 11자리여야 합니다.");
-      return;
+    // 전화번호 처리
+    const rawOriginPhone = business.phoneNumber.replace(/-/g, "");
+    if (formData.phoneNumber !== rawOriginPhone) {
+      if (formData.phoneNumber.length !== 11) {
+        alert("전화번호는 11자리여야 합니다.");
+        return;
+      }
+      updatedData.phoneNumber = formatPhoneNumber(formData.phoneNumber);
     }
 
-    if (formData.phoneNumber.trim() !== "") {
-      updatedData.phoneNumber = formatPhoneNumber(formData.phoneNumber);
+    if (Object.keys(updatedData).length === 0) {
+      alert("수정된 내용이 없습니다.");
+      return;
     }
 
     try {
@@ -81,84 +75,95 @@ const MyStoreEditModal = ({ business, onClose, onUpdateSuccess }) => {
   };
 
   return (
-    <div className="MyStoreEditModal-overlay">
-      <div className="MyStoreEditModal-content">
-        <h2 className="MyStoreEditModal-title">매장 정보 수정</h2>
-        <p className="MyStoreEditModal-notice">
-          * 수정을 원하는 항목만 입력해 주세요.
-        </p>
-        <form onSubmit={handleSubmit} className="MyStoreEditModal-form">
-          <div className="MyStoreEditModal-form-group">
-            <label>매장명 (현재: {business.name})</label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="새 매장명"
-            />
+    <div className="edit-modal-overlay" onClick={onClose}>
+      <div className="edit-modal-content" onClick={(e) => e.stopPropagation()}>
+        <div className="edit-modal-header">
+          <h2 className="edit-modal-title">매장 정보 수정</h2>
+          <button className="edit-modal-close-x" onClick={onClose}>
+            &times;
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className="edit-modal-form">
+          <div className="edit-modal-scroll-area">
+            <div className="edit-input-group">
+              <label>매장명</label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="매장명을 입력하세요"
+              />
+            </div>
+
+            <div className="edit-input-group">
+              <label>담당자명</label>
+              <input
+                type="text"
+                name="managerName"
+                value={formData.managerName}
+                onChange={handleChange}
+                placeholder="담당자 성함을 입력하세요"
+              />
+            </div>
+
+            <div className="edit-input-group">
+              <label>연락처</label>
+              <input
+                type="text"
+                name="phoneNumber"
+                value={formData.phoneNumber}
+                onChange={handleChange}
+                placeholder="숫자만 입력 (예: 01012345678)"
+              />
+            </div>
+
+            <div className="edit-input-group">
+              <label>기본 주소</label>
+              <div
+                className="address-input-wrapper"
+                onClick={() => setIsAddressOpen(true)}
+              >
+                <input
+                  type="text"
+                  name="mainAddress"
+                  value={formData.mainAddress}
+                  readOnly
+                  placeholder="주소 검색을 이용해 주세요"
+                />
+                <button type="button" className="btn-address-search">
+                  검색
+                </button>
+              </div>
+            </div>
+
+            <div className="edit-input-group">
+              <label>상세 주소</label>
+              <input
+                type="text"
+                name="detailedAddress"
+                value={formData.detailedAddress}
+                onChange={handleChange}
+                placeholder="상세 주소를 입력하세요"
+              />
+            </div>
           </div>
-          <div className="MyStoreEditModal-form-group">
-            <label>담당자명 (현재: {business.managerName})</label>
-            <input
-              type="text"
-              name="managerName"
-              value={formData.managerName}
-              onChange={handleChange}
-              placeholder="새 담당자명"
-            />
-          </div>
-          <div className="MyStoreEditModal-form-group">
-            <label>연락처 (현재: {business.phoneNumber})</label>
-            <input
-              type="text"
-              name="phoneNumber"
-              value={formData.phoneNumber}
-              onChange={handleChange}
-              placeholder="새 연락처"
-            />
-          </div>
-          <div className="MyStoreEditModal-form-group">
-            <label>기본 주소 (현재: {business.mainAddress})</label>
-            <input
-              type="text"
-              name="mainAddress"
-              value={formData.mainAddress}
-              readOnly
-              onClick={() => setIsOpen(true)}
-              className="MyStoreEditModal-input-readonly"
-              placeholder="새 기본 주소"
-            />
-          </div>
-          <div className="MyStoreEditModal-form-group">
-            <label>
-              상세 주소 (현재: {business.detailedAddress || "없음"})
-            </label>
-            <input
-              type="text"
-              name="detailedAddress"
-              value={formData.detailedAddress}
-              onChange={handleChange}
-              placeholder="새 상세 주소"
-            />
-          </div>
-          <div className="MyStoreEditModal-actions">
-            <button type="submit" className="MyStoreEditModal-save-btn">
-              저장하기
-            </button>
-            <button
-              type="button"
-              className="MyStoreEditModal-cancel-btn"
-              onClick={onClose}
-            >
+
+          <div className="edit-modal-actions">
+            <button type="button" className="btn-cancel" onClick={onClose}>
               취소
+            </button>
+            <button type="submit" className="btn-save">
+              저장하기
             </button>
           </div>
         </form>
       </div>
-      {isOpen && (
+
+      {isAddressOpen && (
         <AddressSearchModal
-          onClose={() => setIsOpen(false)}
+          onClose={() => setIsAddressOpen(false)}
           onComplete={(data) =>
             setFormData((prev) => ({ ...prev, mainAddress: data.address }))
           }

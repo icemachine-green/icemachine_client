@@ -1,119 +1,414 @@
-/* Step 1 전용: 서비스 정책 선택 카드 스타일 */
-.step1-container {
+/* 레이아웃 루트 */
+.Step1StoreInfo-div-root {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  height: 100vh;
+  background-color: #f8faff;
 }
 
-/* 사이즈 텍스트 옆 배지 */
-.size-badge {
-  background: #eff6ff;
-  color: #3b82f6;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  margin-left: 8px;
+/* 헤더 스타일 */
+.Step1StoreInfo-header-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.Step1StoreInfo-div-headerLeft,
+.Step1StoreInfo-div-headerRight {
+  width: 70px;
+}
+.Step1StoreInfo-div-headerRight {
+  text-align: right;
+}
+.Step1StoreInfo-button-back {
+  background: none;
+  border: none;
+  font-size: 0.9rem;
+  color: #666;
   font-weight: 600;
-  border: 1px solid #dbeafe;
+  cursor: pointer;
 }
 
-.policy-selection-list {
+.Step1StoreInfo-div-headerCenter {
+  text-align: center;
+  flex: 1;
+}
+.Step1StoreInfo-h2-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin-bottom: 5px;
+}
+.Step1StoreInfo-div-indicator {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+}
+.Step1StoreInfo-span-dot {
+  width: 6px;
+  height: 6px;
+  background: #e0e0e0;
+  border-radius: 50%;
+}
+.Step1StoreInfo-span-dot.active {
+  background: #3984d3;
+  width: 14px;
+  border-radius: 10px;
+}
+
+/* 바디 영역 */
+.Step1StoreInfo-div-contentBody {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+.Step1StoreInfo-section-store,
+.Step1StoreInfo-section-machine,
+.Step1StoreInfo-section-policy {
+  margin-bottom: 28px;
+}
+
+/* 매장 카드 (세로 배치) */
+.Step1StoreInfo-div-storeCard {
+  background: #fff;
+  padding: 24px;
+  border-radius: 24px;
+  box-shadow: 0 8px 24px rgba(149, 157, 165, 0.08);
+  text-align: center;
+}
+.Step1StoreInfo-span-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  background: #eef5ff;
+  color: #3984d3;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+.Step1StoreInfo-h3-storeName {
+  font-size: 1.4rem;
+  font-weight: 900;
+  margin-bottom: 12px;
+}
+
+.Step1StoreInfo-div-infoList {
+  background: #f9fbff;
+  padding: 18px;
+  border-radius: 18px;
+  margin-bottom: 15px;
+  text-align: left;
+}
+.Step1StoreInfo-div-infoRow {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-top: 8px;
+  margin-bottom: 12px;
+}
+.Step1StoreInfo-div-infoRow:last-child {
+  margin-bottom: 0;
+}
+.Step1StoreInfo-label-info {
+  font-size: 0.75rem;
+  color: #999;
+  margin-bottom: 2px;
+}
+.Step1StoreInfo-span-value {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #333;
+}
+.Step1StoreInfo-span-value.highlight {
+  color: #3984d3;
 }
 
-/* 정책 카드 개별 아이템 */
-.policy-card-item {
+.Step1StoreInfo-button-addrToggle {
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.Step1StoreInfo-div-addrBox {
+  margin-top: 15px;
+  padding: 15px;
+  background: #fff;
+  border: 1px solid #f0f0f0;
+  border-radius: 14px;
+  font-size: 0.85rem;
+  text-align: left;
+  line-height: 1.5;
+}
+.Step1StoreInfo-button-changeStore {
+  width: 100%;
+  margin-top: 24px;
+  padding: 12px;
+  background: none;
+  border: 1px solid #e0e0e0;
+  border-radius: 14px;
+  color: #bbb;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* 제빙기 스와이프 (Snap 기능 추가) */
+.Step1StoreInfo-div-sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding: 0 4px;
+}
+.Step1StoreInfo-h4-sectionTitle {
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+.Step1StoreInfo-span-machineCount,
+.Step1StoreInfo-span-sizeInfo {
+  color: #3984d3;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.Step1StoreInfo-div-scrollWrapper {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  scroll-snap-type: x mandatory; /* 스와이프 자석 효과 */
+}
+.Step1StoreInfo-div-scrollWrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.Step1StoreInfo-div-machineCard {
+  flex: 0 0 160px;
+  scroll-snap-align: center;
+  background: #fff;
+  padding: 22px 16px;
+  border-radius: 22px;
+  border: 2px solid transparent;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  cursor: pointer;
+  transition: 0.2s;
+  text-align: center;
+}
+.Step1StoreInfo-div-machineCard.active {
+  border-color: #3984d3;
+  background: #f0f7ff;
+  transform: scale(1.03);
+}
+.Step1StoreInfo-div-cardIcon {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+}
+.Step1StoreInfo-span-mBrand {
+  display: block;
+  font-size: 0.75rem;
+  color: #bbb;
+  margin-bottom: 4px;
+}
+.Step1StoreInfo-strong-mModel {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 800;
+  height: 2.6em;
+  line-height: 1.3;
+  overflow: hidden;
+}
+.Step1StoreInfo-div-mSizeBadge {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 0.7rem;
+  background: #f1f1f1;
+  padding: 3px 8px;
+  border-radius: 6px;
+  color: #777;
+  font-weight: 600;
+}
+
+/* 서비스 정책 리스트 */
+.Step1StoreInfo-div-policyStack {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.Step1StoreInfo-div-policyCard {
+  background: #fff;
+  padding: 22px;
+  border-radius: 22px;
+  border: 2px solid #f5f5f5;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.Step1StoreInfo-div-policyCard.active {
+  border-color: #3984d3;
+  background: #f0f7ff;
+}
+.Step1StoreInfo-div-pHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.Step1StoreInfo-span-pName {
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+.Step1StoreInfo-span-pPrice {
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: #333;
+}
+.Step1StoreInfo-p-pDesc {
+  font-size: 0.85rem;
+  color: #777;
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+.Step1StoreInfo-span-pTime {
+  font-size: 0.8rem;
+  color: #3984d3;
+  font-weight: 700;
+}
+
+/* 가이드 및 푸터 */
+.Step1StoreInfo-div-guideBox {
+  padding: 40px 20px;
+  text-align: center;
+  color: #ccc;
+  font-size: 0.9rem;
+  border: 2px dashed #eee;
+  border-radius: 22px;
+}
+.Step1StoreInfo-footer-action {
+  padding: 16px 20px 32px;
+  background: #fff;
+  border-top: 1px solid #f0f0f0;
+}
+.Step1StoreInfo-button-next {
+  width: 100%;
+  padding: 18px;
+  border-radius: 18px;
+  border: none;
+  background: #3984d3;
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+.Step1StoreInfo-button-next:disabled {
+  background: #e0e0e0;
+  color: #aaa;
+}
+
+.fadeIn {
+  animation: Step1FadeIn 0.4s ease-out;
+}
+@keyframes Step1FadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 추가 */
+/* 바텀 시트 모달 스타일 */
+.Step1StoreInfo-Modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: flex-end;
+  z-index: 1000;
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+.Step1StoreInfo-Modal-content {
+  width: 100%;
+  max-width: 500px;
+  background: #fff;
+  border-radius: 24px 24px 0 0;
+  padding: 20px;
+  margin: 0 auto;
+  box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.1);
+  animation: modalSlideUp 0.3s ease-out;
+}
+
+.Step1StoreInfo-Modal-handle {
+  width: 40px;
+  height: 4px;
+  background: #e0e0e0;
+  border-radius: 2px;
+  margin: 0 auto 20px;
+}
+
+.Step1StoreInfo-Modal-h3 {
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin-bottom: 15px;
+  padding-left: 5px;
+}
+
+.Step1StoreInfo-Modal-list {
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.Step1StoreInfo-Modal-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 16px;
-  border: 1px solid #e2e8f0;
   border-radius: 12px;
-  background: #fff;
+  margin-bottom: 8px;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: 0.2s;
 }
 
-/* 마우스 오버 및 선택 시 효과 */
-.policy-card-item:hover {
-  border-color: #cbd5e1;
+.Step1StoreInfo-Modal-item.selected {
+  background: #f0f7ff;
 }
 
-.policy-card-item.selected {
-  border-color: #3b82f6;
-  background-color: #f8faff;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.08);
-}
-
-.policy-card-left {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-/* 선택 체크 동그라미 */
-.policy-check-circle {
-  width: 22px;
-  height: 22px;
-  border: 2px solid #cbd5e1;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: bold;
-  color: transparent; /* 평소엔 안보임 */
-  transition: all 0.2s ease;
-  flex-shrink: 0;
-}
-
-.policy-card-item.selected .policy-check-circle {
-  background-color: #3b82f6;
-  border-color: #3b82f6;
-  color: #fff; /* 선택 시 흰색 체크 표시 */
-}
-
-.policy-text-group {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-}
-
-.policy-main-name {
-  font-weight: 700;
+.Step1StoreInfo-Modal-storeName {
+  display: block;
   font-size: 1rem;
-  color: #1e293b;
-  line-height: 1.4;
+  font-weight: 700;
+  margin-bottom: 4px;
 }
 
-.policy-sub-info {
-  font-size: 0.85rem;
-  color: #64748b;
-  margin-top: 4px;
-  letter-spacing: -0.01em;
+.Step1StoreInfo-Modal-storeAddr {
+  font-size: 0.8rem;
+  color: #999;
 }
 
-.policy-price-tag {
+.Step1StoreInfo-Modal-check {
+  color: #3984d3;
   font-weight: 800;
-  font-size: 1.1rem;
-  color: #1e293b;
 }
 
-.policy-card-item.selected .policy-price-tag {
-  color: #3b82f6;
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
-/* 안내 문구 (제빙기 미선택 시) */
-.no-selection-placeholder {
-  padding: 40px 20px;
-  text-align: center;
-  color: #94a3b8;
-  background: #f8fafc;
-  border-radius: 12px;
-  border: 1px dashed #e2e8f0;
-  font-size: 0.95rem;
-  line-height: 1.5;
+@keyframes modalSlideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
 }

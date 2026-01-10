@@ -1,227 +1,178 @@
+/* 전체 컨테이너 */
 .logout-page-container {
+  max-width: 500px;
   margin: 0 auto;
-  max-width: 1440px;
-  padding: 0 20px 60px;
-}
-
-/* =========================
-   헤더
-========================= */
-.logout-page-head {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr; /* ✅ 중앙 정확히 */
-  align-items: center;
-  height: 80px;
-}
-
-.logout-page-head p {
-  justify-self: center;          /* 정중앙 */
-  margin: 0;
-  font-size: 32px;
-  font-weight: 700;
-}
-
-.logout-back-btn {
-  justify-self: start;
-  padding: 6px 20px;
-  border-radius: 20px;
-  border: none;
-  background-color: #35B4F6;
-  color: #ffffff;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-/* =========================
-   가로선
-========================= */
-.logout-page-underline {
-  border: 0;
-  height: 1.5px;
-  background-color: #dddddd;
-  margin-bottom: 60px;
-}
-
-/* =========================
-   로그아웃 카드
-========================= */
-.logout-card-wrapper {
+  padding: 0 20px;
+  min-height: 85vh; /* 푸터가 밀려나도록 충분한 높이 확보 */
   display: flex;
+  flex-direction: column;
+}
+
+/* 헤더 영역: 제목(좌) - 버튼(우) */
+.logout-page-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 0;
+  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 50px;
+}
+
+.logout-page-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #222;
+  margin: 0;
+}
+
+/* 공통 뒤로가기 버튼 스타일 (우측 배치) */
+.common-btn-back {
+  background: white;
+  border: 1px solid #eee;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.common-btn-back:hover {
+  background-color: #f9f9f9;
+}
+
+/* 카드 중앙 정렬 레이아웃 */
+.logout-content-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: flex-start; /* 모바일 시안에 맞춰 약간 상단 배치 */
   justify-content: center;
+  padding-top: 20px;
 }
 
 .logout-card {
-  width: 420px;
-  padding: 40px 30px;
-  border-radius: 12px;
-  border: 2px solid #dddddd;
-  background-color: #ffffff;
-  text-align: center;
-}
-
-/* 아이콘 */
-.logout-icon {
-  width: 65px;
-  height: 65px;
-  margin: 0 auto 20px;
-}
-
-.logout-icon img {
   width: 100%;
-  height: 100%;
-  object-fit: contain;
+  background: #fff;
+  padding: 48px 24px;
+  border-radius: 28px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+  border: 1px solid #f5f5f5;
 }
 
-/* 메시지 */
-.logout-message {
-  font-size: 30px;
-  font-weight: 500;
-  margin-bottom: 30px;
+.logout-icon-circle {
+  width: 72px;
+  height: 72px;
+  background: #f8faff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 28px;
 }
 
-/* 버튼 */
+.logout-icon-circle img {
+  width: 36px;
+  height: 36px;
+  opacity: 0.7;
+}
+
+.logout-main-text {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #222;
+  letter-spacing: -0.5px;
+}
+
+.logout-sub-text {
+  font-size: 0.95rem;
+  color: #999;
+  margin-bottom: 36px;
+}
+
+/* 버튼 그룹 (아니오 좌 / 예 우) */
 .logout-btn-group {
   display: flex;
-  justify-content: center;
   gap: 14px;
 }
 
-.logout-btn-group button {
-  width: 100px;
-  padding: 10px 0;
-  font-size: 20px;
-  border-radius: 8px;
+.btn-no {
+  flex: 1;
+  padding: 18px;
+  border-radius: 16px;
   border: none;
+  background: #f2f2f2;
+  color: #555;
+  font-weight: 700;
+  font-size: 1rem;
   cursor: pointer;
 }
 
-.logout-btn-confirm {
-  background-color: #3984D3;
-  color: #ffffff;
+.btn-yes {
+  flex: 1.8; /* "예" 버튼을 더 강조 */
+  padding: 18px;
+  border-radius: 16px;
+  border: none;
+  background: #3984d3;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(57, 132, 211, 0.2);
 }
 
-.logout-btn-cancel {
-  background-color: #f0f0f0;
-  color: #333333;
-}
-
-/* =========================
-   반응형
-========================= */
-
-/* 1024px */
-@media (max-width: 1024px) {
-  .logout-page-head p {
-    font-size: 32px;
-  }
-}
-
-/* 950px */
-@media (max-width: 950px) {
-  .logout-card {
-    width: 380px;
-  }
-}
-
-/* 768px */
-@media (max-width: 768px) {
-  .logout-card {
-    width: 340px;
-    padding: 36px 24px;
-  }
-
-  .logout-message {
-    font-size: 25px;
-  }
-}
-
-/* 480px */
-@media (max-width: 480px) {
-  .logout-back-btn {
-    font-size: 13px;
-    padding: 6px 14px;
-  }
-
-  .logout-card {
-    width: 100%;
-    padding: 32px 20px;
-  }
-
-  .logout-btn-group button {
-    width: 90px;
-    font-size: 14px;
-  }
-}
-
-/* =========================
-   로그아웃 알림 모달 (alert 대체)
-   기존 레이아웃과 완전 분리
-========================= */
-
+/* 알림 모달 */
 .logout-alert-dim {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 10000;
+  z-index: 9999;
+  padding: 20px;
 }
 
 .logout-alert-modal {
-  width: 380px;
-  background: #ffffff;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-}
-
-/* 상단 */
-.logout-alert-header {
-  background-color: #35B4F6;
-  color: #ffffff;
-  padding: 14px 20px;
-  font-size: 22px;
-  font-weight: 600;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logout-alert-header button {
-  background: none;
-  border: none;
-  font-size: 26px;
-  color: #ffffff;
-  cursor: pointer;
-}
-
-/* 본문 */
-.logout-alert-body {
-  padding: 24px 20px 18px;   /* ⬅ 위/아래 여백 감소 */
+  width: 100%;
+  max-width: 320px;
+  background: white;
+  border-radius: 28px;
+  padding: 32px 24px;
   text-align: center;
+  animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.logout-alert-body img {
-  width: 48px;              /* ⬅ 아이콘 높이 소폭 감소 */
-  height: 48px;
-  margin-bottom: 14px;      /* ⬅ 간격 감소 */
+@keyframes modalPop {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
-.logout-alert-body p {
-  font-size: 22px;          /* ⬅ 텍스트 살짝 줄임 */
-  font-weight: 500;
+.check-icon-wrapper {
+  margin-bottom: 16px;
 }
 
-/* 확인 버튼 */
-.logout-alert-confirm {
-  width: calc(100% - 40px);
-  margin: 0 20px 18px;      /* ⬅ 하단 여백 감소 */
-  padding: 12px 0;          /* ⬅ 버튼 높이 감소 */
-  background-color: #35B4F6;
-  color: #ffffff;
-  font-size: 18px;          /* ⬅ 버튼 텍스트 살짝 축소 */
-  border-radius: 10px;
+.check-icon-wrapper img {
+  width: 48px;
+}
+
+.logout-alert-confirm-btn {
+  width: 100%;
+  margin-top: 28px;
+  padding: 16px;
+  border-radius: 14px;
   border: none;
+  background: #35b4f6;
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
   cursor: pointer;
 }

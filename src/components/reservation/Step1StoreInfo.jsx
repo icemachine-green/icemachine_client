@@ -1,221 +1,268 @@
-/**
- * @file Step1StoreInfo.jsx
- * @description 매장 / 제빙기 / 서비스 정책 선택 Step
- */
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setStep, updateSelection } from "../../store/slices/reservationSlice";
+import { getBusinessDetailThunk } from "../../store/thunks/businessThunk";
+import { getIcemachinesByBusinessIdThunk } from "../../store/thunks/icemachineThunk";
 import "./Step1StoreInfo.css";
-import Step1StoreInfoSkeleton from "../common/Skeleton/Step1StoreInfoSkeleton.jsx";
 
-const Step1StoreInfo = ({ isLoading }) => {
+const Step1StoreInfo = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Redux 상태
-  const { businessDetail } = useSelector((state) => state.business);
-  const { icemachinesList } = useSelector((state) => state.icemachine);
+  // 리덕스 데이터 추출
+  const { businessDetail, businessesList = [] } = useSelector(
+    (state) => state.business
+  );
+  const { icemachinesList = [] } = useSelector((state) => state.icemachine);
   const { selection } = useSelector((state) => state.reservation);
-  const { items: policies = [], status: policyStatus } = useSelector(
+  const { items: policies = [] } = useSelector(
     (state) => state.servicePolicy || {}
   );
 
-  const [showDetail, setShowDetail] = useState(false);
+  // 상태 관리
+  const [showAddr, setShowAddr] = useState(false);
+  const [isStoreModalOpen, setIsStoreModalOpen] = useState(false);
 
-  if (isLoading) return <Step1StoreInfoSkeleton />;
-
-  // 사이즈 텍스트 변환
-  const getSafeSize = (machine) => {
-    const rawValue = machine?.sizeType || machine?.size || "";
-    const val = String(rawValue).toUpperCase();
-
-    if (val.includes("소형") || val.includes("SMALL")) return "소형";
-    if (val.includes("중형") || val.includes("MEDIUM")) return "중형";
-    if (val.includes("대형") || val.includes("LARGE")) return "대형";
+  // 제빙기 사이즈 정규화 로직
+  const getNormalizedSize = (machine) => {
+    const size = String(machine?.sizeType || machine?.size || "").toUpperCase();
+    if (size.includes("SMALL") || size.includes("소형")) return "소형";
+    if (size.includes("MEDIUM") || size.includes("중형")) return "중형";
+    if (size.includes("LARGE") || size.includes("대형")) return "대형";
     return "미지정";
   };
 
-  const selectedMachine = icemachinesList?.find(
+  const selectedMachine = icemachinesList.find(
     (m) => m.id === selection.iceMachineId
   );
-  const targetSizeText = getSafeSize(selectedMachine);
+  const targetSize = getNormalizedSize(selectedMachine);
+  const filteredPolicies = policies.filter((p) => p.sizeType === targetSize);
 
-  const filteredPolicies = policies.filter(
-    (p) => p.sizeType === targetSizeText
-  );
-
-  const getServiceTypeName = (type) => {
-    const names = {
-      VISIT_CHECK: "방문 점검",
-      STANDARD_CLEAN: "기본 청소",
-      DEEP_CLEAN: "집중 청소",
-      PREMIUM_CLEAN: "프리미엄 청소",
-      SUBSCRIPTION: "정기 구독",
-    };
-    return names[type] || type;
+  // 매장 선택 처리 함수
+  const handleStoreSelect = (storeId) => {
+    dispatch(getBusinessDetailThunk(storeId));
+    dispatch(getIcemachinesByBusinessIdThunk(storeId));
+    dispatch(
+      updateSelection({
+        businessId: storeId,
+        iceMachineId: null,
+        servicePolicyId: null,
+      })
+    );
+    setIsStoreModalOpen(false);
   };
 
   return (
-    <div className="step1-container">
-      {/* 매장 정보 */}
-      <div className="reservation-info-group">
-        <div className="label-with-action">
-          <label>예약 매장</label>
+    <div className="Step1StoreInfo-div-root">
+      <header className="Step1StoreInfo-header-main">
+        <div className="Step1StoreInfo-div-headerLeft"></div>
+        <div className="Step1StoreInfo-div-headerCenter">
+          <h2 className="Step1StoreInfo-h2-title">서비스 예약</h2>
+          <div className="Step1StoreInfo-div-indicator">
+            <span className="Step1StoreInfo-span-dot active"></span>
+            <span className="Step1StoreInfo-span-dot"></span>
+            <span className="Step1StoreInfo-span-dot"></span>
+          </div>
+        </div>
+        <div className="Step1StoreInfo-div-headerRight">
           <button
-            className="change-store-btn"
-            onClick={() => navigate("/mypage/stores")}
+            className="Step1StoreInfo-button-back"
+            onClick={() => navigate(-1)}
           >
-            변경
+            〈 뒤로
           </button>
         </div>
+      </header>
 
-        <div className="info-box-display">
-          <div className="store-main-info">
-            <span className="store-name">
-              **이태우** 님의 {businessDetail?.name || "매장 정보 없음"}
-            </span>
+      <div className="Step1StoreInfo-div-contentBody">
+        <section className="Step1StoreInfo-section-store">
+          <div className="Step1StoreInfo-div-storeCard">
+            <span className="Step1StoreInfo-span-badge">내 매장 정보</span>
+            <h3 className="Step1StoreInfo-h3-storeName">
+              {businessDetail?.name || "매장명 없음"}
+            </h3>
+
+            {/* [위치 수정] 매장 이름 바로 밑으로 이동 */}
             <button
-              className="toggle-detail-btn"
-              onClick={() => setShowDetail(!showDetail)}
+              className="Step1StoreInfo-button-addrToggle"
+              onClick={() => setShowAddr(!showAddr)}
             >
-              {showDetail ? "상세 닫기 ▲" : "매장 상세 ▼"}
+              주소 상세 정보 {showAddr ? "접기 ▲" : "확인 ▼"}
+            </button>
+
+            {showAddr && (
+              <div className="Step1StoreInfo-div-addrBox fadeIn">
+                <p className="Step1StoreInfo-p-addrMain">
+                  {businessDetail?.mainAddress}
+                </p>
+                <p className="Step1StoreInfo-p-addrSub">
+                  {businessDetail?.detailedAddress}
+                </p>
+              </div>
+            )}
+
+            <div className="Step1StoreInfo-div-infoList">
+              <div className="Step1StoreInfo-div-infoRow">
+                <label className="Step1StoreInfo-label-info">담당자</label>
+                <span className="Step1StoreInfo-span-value">
+                  {businessDetail?.managerName || "정보 없음"}
+                </span>
+              </div>
+              <div className="Step1StoreInfo-div-infoRow">
+                <label className="Step1StoreInfo-label-info">연락처</label>
+                <span className="Step1StoreInfo-span-value highlight">
+                  {businessDetail?.phoneNumber || "정보 없음"}
+                </span>
+              </div>
+            </div>
+
+            <button
+              className="Step1StoreInfo-button-changeStore"
+              onClick={() => setIsStoreModalOpen(true)}
+            >
+              매장 변경하기
             </button>
           </div>
+        </section>
 
-          {showDetail && (
-            <div className="store-sub-detail">
-              <hr />
-              <p>
-                <strong>주소:</strong> {businessDetail?.mainAddress}{" "}
-                {businessDetail?.detailedAddress}
-              </p>
-            </div>
-          )}
-        </div>
-      </div>
+        <section className="Step1StoreInfo-section-machine">
+          <div className="Step1StoreInfo-div-sectionHeader">
+            <h4 className="Step1StoreInfo-h4-sectionTitle">점검 대상 제빙기</h4>
+            <span className="Step1StoreInfo-span-machineCount">
+              {icemachinesList.length}대
+            </span>
+          </div>
 
-      {/* 제빙기 선택 */}
-      <div className="reservation-info-group">
-        <label>점검 제빙기 선택</label>
-
-        <div className="machine-selection-list">
-          {icemachinesList?.length > 0 ? (
-            icemachinesList.map((machine) => (
+          <div className="Step1StoreInfo-div-scrollWrapper">
+            {icemachinesList.map((m) => (
               <div
-                key={machine.id}
-                className={`machine-card ${
-                  selection.iceMachineId === machine.id ? "selected" : ""
+                key={m.id}
+                className={`Step1StoreInfo-div-machineCard ${
+                  selection.iceMachineId === m.id ? "active" : ""
                 }`}
                 onClick={() =>
                   dispatch(
                     updateSelection({
-                      iceMachineId: machine.id,
+                      iceMachineId: m.id,
                       servicePolicyId: null,
                     })
                   )
                 }
               >
-                <div className="machine-card-header">
-                  <span className="machine-model">
-                    {machine.modelName || machine.model}
-                  </span>
-                  {selection.iceMachineId === machine.id && (
-                    <div className="selection-indicator active">✓</div>
+                <div className="Step1StoreInfo-div-cardIcon">
+                  {selection.iceMachineId === m.id ? "✅" : "❄️"}
+                </div>
+                <div className="Step1StoreInfo-div-machineDetail">
+                  <span className="Step1StoreInfo-span-mBrand">{m.brand}</span>
+                  <strong className="Step1StoreInfo-strong-mModel">
+                    {m.fullModelName}
+                  </strong>
+                </div>
+                <div className="Step1StoreInfo-div-mSizeBadge">
+                  {getNormalizedSize(m)}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {selection.iceMachineId ? (
+          <section className="Step1StoreInfo-section-policy fadeIn">
+            <div className="Step1StoreInfo-div-sectionHeader">
+              <h4 className="Step1StoreInfo-h4-sectionTitle">서비스 선택</h4>
+              <span className="Step1StoreInfo-span-sizeInfo">
+                {targetSize} 기준
+              </span>
+            </div>
+
+            <div className="Step1StoreInfo-div-policyStack">
+              {filteredPolicies.map((p) => (
+                <div
+                  key={p.id}
+                  className={`Step1StoreInfo-div-policyCard ${
+                    selection.servicePolicyId === p.id ? "active" : ""
+                  }`}
+                  onClick={() =>
+                    dispatch(updateSelection({ servicePolicyId: p.id }))
+                  }
+                >
+                  <div className="Step1StoreInfo-div-pHeader">
+                    <span className="Step1StoreInfo-span-pName">
+                      {p.serviceType}
+                    </span>
+                    <span className="Step1StoreInfo-span-pPrice">
+                      {p.price.toLocaleString()}원
+                    </span>
+                  </div>
+                  <p className="Step1StoreInfo-p-pDesc">{p.note}</p>
+                  <div className="Step1StoreInfo-div-pFooter">
+                    <span className="Step1StoreInfo-span-pTime">
+                      소요시간 약 {p.standardDuration}분
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        ) : (
+          <div className="Step1StoreInfo-div-guideBox">
+            위에서 제빙기를 선택하시면 예약 가능한 서비스가 표시됩니다.
+          </div>
+        )}
+      </div>
+
+      {isStoreModalOpen && (
+        <div
+          className="Step1StoreInfo-Modal-overlay"
+          onClick={() => setIsStoreModalOpen(false)}
+        >
+          <div
+            className="Step1StoreInfo-Modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="Step1StoreInfo-Modal-handle" />
+            <div className="Step1StoreInfo-Modal-header">
+              <h3 className="Step1StoreInfo-Modal-h3">매장 선택</h3>
+            </div>
+            <div className="Step1StoreInfo-Modal-list">
+              {businessesList.map((store) => (
+                <div
+                  key={store.id}
+                  className={`Step1StoreInfo-Modal-item ${
+                    businessDetail?.id === store.id ? "selected" : ""
+                  }`}
+                  onClick={() => handleStoreSelect(store.id)}
+                >
+                  <div className="Step1StoreInfo-Modal-itemInfo">
+                    <strong className="Step1StoreInfo-Modal-storeName">
+                      {store.name}
+                    </strong>
+                    <span className="Step1StoreInfo-Modal-storeAddr">
+                      {store.mainAddress}
+                    </span>
+                  </div>
+                  {businessDetail?.id === store.id && (
+                    <span className="Step1StoreInfo-Modal-check">✓</span>
                   )}
                 </div>
-
-                <div className="machine-spec">
-                  <div className="spec-item">
-                    <span className="spec-label">브랜드</span>
-                    <span className="spec-value">
-                      {machine.brandName || machine.brand || "기타"}
-                    </span>
-                  </div>
-                  <div className="spec-item">
-                    <span className="spec-label">사이즈</span>
-                    <span className="spec-value">{getSafeSize(machine)}</span>
-                  </div>
-                </div>
-              </div>
-            ))
-          ) : (
-            <div className="no-selection-placeholder">
-              등록된 제빙기가 없습니다.
+              ))}
             </div>
-          )}
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* 서비스 정책 선택 */}
-      <div className="reservation-info-group">
-        <label>
-          서비스 종류 선택{" "}
-          {targetSizeText !== "미지정" && (
-            <span className="size-badge">{targetSizeText}</span>
-          )}
-        </label>
-
-        <div className="policy-selection-list">
-          {!selection.iceMachineId ? (
-            <div className="no-selection-placeholder">
-              제빙기를 먼저 선택해주세요.
-            </div>
-          ) : filteredPolicies.length > 0 ? (
-            filteredPolicies.map((policy) => (
-              <div
-                key={policy.id}
-                className={`policy-card-item ${
-                  selection.servicePolicyId === policy.id ? "selected" : ""
-                }`}
-                onClick={() =>
-                  dispatch(updateSelection({ servicePolicyId: policy.id }))
-                }
-              >
-                <div className="policy-card-left">
-                  <div
-                    className={`policy-check-circle ${
-                      selection.servicePolicyId === policy.id ? "active" : ""
-                    }`}
-                  >
-                    ✓
-                  </div>
-                  <div className="policy-text-group">
-                    <span className="policy-main-name">
-                      {getServiceTypeName(policy.serviceType)}
-                    </span>
-                    <span className="policy-sub-info">
-                      {policy.standardDuration || policy.duration}분 소요
-                    </span>
-                  </div>
-                </div>
-
-                <div className="policy-card-right">
-                  <span className="policy-price-tag">
-                    {policy.price
-                      ? `${policy.price.toLocaleString()}원`
-                      : "현장 확인"}
-                  </span>
-                </div>
-              </div>
-            ))
-          ) : (
-            <div className="no-selection-placeholder">
-              {policyStatus === "loading"
-                ? "서비스 정보를 불러오는 중입니다..."
-                : `${targetSizeText} 사이즈에 해당하는 서비스가 없습니다.`}
-            </div>
-          )}
-        </div>
-      </div>
-
-      <button
-        className="next-btn"
-        onClick={() => dispatch(setStep(2))}
-        disabled={!selection.iceMachineId || !selection.servicePolicyId}
-      >
-        다음 단계 (일정 선택)
-      </button>
+      <footer className="Step1StoreInfo-footer-action">
+        <button
+          className="Step1StoreInfo-button-next"
+          disabled={!selection.iceMachineId || !selection.servicePolicyId}
+          onClick={() => dispatch(setStep(2))}
+        >
+          {selection.servicePolicyId
+            ? "다음 단계 (일정 선택)"
+            : "항목을 선택해주세요"}
+        </button>
+      </footer>
     </div>
   );
 };

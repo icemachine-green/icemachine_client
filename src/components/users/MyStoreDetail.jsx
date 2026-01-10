@@ -13,7 +13,6 @@ import {
 import MyStoreEditModal from "./MyStoreEditModal.jsx";
 import MyStoreAddIcemachineModal from "./MyStoreAddIcemachineModal.jsx";
 import "./MyStoreDetail.css";
-import { clearReservationState } from "../../store/slices/reservationSlice";
 
 const MyStoreDetail = () => {
   const params = useParams();
@@ -31,20 +30,17 @@ const MyStoreDetail = () => {
   const [isIceMachineAddOpen, setIsIceMachineAddOpen] = useState(false);
   const [isBusinessFlashing, setIsBusinessFlashing] = useState(false);
 
-  // 1. 매장 정보 갱신 및 효과
   const handleBusinessUpdateSuccess = () => {
     setIsBusinessFlashing(true);
-    dispatch(getBusinessDetailThunk(Number(businessId))); // 다시 불러오기
+    dispatch(getBusinessDetailThunk(Number(businessId)));
     setTimeout(() => setIsBusinessFlashing(false), 1500);
   };
 
-  // 🚩 2. 제빙기 등록 성공 시 목록 다시 불러오기
   const handleIceMachineAddSuccess = () => {
     dispatch(getIcemachinesByBusinessIdThunk(Number(businessId)));
-    setIsIceMachineAddOpen(false); // 모달 닫기
+    setIsIceMachineAddOpen(false);
   };
 
-  // 🚩 3. 데이터 표시 보정 (DB 저장된 문자열 그대로 출력)
   const formatValue = (val) => val || "정보 없음";
 
   useEffect(() => {
@@ -69,64 +65,71 @@ const MyStoreDetail = () => {
   };
 
   if (detailStatus === "loading" && !businessDetail) {
-    return <div className="my-store-detail-container">로딩 중...</div>;
+    return <div className="my-store-detail-wrapper">로딩 중...</div>;
   }
 
   return (
-    <div className="my-store-detail-container">
-      <div className="my-store-detail-head">
-        <button
-          className="my-store-detail-back-btn"
-          onClick={() => navigate(-1)}
-        >
-          뒤로가기
+    <div className="my-store-detail-wrapper">
+      <div className="my-store-detail-header-flex">
+        <h2 className="my-store-detail-main-title">매장 상세 정보</h2>
+        <button className="common-btn-back" onClick={() => navigate(-1)}>
+          <span>〈</span> 뒤로 가기
         </button>
-        <h2 className="my-store-detail-head-title">매장 상세 정보</h2>
       </div>
-      <hr className="my-store-detail-underline" />
 
-      <div
-        className={`my-store-detail-content ${
-          isBusinessFlashing ? "flash-update" : ""
-        }`}
-      >
-        {businessDetail ? (
-          <>
-            <button
-              className="my-store-detail-edit-btn-in-box"
-              onClick={() => setIsBusinessEditOpen(true)}
-            >
-              매장 정보 수정
-            </button>
+      <hr className="my-store-detail-divider" />
 
-            <h3>{businessDetail.name}</h3>
-            <p>
-              <strong>주소:</strong> {businessDetail.mainAddress}{" "}
-              {businessDetail.detailedAddress}
-            </p>
-            <p>
-              <strong>매장 연락처:</strong> {businessDetail.phoneNumber}
-            </p>
-            <p>
-              <strong>담당자:</strong> {businessDetail.managerName}
-            </p>
-
-            <div className="icemachine-list-header">
-              <h4>등록된 제빙기</h4>
+      {businessDetail ? (
+        <div
+          className={`my-store-detail-card ${
+            isBusinessFlashing ? "flash-update" : ""
+          }`}
+        >
+          <div className="store-info-section">
+            <div className="section-header">
+              <h3 className="store-name-text">{businessDetail.name}</h3>
               <button
-                className="my-store-detail-add-icemachine-btn-in-header"
+                className="btn-edit-small"
+                onClick={() => setIsBusinessEditOpen(true)}
+              >
+                수정
+              </button>
+            </div>
+
+            <div className="info-grid">
+              <div className="info-row">
+                <span className="info-label">주소</span>
+                <span className="info-value">
+                  {businessDetail.mainAddress} {businessDetail.detailedAddress}
+                </span>
+              </div>
+              <div className="info-row">
+                <span className="info-label">연락처</span>
+                <span className="info-value">{businessDetail.phoneNumber}</span>
+              </div>
+              <div className="info-row">
+                <span className="info-label">담당자</span>
+                <span className="info-value">{businessDetail.managerName}</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="icemachine-section">
+            <div className="section-header">
+              <h4 className="sub-title">등록된 제빙기</h4>
+              <button
+                className="btn-add-small"
                 onClick={() => setIsIceMachineAddOpen(true)}
               >
-                제빙기 추가
+                + 추가
               </button>
             </div>
 
             <div className="icemachine-list">
               {icemachinesList && icemachinesList.length > 0 ? (
                 icemachinesList.map((item) => (
-                  <div key={item.id} className="icemachine-detail-item">
-                    <div className="icemachine-info">
-                      {/* 🚩 DB 컬럼명에 맞춰 brandName, modelName, sizeType으로 매핑 */}
+                  <div key={item.id} className="icemachine-item-box">
+                    <div className="ice-info">
                       <p>
                         <strong>브랜드:</strong> {formatValue(item.brandName)}
                       </p>
@@ -137,40 +140,36 @@ const MyStoreDetail = () => {
                         <strong>사이즈:</strong> {formatValue(item.sizeType)}
                       </p>
                     </div>
-                    <div className="icemachine-actions-per-item">
-                      <button
-                        className="my-store-detail-delete-icemachine-btn"
-                        onClick={() => handleDeleteIcemachine(item.id)}
-                      >
-                        삭제
-                      </button>
-                    </div>
+                    <button
+                      className="btn-del-mini"
+                      onClick={() => handleDeleteIcemachine(item.id)}
+                    >
+                      삭제
+                    </button>
                   </div>
                 ))
               ) : (
-                <p className="no-data">등록된 제빙기가 없습니다.</p>
+                <p className="no-data-text">등록된 제빙기가 없습니다.</p>
               )}
             </div>
-          </>
-        ) : (
-          <p>데이터가 없습니다.</p>
-        )}
-      </div>
+          </div>
 
-      <div className="my-store-detail-bottom-actions">
-        <button
-          className="my-store-detail-delete-btn-bottom"
-          onClick={handleDeleteStore}
-        >
-          매장 삭제
-        </button>
-        <button
-          className="my-store-detail-reserve-btn-bottom"
-          onClick={() => navigate(`/reservation?businessId=${businessId}`)}
-        >
-          예약 하기
-        </button>
-      </div>
+          {/* 인라인 버튼 배치: 카드 내부 하단에 자연스럽게 위치 */}
+          <div className="my-store-detail-inline-actions">
+            <button className="btn-delete-inline" onClick={handleDeleteStore}>
+              매장 삭제
+            </button>
+            <button
+              className="btn-reserve-inline"
+              onClick={() => navigate(`/reservation?businessId=${businessId}`)}
+            >
+              예약 하기
+            </button>
+          </div>
+        </div>
+      ) : (
+        <p className="no-data-text">데이터가 없습니다.</p>
+      )}
 
       {isBusinessEditOpen && (
         <MyStoreEditModal
@@ -184,7 +183,7 @@ const MyStoreDetail = () => {
         <MyStoreAddIcemachineModal
           businessId={businessId}
           onClose={() => setIsIceMachineAddOpen(false)}
-          onSuccess={handleIceMachineAddSuccess} // 🚩 성공 콜백 추가
+          onSuccess={handleIceMachineAddSuccess}
         />
       )}
     </div>
