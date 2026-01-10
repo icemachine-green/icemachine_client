@@ -1,0 +1,96 @@
+/* MyStores 전용 스켈레톤 스타일 */
+
+/* 헤더 요소 */
+.skeleton-stores-back-btn {
+    width: 95px;
+    height: 33px;
+    border-radius: 20px;
+    position: absolute;
+    left: 0;
+}
+
+.skeleton-stores-head-title {
+    width: 180px;
+    height: 40px;
+    border-radius: 4px;
+}
+
+/* 추가 버튼 */
+.skeleton-stores-add-btn {
+    width: 130px;
+    height: 40px;
+    border-radius: 8px;
+}
+
+/* 카드 레이아웃 */
+.skeleton-stores-card {
+    pointer-events: none;
+}
+
+.skeleton-stores-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    /* 원형 아이콘 느낌 유지 */
+}
+
+/* 카드 내부 텍스트 라인 */
+.skeleton-stores-name {
+    width: 60%;
+    height: 22px;
+    margin: 5px auto 10px auto;
+    border-radius: 4px;
+}
+
+.skeleton-stores-address {
+    width: 80%;
+    height: 16px;
+    margin: 5px auto;
+    border-radius: 4px;
+}
+
+.skeleton-stores-phone {
+    width: 50%;
+    height: 16px;
+    margin: 5px auto;
+    border-radius: 4px;
+}
+
+/* =================================================
+   반응형 대응 (기존 MyStores.css 수치와 매칭)
+================================================= */
+
+@media (max-width: 1024px) {
+    .skeleton-stores-head-title {
+        width: 150px;
+        height: 35px;
+    }
+}
+
+@media (max-width: 768px) {
+    .skeleton-stores-head-title {
+        width: 130px;
+        height: 30px;
+    }
+
+    .skeleton-stores-img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .skeleton-stores-back-btn {
+        width: 80px;
+        height: 28px;
+    }
+}
+
+@media (max-width: 480px) {
+    .skeleton-stores-img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .skeleton-stores-head-title {
+        width: 110px;
+    }
+}

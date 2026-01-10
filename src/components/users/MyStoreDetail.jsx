@@ -1,19 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  getBusinessDetailThunk,
-  deleteBusinessThunk,
-} from "../../store/thunks/businessThunk";
-import {
-  getIcemachinesByBusinessIdThunk,
-  deleteIcemachineThunk,
-} from "../../store/thunks/icemachineThunk";
+import { getBusinessDetailThunk, deleteBusinessThunk, } from "../../store/thunks/businessThunk";
+import { getIcemachinesByBusinessIdThunk, deleteIcemachineThunk, } from "../../store/thunks/icemachineThunk";
 
 import MyStoreEditModal from "./MyStoreEditModal.jsx";
 import MyStoreAddIcemachineModal from "./MyStoreAddIcemachineModal.jsx";
 import "./MyStoreDetail.css";
 import { clearReservationState } from "../../store/slices/reservationSlice";
+import MyStoreDetailSkeleton from "../common/Skeleton/MyStoreDetailSkeleton.jsx"; // 스켈레톤 컴포넌트 추가
 
 const MyStoreDetail = () => {
   const params = useParams();
@@ -38,18 +33,6 @@ const MyStoreDetail = () => {
     setTimeout(() => setIsBusinessFlashing(false), 1500); // 1.5초 후 효과 제거
   };
 
-  // const getBrandLabel = (type) => {
-  //   const brands = {
-  //     HOSHIZAKI: "Hoshizaki",
-  //     SCOTSMAN: "Scotsman",
-  //     MANITOWOC: "Manitowoc",
-  //     ICE_O_MATIC: "Ice-O-Matic",
-  //     ETC: "기타",
-  //     UNKNOWN: "모름",
-  //   };
-  //   return brands[type] || type;
-  // };
-
   const getSizeLabel = (type) => {
     const sizes = {
       SMALL: "소형(~50kg)",
@@ -62,10 +45,7 @@ const MyStoreDetail = () => {
   };
 
   const handleNavigateToReservation = () => {
-    // 1. 기존에 남아있을 수 있는 예약 진행 상태(step 등)를 싹 비움
     dispatch(clearReservationState());
-
-    // 2. businessId를 들고 예약 페이지로 이동
     navigate(`/reservation?businessId=${businessId}`);
   };
 
@@ -90,8 +70,9 @@ const MyStoreDetail = () => {
     }
   };
 
+  // 로딩 중일 때 스켈레톤 노출
   if (detailStatus === "loading" && !businessDetail) {
-    return <div className="my-store-detail-container">로딩 중...</div>;
+    return <MyStoreDetailSkeleton />;
   }
 
   return (
@@ -107,7 +88,6 @@ const MyStoreDetail = () => {
       </div>
       <hr className="my-store-detail-underline" />
 
-      {/* 매장 정보 박스: 수정 성공 시 flash-update 클래스 적용 */}
       <div
         className={`my-store-detail-content ${
           isBusinessFlashing ? "flash-update" : ""
@@ -152,10 +132,6 @@ const MyStoreDetail = () => {
                       <p>
                         <strong>브랜드 / 모델명:</strong> {item.modelName || item.model}
                       </p>
-                      {/* <p>
-                        <strong>브랜드:</strong>{" "}
-                        {getBrandLabel(item.modelType || item.brand)}
-                      </p> */}
                       <p>
                         <strong>사이즈:</strong>{" "}
                         {getSizeLabel(item.sizeType || item.size)}

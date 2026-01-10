@@ -1,0 +1,81 @@
+/* MyReviews 전용 스켈레톤 스타일 */
+
+/* 헤더 버튼 및 제목 */
+.skeleton-reviews-back-btn {
+    width: 90px;
+    height: 33px;
+    border-radius: 20px;
+    position: absolute;
+    left: 0;
+}
+
+.skeleton-reviews-head-title {
+    width: 180px;
+    height: 35px;
+    border-radius: 4px;
+}
+
+/* 힌트 텍스트 */
+.skeleton-reviews-hint {
+    width: 150px;
+    height: 14px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+}
+
+/* 테이블 내부 요소들 */
+.skeleton-reviews-date {
+    width: 80px;
+    height: 18px;
+    margin: 0 auto;
+    border-radius: 4px;
+}
+
+.skeleton-reviews-content-line {
+    width: 90%;
+    height: 18px;
+    border-radius: 4px;
+}
+
+.skeleton-reviews-stars {
+    width: 100px;
+    height: 18px;
+    margin: 0 auto;
+    border-radius: 4px;
+}
+
+/* 페이지네이션 */
+.skeleton-reviews-page-btn {
+    width: 60px;
+    height: 35px;
+    border-radius: 4px;
+}
+
+.skeleton-reviews-page-info {
+    width: 50px;
+    height: 20px;
+    border-radius: 4px;
+}
+
+/* =========================
+   미디어 쿼리 대응
+========================= */
+@media (max-width: 768px) {
+    .skeleton-reviews-stars {
+        width: 70px;
+    }
+
+    .skeleton-reviews-date {
+        width: 60px;
+    }
+}
+
+@media (max-width: 480px) {
+    .skeleton-reviews-head-title {
+        width: 130px;
+    }
+
+    .skeleton-reviews-stars {
+        width: 50px;
+    }
+}

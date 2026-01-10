@@ -1,0 +1,122 @@
+/* MyStoreDetail 전용 스켈레톤 스타일 */
+
+/* 헤더 요소 */
+.skeleton-detail-back-btn {
+    width: 95px;
+    height: 33px;
+    border-radius: 20px;
+    position: absolute;
+    left: 0;
+}
+
+.skeleton-detail-head-title {
+    width: 220px;
+    height: 40px;
+    border-radius: 4px;
+}
+
+/* 정보 박스 내부 */
+.skeleton-detail-content {
+    border: 1px solid #eee;
+    min-height: 400px;
+}
+
+.skeleton-detail-edit-btn {
+    width: 100px;
+    height: 35px;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    border-radius: 8px;
+}
+
+.skeleton-detail-name {
+    width: 250px;
+    height: 30px;
+    margin-bottom: 25px;
+    border-radius: 4px;
+}
+
+.skeleton-detail-text {
+    width: 70%;
+    height: 18px;
+    margin-bottom: 12px;
+    border-radius: 4px;
+}
+
+/* 제빙기 섹션 */
+.skeleton-detail-subtitle {
+    width: 120px;
+    height: 24px;
+    border-radius: 4px;
+}
+
+.skeleton-detail-add-btn {
+    width: 90px;
+    height: 35px;
+    border-radius: 8px;
+}
+
+.skeleton-ice-item {
+    height: 100px;
+}
+
+.skeleton-ice-text-long {
+    width: 60%;
+    height: 16px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+.skeleton-ice-text-short {
+    width: 30%;
+    height: 16px;
+    border-radius: 4px;
+}
+
+.skeleton-ice-action-btn {
+    width: 60px;
+    height: 30px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    border-radius: 5px;
+}
+
+/* 하단 버튼 */
+.skeleton-detail-bottom-btn {
+    width: 140px;
+    height: 45px;
+    border-radius: 8px;
+}
+
+/* =================================================
+   반응형 대응
+================================================= */
+@media (max-width: 768px) {
+    .skeleton-detail-head-title {
+        width: 160px;
+        height: 32px;
+    }
+
+    .skeleton-detail-text {
+        width: 90%;
+    }
+
+    .skeleton-detail-bottom-btn {
+        width: 48%;
+    }
+
+    /* 모달 세로 정렬 시 필요시 조정 */
+}
+
+@media (max-width: 480px) {
+    .skeleton-detail-head-title {
+        width: 140px;
+    }
+
+    .skeleton-detail-edit-btn {
+        width: 80px;
+        height: 30px;
+    }
+}

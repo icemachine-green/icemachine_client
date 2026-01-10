@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getBusinessesThunk } from "../../store/thunks/businessThunk";
 import "./MyStores.css";
+import MyStoresSkeleton from "../common/Skeleton/MyStoresSkeleton.jsx"; // 스켈레톤 컴포넌트 추가
 
 const MyStores = () => {
   const navigate = useNavigate();
@@ -21,14 +22,11 @@ const MyStores = () => {
   const redirectMyPage = () => navigate("/mypage");
   const redirectMyStoreCreate = () => navigate("/mypage/stores/create");
 
-  // 로딩 중이거나 에러 발생 시 UI
+  // 로딩 중일 때 스켈레톤 UI 노출
   if (listStatus === "loading") {
-    return (
-      <div className="my-stores-container">
-        <div>로딩 중...</div>
-      </div>
-    );
+    return <MyStoresSkeleton />;
   }
+
   if (listError) {
     return (
       <div className="my-stores-container">
