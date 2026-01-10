@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { socialSignupThunk } from "../../store/thunks/authThunk.js";
+import { formatPhoneNumber } from "../../utils/formatPhoneNumber.js"
 import "./SignUpPage.css";
 
 const SignUpPage = () => {
@@ -24,21 +25,37 @@ const SignUpPage = () => {
   }));
 
   const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    let nextValue = value;
+
+    // 전화번호: 숫자만, 최대 11자리
+    if (name === "phoneNumber") {
+      nextValue = value.replace(/\D/g, "").slice(0, 11);
+    }
+
+    // 이메일: 허용 문자만
+    if (name === "email") {
+      nextValue = value.replace(/[^A-Za-z0-9@._%+-]/g, "");
+    }
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: nextValue,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const payload = {
+      ...form,
+      phoneNumber: formatPhoneNumber(form.phoneNumber),
+      provider,
+      socialId,
+    };
+
     const result = await dispatch(
-      socialSignupThunk({
-        ...form,
-        provider: provider, // URL에서 직접 읽은 값 사용
-        socialId: socialId, // URL에서 직접 읽은 값 사용
-      })
+      socialSignupThunk(payload)
     );
 
     // 회원가입 성공 시 매장 등록페이지로 리디렉션
@@ -82,7 +99,7 @@ const SignUpPage = () => {
               name="phoneNumber"
               value={form.phoneNumber}
               onChange={handleChange}
-              placeholder="010-0000-0000"
+              placeholder="숫자만 입력 (예: 01012345678)"
               required
             />
           </div>
