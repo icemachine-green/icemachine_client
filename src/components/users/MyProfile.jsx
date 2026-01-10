@@ -7,6 +7,7 @@ import { clearAuthState } from "../../store/slices/authSlice.js";
 import { clearUserState } from "../../store/slices/userSlice.js";
 import { clearReviewState } from "../../store/slices/reviewsSlice.js";
 import { formatPhoneNumber } from "../../utils/formatPhoneNumber.js"
+import MyProfileSkeleton from "../common/Skeleton/MyProfileSkeleton.jsx"; // 스켈레톤 추가
 
 const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
@@ -166,6 +167,11 @@ const MyProfile = () => {
   function redirectMyPage() {
     return navigate('/mypage');
   };
+
+  // [실제 적용 조건] 유저 정보 로드 전 스켈레톤 노출
+  if (!me) {
+    return <MyProfileSkeleton />;
+  }
 
   return (
     <div className='my-profile-container'>

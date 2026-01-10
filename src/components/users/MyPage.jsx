@@ -1,8 +1,9 @@
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './MyPage.css';
+import MyPageSkeleton from '../common/Skeleton/MyPageSkeleton.jsx';
 
-
-const MyPage = () => {
+const MyPage = ({ loading }) => {
   const navigate = useNavigate();
 
   function redirectMyProfile() {
@@ -19,6 +20,11 @@ const MyPage = () => {
 
   function redirectMyLogout() {
     return navigate('/mypage/logout');
+  }
+
+  // 순수 스켈레톤 분기 처리
+  if (loading) {
+    return <MyPageSkeleton />;
   }
 
   return (

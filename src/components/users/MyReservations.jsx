@@ -2,11 +2,9 @@ import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
-import {
-  fetchMyReservationsThunk,
-  cancelReservationThunk,
-} from "../../store/thunks/reservationThunk";
+import { fetchMyReservationsThunk, cancelReservationThunk, } from "../../store/thunks/reservationThunk";
 import "./MyReservations.css";
+import MyReservationSkeleton from "../common/Skeleton/MyReservationSkeleton.jsx"; // 스켈레톤 추가
 
 const MyReservationPage = () => {
   const navigate = useNavigate();
@@ -126,6 +124,11 @@ const MyReservationPage = () => {
     return startDateTime.diff(now, "hour") < 24;
   };
 
+  // 1. 실제 로딩 중일 때 스켈레톤 반환
+  if (apiStatus === "loading" && !flashId) {
+    return <MyReservationSkeleton />;
+  }
+
   return (
     <div className="MyReservationPage-div-container">
       <div className="MyReservationPage-div-head">
@@ -140,7 +143,6 @@ const MyReservationPage = () => {
 
       <hr className="MyReservationPage-hr-underline" />
 
-      {/* 안내 문구가 포함된 탭 영역 */}
       <div className="MyReservationPage-div-tabs-wrapper">
         <div className="MyReservationPage-div-tabs">
           {["CONFIRMED", "COMPLETED", "CANCELED"].map((s) => (
@@ -155,18 +157,13 @@ const MyReservationPage = () => {
             </button>
           ))}
         </div>
-        {/* ★ 추가: 우측 상단 안내 문구 */}
         <span className="MyReservationPage-span-policy-hint">
           *예약 방문 시간 기준 24시간 전까지만 취소 가능합니다.
         </span>
       </div>
 
       <div className="MyReservationPage-div-list">
-        {apiStatus === "loading" && !flashId ? (
-          <p className="MyReservationPage-p-loading">
-            데이터를 불러오는 중입니다...
-          </p>
-        ) : myReservations.length === 0 ? (
+        {myReservations.length === 0 ? (
           <p className="MyReservationPage-p-empty">
             조회된 예약 내역이 없습니다.
           </p>

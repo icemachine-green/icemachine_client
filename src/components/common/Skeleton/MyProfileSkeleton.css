@@ -1,0 +1,80 @@
+/* MyProfile 전용 스켈레톤 스타일 */
+
+/* 헤더 요소 */
+.skeleton-profile-back-btn {
+    width: 95px;
+    height: 33px;
+    border-radius: 20px;
+    position: absolute;
+    left: 20px;
+}
+
+.skeleton-profile-head-title {
+    width: 200px;
+    height: 40px;
+    border-radius: 4px;
+}
+
+/* 카드 레이아웃 유지 */
+.skeleton-profile-card {
+    pointer-events: none;
+}
+
+.skeleton-profile-label {
+    width: 70px;
+    height: 22px;
+    justify-self: end;
+    border-radius: 4px;
+}
+
+.skeleton-profile-value {
+    width: 80%;
+    height: 20px;
+    border-radius: 4px;
+}
+
+.skeleton-profile-change-btn {
+    width: 65px;
+    height: 35px;
+    border-radius: 6px;
+    justify-self: start;
+}
+
+/* 탈퇴 버튼 */
+.skeleton-profile-withdraw-btn {
+    width: 140px;
+    height: 48px;
+    border-radius: 8px;
+}
+
+/* 미디어 쿼리 대응 */
+@media (max-width: 950px) {
+    .skeleton-profile-label {
+        width: 60px;
+    }
+
+    .skeleton-profile-change-btn {
+        width: 55px;
+    }
+}
+
+@media (max-width: 480px) {
+    .skeleton-profile-back-btn {
+        width: 75px;
+        height: 28px;
+        left: 10px;
+    }
+
+    .skeleton-profile-head-title {
+        width: 140px;
+        height: 30px;
+    }
+
+    .skeleton-profile-label {
+        width: 50px;
+    }
+
+    .skeleton-profile-change-btn {
+        width: 50px;
+    }
+}

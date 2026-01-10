@@ -1,0 +1,85 @@
+/* MyReservation 전용 스켈레톤 스타일 */
+
+/* 헤더 요소 */
+.skeleton-res-back-btn {
+    width: 80px;
+    height: 35px;
+    border-radius: 6px;
+}
+
+.skeleton-res-title {
+    width: 150px;
+    height: 28px;
+    border-radius: 4px;
+}
+
+/* 탭 요소 */
+.skeleton-res-tab {
+    width: 90px;
+    height: 38px;
+    border-radius: 20px;
+}
+
+.skeleton-res-policy-hint {
+    width: 220px;
+    height: 14px;
+    border-radius: 4px;
+}
+
+/* 카드 내부 요소 */
+.skeleton-card {
+    pointer-events: none;
+    border-left: 5px solid #eee !important;
+    /* 기본 회색 처리 */
+}
+
+.skeleton-res-status-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    width: 60px;
+    height: 20px;
+    border-radius: 6px;
+}
+
+.skeleton-res-card-date {
+    width: 250px;
+    height: 22px;
+    margin-top: 5px;
+    border-radius: 4px;
+}
+
+.skeleton-res-card-engineer {
+    width: 180px;
+    height: 16px;
+    border-radius: 4px;
+}
+
+.skeleton-res-card-btn {
+    width: 90px;
+    height: 40px;
+    border-radius: 8px;
+}
+
+/* 모바일 대응 미디어 쿼리 */
+@media (max-width: 480px) {
+    .MyReservationPage-div-tabs-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .skeleton-res-policy-hint {
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    .skeleton-res-card-btn {
+        flex: 1;
+        width: 100%;
+        height: 45px;
+    }
+
+    .skeleton-res-card-date {
+        width: 200px;
+    }
+}
