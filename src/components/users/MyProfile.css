@@ -1,4 +1,4 @@
-/* ---------- [MOBILE FIRST] ---------- */
+/* ---------- [전체 레이아웃] ---------- */
 .my-profile-container {
   width: 100%;
   max-width: 1440px;
@@ -7,36 +7,12 @@
   box-sizing: border-box;
 }
 
-/* 헤더: 제목 좌측, 버튼 우측 정렬 */
-.my-profile-head {
-  height: 70px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between; /* 양 끝 정렬 */
-}
-
+/* 🚩 공통 헤더 호환: 제목과 버튼이 양 끝에 배치됨 */
 .my-profile-head-title {
   font-size: 1.25rem;
   font-weight: 800;
   color: #222;
   margin: 0;
-}
-
-.my-profile-back-btn {
-  padding: 8px 18px;
-  border-radius: 10px;
-  border: 1px solid #e0e0e0;
-  background-color: #fff;
-  color: #555;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.my-profile-back-btn:active {
-  background-color: #f5f5f5;
-  transform: scale(0.98);
 }
 
 .my-profile-underline {
@@ -46,7 +22,7 @@
   margin: 0 0 30px 0;
 }
 
-/* 정보 리스트 스타일 */
+/* ---------- [정보 리스트 스타일] ---------- */
 .my-profile-card-container {
   display: flex;
   flex-direction: column;
@@ -93,10 +69,10 @@
   cursor: pointer;
 }
 
-/* 회원 탈퇴 */
+/* ---------- [회원 탈퇴 섹션] ---------- */
 .my-profile-btn-container {
   margin-top: 60px;
-  text-align: right; /* 회원탈퇴 링크도 우측 정렬 */
+  text-align: right;
   padding-right: 10px;
 }
 
@@ -109,7 +85,7 @@
   cursor: pointer;
 }
 
-/* 모달 및 버튼 정렬 */
+/* ---------- [모달 스타일] ---------- */
 .my-profile-change-modal-overlay {
   position: fixed;
   inset: 0;
@@ -177,6 +153,7 @@
   border-color: #2060b6;
 }
 
+/* ---------- [모달 푸터/버튼] ---------- */
 .my-profile-change-modal-footer,
 .my-profile-modal-footer {
   display: flex;
@@ -215,6 +192,7 @@
   cursor: not-allowed;
 }
 
+/* ---------- [에러 및 힌트] ---------- */
 .my-profile-error {
   color: #ef4444;
   font-size: 0.85rem;
@@ -227,37 +205,39 @@
   margin-top: 10px;
 }
 
-/* ---------- [DESKTOP] ---------- */
+/* ---------- [데스크탑 확장 (DESKTOP)] ---------- */
 @media (min-width: 1024px) {
   .my-profile-container {
     padding: 40px 15% 100px 15%;
   }
-  .my-profile-head {
-    height: 90px;
-    margin-bottom: 20px;
+
+  /* 공통 헤더 간격 조정 */
+  .common-page-head {
+    margin-bottom: 32px;
   }
+
   .my-profile-head-title {
     font-size: 2.5rem;
   }
-  .my-profile-back-btn {
-    padding: 12px 24px;
-    font-size: 16px;
-  }
+
   .my-profile-card-container {
     max-width: 900px;
     margin: 40px auto;
     gap: 30px;
   }
+
   .my-profile-card {
     flex-direction: row;
     align-items: center;
     gap: 40px;
   }
+
   .my-profile-card-text {
     width: 120px;
     font-size: 1.15rem;
     text-align: right;
   }
+
   .my-profile-card-content {
     flex: 1;
     padding: 20px 28px;

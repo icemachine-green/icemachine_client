@@ -1,268 +1,144 @@
-/* =================================================
-   My Stores Layout
-================================================= */
-
-/* =========================
-   전체 컨테이너 (PC 기준 유지)
-========================= */
+/* ---------- [전체 컨테이너] ---------- */
 .my-stores-container {
   margin: 0 auto;
   max-width: 1440px;
-  padding: 0 20px 50px 20px;
+  padding: 0 20px 80px 20px;
+  /* 🚩 푸터가 올라오는 현상 방지: 최소 높이 확보 */
+  min-height: 80vh;
+  box-sizing: border-box;
 }
 
-/* =========================
-   헤더 (뒤로가기 + 제목)
-========================= */
-.my-stores-head {
-  display: flex;
-  align-items: center;
-  height: 80px;
-  position: relative;
-}
-
-/* 뒤로가기 버튼 */
-.my-stores-back-btn {
-  background-color: #35B4F6;
-  color: #ffffff;
-  border: none;
-  border-radius: 20px;
-  padding: 6px 20px;
-  font-size: 17px;
-  cursor: pointer;
-  white-space: nowrap;
-  z-index: 1;
-}
-
-/* 제목 (항상 가로 기준 중앙) */
+/* ---------- [헤더 & 구분선] ---------- */
 .my-stores-head-title {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 32px;
-  font-weight: 700;
-  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #222;
   margin: 0;
-  white-space: nowrap;
 }
 
-/* =========================
-   구분선
-========================= */
 .my-stores-underline {
   border: 0;
-  height: 1.5px;
-  background-color: #DDDDDD;
-  margin-bottom: 30px; /* 카드 목록 위에 간격 */
+  height: 1px;
+  background-color: #f0f0f0;
+  margin: 0 0 30px 0;
 }
 
-/* 매장 추가 버튼 컨테이너 */
+/* ---------- [액션 영역] ---------- */
 .my-stores-add-btn-container {
   display: flex;
-  justify-content: flex-end; /* 오른쪽 정렬 */
-  margin-bottom: 20px;
+  justify-content: flex-end;
+  margin-bottom: 24px;
 }
 
-/* 매장 추가 버튼 (my-stores-card-new-btn 에 스타일을 적용하므로, 이 클래스는 컨테이너의 버튼에 직접 적용되지 않음) */
-.my-stores-add-btn {
-  /* This class is for the container. The actual button uses my-stores-card-new-btn */
-  /* Reverted to simpler state */
-  background-color: #35B4F6;
+.my-stores-card-new-btn {
+  background-color: #35b4f6;
   color: #ffffff;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 10px 20px;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 700;
   cursor: pointer;
-  box-shadow: 2px 2px 5px rgba(0,0,0,0.1); /* 기본 그림자 */
-  transition: none; /* 트랜지션 제거 */
+  box-shadow: 0 4px 12px rgba(53, 180, 246, 0.2);
+  transition: all 0.2s ease;
 }
 
-.my-stores-add-btn:hover {
-  /* 호버 효과 제거 */
-  background-color: #35B4F6;
-  transform: translateY(0);
-  box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+.my-stores-card-new-btn:hover {
+  background-color: #28a1e0;
+  transform: translateY(-2px);
 }
 
-
-/* =========================
-   카드 목록 컨테이너 (새로 추가됨)
-========================= */
+/* ---------- [카드 그리드 레이아웃] ---------- */
 .my-stores-card-list {
-  display: flex;
-  flex-wrap: wrap; /* 여러 줄로 표시 */
-  justify-content: center; /* 카드들을 가운데 정렬 */
-  gap: 20px; /* 카드 사이 간격 */
-  padding: 0 20px; /* 좌우 패딩 */
+  display: grid;
+  /* 🚩 카드가 추가될 때 자동으로 열을 맞춤 (반응형 그리드) */
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  width: 100%;
 }
 
-/* =========================
-   개별 매장 카드 스타일
-========================= */
 .my-stores-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 15px;
-  width: calc(33.333% - 20px); /* 한 줄에 3개, gap 고려 */
-  box-sizing: border-box; /* 패딩 포함한 너비 계산 */
-  text-align: center;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
   background-color: #ffffff;
-  transition: transform 0.2s ease-in-out;
+  border: 1px solid #f1f3f5;
+  border-radius: 20px;
+  padding: 30px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .my-stores-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+  border-color: #35b4f6;
 }
 
 .my-stores-card-img-container {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  background-color: #f8fbff;
+  padding: 15px;
+  border-radius: 50%;
 }
 
 .my-store-card-img {
-  width: 100px; /* 이미지 크기 조정 */
-  height: 100px;
+  width: 60px;
+  height: 60px;
   object-fit: contain;
 }
 
-.my-stores-card-info p {
-  margin: 5px 0;
-  color: #555;
-  font-size: 15px;
-  line-height: 1.4;
+.my-stores-card-info {
+  width: 100%;
 }
 
 .my-stores-card-name {
-  font-weight: 600;
-  font-size: 18px;
+  font-size: 1.15rem;
+  font-weight: 800;
   color: #333;
+  margin: 0 0 8px 0;
 }
 
-/* 매장이 없을 때 메시지 */
-.my-stores-no-stores {
-  width: 100%; /* 컨테이너 전체 너비 */
-  text-align: center;
-  padding: 50px 0;
-  font-size: 18px;
+.my-stores-card-address {
+  font-size: 0.9rem;
   color: #888;
+  margin: 0 0 4px 0;
+  /* 주소 길어질 경우 대비 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-/* =================================================
-   매장 새로 등록 버튼 (my-stores-card-new-btn) 스타일
-   원래 my-stores-add-btn에 있던 스타일을 여기에 적용
-================================================= */
-.my-stores-card-new-btn {
-  background-color: #35B4F6;
-  color: #ffffff;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 16px;
+.my-stores-card-phone {
+  font-size: 0.9rem;
+  color: #35b4f6;
   font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25); /* 그림자 강조 */
-  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* 호버 효과 추가 */
+  margin: 0;
 }
 
-.my-stores-card-new-btn:hover {
-  background-color: #2a8ad4; /* 호버 시 색상 변경 */
-  transform: translateY(-3px); /* 살짝 위로 뜨는 효과 강조 */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* 그림자 더 강조 */
+/* ---------- [메시지 영역] ---------- */
+.my-stores-state-msg,
+.my-stores-no-stores {
+  grid-column: 1 / -1; /* 그리드 전체 차지 */
+  text-align: center;
+  padding: 100px 0;
+  color: #aaa;
+  font-size: 1rem;
+  line-height: 1.6;
 }
 
-
-/* =================================================
-   미디어 쿼리
-================================================= */
-
-/* 1024px 이하 (노트북) */
-@media (max-width: 1024px) {
-  .my-stores-head-title {
-    font-size: 28px;
-  }
-  .my-stores-back-btn {
-    font-size: 16px;
-    padding: 5px 18px;
-  }
-  .my-stores-card-new-btn { /* 미디어 쿼리 내에서도 스타일 조정 */
-    padding: 9px 18px;
-    font-size: 15px;
-  }
-  .my-stores-card {
-    width: calc(50% - 20px); /* 한 줄에 2개 */
-  }
-  .my-stores-card-list {
-    padding: 0 10px;
-  }
+.my-stores-state-msg.error {
+  color: #ef4444;
 }
 
-/* 768px 이하 (태블릿) */
-@media (max-width: 768px) {
+/* ---------- [데스크탑 확장] ---------- */
+@media (min-width: 1024px) {
   .my-stores-container {
-    padding: 0 15px 40px 15px;
+    padding: 40px 15% 100px 15%;
   }
   .my-stores-head-title {
-    font-size: 24px;
-  }
-  .my-stores-back-btn {
-    font-size: 15px;
-    padding: 5px 16px;
-  }
-  .my-stores-card-new-btn { /* 미디어 쿼리 내에서도 스타일 조정 */
-    padding: 8px 15px;
-    font-size: 14px;
-  }
-  .my-stores-card {
-    width: calc(100% - 20px); /* 한 줄에 1개 */
-  }
-  .my-stores-card-img {
-    width: 80px;
-    height: 80px;
-  }
-  .my-stores-card-name {
-    font-size: 16px;
-  }
-  .my-stores-card-info p {
-    font-size: 14px;
-  }
-}
-
-/* 480px 이하 (모바일) */
-@media (max-width: 480px) {
-  .my-stores-head {
-    height: 60px;
-  }
-  .my-stores-head-title {
-    font-size: 20px;
-  }
-  .my-stores-back-btn {
-    font-size: 14px;
-    padding: 4px 14px;
-  }
-  .my-stores-card-new-btn { /* 미디어 쿼리 내에서도 스타일 조정 */
-    padding: 7px 12px;
-    font-size: 13px;
-  }
-  .my-stores-card-list {
-    gap: 15px;
-  }
-  .my-stores-card {
-    padding: 10px;
-    width: calc(100% - 15px); /* 한 줄에 1개 */
-  }
-  .my-store-card-img {
-    width: 60px;
-    height: 60px;
-  }
-  .my-stores-card-name {
-    font-size: 15px;
-  }
-  .my-stores-card-info p {
-    font-size: 13px;
+    font-size: 2.5rem;
   }
 }

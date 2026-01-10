@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import "./MyProfile.css";
+import "../common/CommonStyles.css"; // 공통 CSS 임포트
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -27,7 +28,7 @@ const MyProfile = () => {
 
   useEffect(() => {
     dispatch(getMyProfile());
-  }, []);
+  }, [dispatch]);
 
   const handleChange = (e) => {
     let value = e.target.value;
@@ -137,20 +138,16 @@ const MyProfile = () => {
 
   return (
     <div className="my-profile-container">
-      {/* 헤더 영역: 제목이 왼쪽, 버튼이 오른쪽 */}
-      <div className="my-profile-head">
+      {/* 공통 헤더 적용 */}
+      <div className="common-page-head">
         <p className="my-profile-head-title">회원정보 변경</p>
-        <button
-          className="my-profile-back-btn"
-          onClick={() => navigate("/mypage")}
-        >
-          뒤로
+        <button className="common-btn-back" onClick={() => navigate("/mypage")}>
+          <span>〈</span> 뒤로 가기
         </button>
       </div>
 
       <hr className="my-profile-underline" />
 
-      {/* 정보 리스트 */}
       {me && (
         <div className="my-profile-card-container">
           <div className="my-profile-card">
