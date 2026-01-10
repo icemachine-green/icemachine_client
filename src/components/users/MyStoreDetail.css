@@ -2,8 +2,8 @@
 .my-store-detail-wrapper {
   max-width: 500px;
   margin: 0 auto;
-  padding: 20px 16px 60px; /* 푸터와의 최소 간격만 유지 */
-  background-color: #fff;
+  padding: 20px 16px 60px;
+  background-color: #ffffff;
   min-height: 100vh;
   box-sizing: border-box;
 }
@@ -19,37 +19,42 @@
 .my-store-detail-main-title {
   font-size: 1.25rem;
   font-weight: 800;
-  color: #333;
+  color: #1e293b; /* 딥 네이비로 변경 */
   margin: 0;
 }
 
-/* 뒤로가기 버튼 공통 스타일 */
+/* 뒤로가기 버튼 */
 .common-btn-back {
-  background: #fff;
-  border: 1px solid #e0e0e0;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
   padding: 6px 14px;
   border-radius: 20px;
   font-size: 0.85rem;
-  color: #666;
+  color: #64748b;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 4px;
+  transition: all 0.2s;
+}
+
+.common-btn-back:hover {
+  background: #f8fafc;
 }
 
 .my-store-detail-divider {
   border: none;
-  border-top: 1px solid #eee;
+  border-top: 1px solid #f1f5f9;
   margin: 15px 0 20px;
 }
 
 /* 메인 정보 카드 */
 .my-store-detail-card {
-  background: #fff;
-  border-radius: 16px;
+  background: #ffffff;
+  border-radius: 20px;
   padding: 24px;
-  border: 1px solid #f0f0f0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f1f5f9;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
   display: flex;
   flex-direction: column;
 }
@@ -63,127 +68,171 @@
 }
 
 .store-name-text {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #222;
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #0f172a;
   margin: 0;
 }
 
 .info-grid {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #f5f5f5;
+  gap: 12px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid #f1f5f9;
 }
 
 .info-row {
   display: flex;
   font-size: 0.95rem;
+  align-items: center;
 }
 
 .info-label {
-  width: 75px;
-  color: #888;
+  width: 80px;
+  color: #94a3b8;
   font-weight: 600;
   flex-shrink: 0;
 }
 
+.info-value {
+  color: #334155;
+  font-weight: 500;
+}
+
+/* 제빙기 섹션 */
 .icemachine-section {
   margin-top: 25px;
-  margin-bottom: 30px; /* 하단 버튼과의 간격 */
+  margin-bottom: 20px;
+}
+
+.sub-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
 }
 
 .icemachine-item-box {
-  background: #f8f9fa;
-  border-radius: 12px;
-  padding: 16px;
+  background: #f8fafc;
+  border-radius: 14px;
+  padding: 18px;
   margin-bottom: 12px;
   position: relative;
-  border: 1px solid #edf0f2;
+  border: 1px solid #f1f5f9;
 }
 
-/* 수정/추가 버튼 */
-.btn-edit-small {
-  background: #35b4f6;
-  color: #fff;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-weight: 600;
+.ice-info p {
+  margin: 4px 0;
+  font-size: 0.9rem;
+  color: #475569;
 }
+
+.ice-info strong {
+  color: #94a3b8;
+  font-weight: 600;
+  margin-right: 6px;
+}
+
+/* 수정/추가 버튼 (색상 제거 및 라인 스타일 적용) */
+.btn-edit-small,
 .btn-add-small {
-  background: #28a745;
-  color: #fff;
-  border: none;
-  padding: 6px 12px;
+  background: #ffffff;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+  padding: 6px 14px;
   border-radius: 8px;
   font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
 }
+
+.btn-edit-small:hover,
+.btn-add-small:hover {
+  background: #f1f5f9;
+  color: #1e293b;
+}
+
+/* 제빙기 삭제 버튼 (텍스트형으로 변경) */
 .btn-del-mini {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  background: #ff4d4f;
-  color: #fff;
+  top: 18px;
+  right: 18px;
+  background: transparent;
+  color: #cbd5e1;
   border: none;
-  padding: 4px 10px;
-  border-radius: 6px;
+  padding: 4px;
   font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: underline;
 }
 
-/* 개선된 하단 인라인 버튼 영역 */
+.btn-del-mini:hover {
+  color: #ef4444;
+}
+
+/* 하단 버튼 영역 최적화 */
 .my-store-detail-inline-actions {
   display: flex;
   gap: 12px;
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
-.btn-delete-inline,
-.btn-reserve-inline {
+/* 매장 삭제 (보조 액션) */
+.btn-delete-inline {
   flex: 1;
+  background-color: #f8fafc;
+  color: #94a3b8;
+  border: 1px solid #f1f5f9;
+  padding: 16px;
+  border-radius: 16px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* 예약 하기 (메인 액션 - 가장 강조) */
+.btn-reserve-inline {
+  flex: 2;
+  background-color: #1e293b; /* 신뢰감 있는 다크 네이비 */
+  color: #ffffff;
   border: none;
   padding: 16px;
-  border-radius: 14px;
-  font-size: 1rem;
+  border-radius: 16px;
+  font-size: 1.05rem;
   font-weight: 800;
   cursor: pointer;
-  transition: transform 0.1s;
+  box-shadow: 0 4px 14px rgba(30, 41, 59, 0.15);
+  transition: all 0.2s;
 }
 
-.btn-delete-inline {
-  background-color: #f1f3f5;
-  color: #fa5252; /* 삭제 느낌은 주되 배경은 연하게 */
+.btn-reserve-inline:hover {
+  background-color: #334155;
+  transform: translateY(-2px);
 }
 
-.btn-reserve-inline {
-  background-color: #ffc107;
-  color: #000;
-  box-shadow: 0 4px 10px rgba(255, 193, 7, 0.3);
-}
-
-.btn-delete-inline:active,
-.btn-reserve-inline:active {
-  transform: scale(0.98);
-}
-
-/* 애니메이션 */
+/* 애니메이션 및 기타 */
 @keyframes flash-highlight {
   0% {
     background-color: #fff;
   }
   50% {
-    background-color: #e3f2fd;
+    background-color: #f1f5f9;
   }
   100% {
     background-color: #fff;
   }
 }
+
 .flash-update {
   animation: flash-highlight 1.5s ease-out;
 }
+
 .no-data-text {
-  color: #bbb;
+  color: #cbd5e1;
   text-align: center;
-  padding: 20px 0;
+  padding: 30px 0;
+  font-size: 0.9rem;
 }

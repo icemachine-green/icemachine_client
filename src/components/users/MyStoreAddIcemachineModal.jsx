@@ -1,3 +1,7 @@
+/**
+ * @file MyStoreAddIcemachineModal.jsx
+ * @description 제빙기 등록 바텀시트 컴포넌트 (테마 통합 버전)
+ */
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createIcemachineThunk } from "../../store/thunks/icemachineThunk.js";

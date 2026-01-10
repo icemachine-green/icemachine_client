@@ -1,26 +1,28 @@
-/* 오버레이 */
+/* 오버레이 (배경 흐림 효과 추가) */
 .ice-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: center;
-  align-items: flex-end; /* 바텀 시트 */
+  align-items: flex-end; /* 바텀 시트 구현 */
   z-index: 3500;
+  backdrop-filter: blur(2px);
 }
 
-/* 컨텐츠 */
+/* 바텀 시트 컨텐츠 */
 .ice-modal-content {
-  background: #fff;
+  background: #ffffff;
   width: 100%;
   max-width: 500px;
-  border-radius: 24px 24px 0 0;
+  border-radius: 28px 28px 0 0; /* 상단 라운드 처리 */
   padding: 24px 20px 40px;
   box-sizing: border-box;
-  animation: slideUpIceModal 0.3s ease-out;
+  box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.1);
+  animation: slideUpIceModal 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes slideUpIceModal {
@@ -40,67 +42,72 @@
 }
 
 .ice-modal-title {
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   font-weight: 800;
-  color: #222;
+  color: #1e293b; /* 메인 다크 네이비 */
   margin: 0;
 }
 
 .ice-modal-close-x {
   background: none;
   border: none;
-  font-size: 1.5rem;
-  color: #999;
+  font-size: 1.8rem;
+  color: #cbd5e1;
   cursor: pointer;
+  line-height: 1;
 }
 
-/* 폼 디자인 */
+/* 입력 폼 영역 */
 .ice-modal-scroll-area {
   max-height: 60vh;
   overflow-y: auto;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+  padding-right: 4px;
 }
 
 .ice-input-group {
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 .ice-input-group label {
   display: block;
-  font-size: 0.85rem;
+  font-size: 0.88rem;
   font-weight: 700;
-  color: #555;
-  margin-bottom: 8px;
-  margin-left: 4px;
+  color: #64748b;
+  margin-bottom: 10px;
+  margin-left: 2px;
 }
 
 .ice-input-group input,
 .ice-input-group select {
   width: 100%;
-  padding: 14px 16px;
-  border: 1px solid #eee;
-  border-radius: 12px;
+  padding: 15px 18px;
+  border: 1px solid #f1f5f9;
+  border-radius: 14px;
   font-size: 1rem;
-  background-color: #f9f9f9;
+  background-color: #f8fafc;
   box-sizing: border-box;
-  appearance: none; /* 브라우저 기본 드롭다운 화살표 커스텀 준비 */
+  color: #1e293b;
+  appearance: none;
+  transition: all 0.2s ease;
 }
 
-/* Select 화살표 커스텀 (필요시) */
+/* 셀렉트 박스 커스텀 화살표 */
 .ice-input-group select {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'%3E%3C/path%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'%3E%3C/path%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 16px center;
+  background-position: right 18px center;
 }
 
 .ice-input-group input:focus,
 .ice-input-group select:focus {
   outline: none;
-  border-color: #28a745;
-  background-color: #fff;
+  border-color: #1e293b;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(30, 41, 59, 0.05);
 }
 
-/* 하단 버튼 영역 */
+/* 하단 버튼 액션 */
 .ice-modal-actions {
   display: flex;
   gap: 12px;
@@ -109,34 +116,48 @@
 .btn-ice-cancel {
   flex: 1;
   padding: 16px;
-  border-radius: 14px;
+  border-radius: 16px;
   border: none;
-  background: #f5f5f5;
-  color: #666;
+  background: #f1f5f9;
+  color: #64748b;
   font-weight: 700;
+  font-size: 1rem;
   cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-ice-cancel:hover {
+  background: #e2e8f0;
 }
 
 .btn-ice-save {
-  flex: 2;
+  flex: 2; /* 등록하기 버튼 강조 */
   padding: 16px;
-  border-radius: 14px;
+  border-radius: 16px;
   border: none;
-  background: #28a745; /* 제빙기는 초록색 테마 */
-  color: #fff;
+  background: #1e293b; /* 테마 컬러 네이비 */
+  color: #ffffff;
   font-weight: 700;
+  font-size: 1.05rem;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.2);
+  box-shadow: 0 4px 12px rgba(30, 41, 59, 0.15);
+  transition: all 0.2s;
 }
 
-/* 애니메이션 */
-.animate-fade-in {
-  animation: fadeIn 0.3s ease-in;
+.btn-ice-save:hover {
+  background: #334155;
+  transform: translateY(-1px);
 }
+
+/* 기타 입력창 등장 애니메이션 */
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(-5px);
+    transform: translateY(-8px);
   }
   to {
     opacity: 1;
