@@ -1,7 +1,7 @@
-import React from "react"; 
-import './Component01.css';
+import React from "react";
+import "./Component01.css";
 import { useNavigate } from "react-router-dom";
-import Component01Skeleton from "../common/Skeleton/Component01Skeleton.jsx"; 
+import Component01Skeleton from "../common/Skeleton/Component01Skeleton.jsx";
 
 // 부모 컴포넌트로부터 isLoading 상태를 받아오도록 설정 (props)
 const Component01 = ({ isLoading }) => {
@@ -22,8 +22,10 @@ const Component01 = ({ isLoading }) => {
       <div className="component01-textwrap">
         <span className="component01-minititle">제빙기 청소 업체</span>
         <span className="component01-title">
-          전문가가 관리하면<br />
-          얼음이<br />
+          전문가가 관리하면
+          <br />
+          얼음이
+          <br />
           달라집니다.
         </span>
         <button className="component01-btn" onClick={redirectReservation}>
@@ -32,6 +34,6 @@ const Component01 = ({ isLoading }) => {
       </div>
     </div>
   );
-}
+};
 
 export default Component01;

@@ -1,163 +1,174 @@
-/* 컨테이너 중앙 정렬 */
-.step2-container {
+/* Step2DateTime.css */
+
+.Step2DateTime-container {
   max-width: 500px;
   margin: 0 auto;
   padding: 20px;
   background-color: #ffffff;
+  min-height: 100vh;
 }
 
-.step2-header {
+.Step2DateTime-header {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 24px;
 }
 
-.step2-header h2 {
-  font-size: 1.4rem;
-  color: #1e293b;
+.Step2DateTime-h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 12px;
+}
+
+.Step2DateTime-duration-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  background-color: #f1f5f9;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: #475569;
   margin-bottom: 8px;
 }
 
-.step2-header p {
-  font-size: 0.9rem;
-  color: #64748b;
-}
-
-/* 달력 중앙 정렬 래퍼 */
-.calendar-center-wrapper {
-  margin-top: 10px;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 10px;
-}
-
-/* react-calendar 커스텀 스타일 */
-.react-calendar {
-  width: 100% !important;
-  border: none !important;
-  font-family: inherit;
-  background: #f8fafc !important;
-  border-radius: 16px;
-  padding: 10px;
-}
-
-.react-calendar__navigation {
-  margin-bottom: 10px;
-}
-
-.react-calendar__navigation button {
-  font-weight: 700;
-  color: #334155;
-  font-size: 1rem;
-}
-
-.react-calendar__tile {
-  height: 50px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-weight: 500;
-  border-radius: 8px;
-}
-
-/* 오늘 날짜 표시 */
-.react-calendar__tile--now {
-  background: #e2e8f0 !important;
-  color: #007bff !important;
-}
-
-/* 선택된 날짜 */
-.react-calendar__tile--active {
-  background: #007bff !important;
-  color: white !important;
-  border-radius: 8px;
-}
-
-/* 시간 그리드 개선 */
-.time-grid {
-  margin-top: 10px;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr); /* 5열로 배치하여 더 균형있게 */
-  gap: 8px;
-}
-
-.time-slot-btn {
-  padding: 10px 0;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  background-color: #fff;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-}
-
-.time-text {
-  font-size: 0.9rem;
-  font-weight: 700;
-}
-
-.status-text {
-  font-size: 0.65rem;
+.Step2DateTime-p-guide {
+  font-size: 0.85rem;
   color: #94a3b8;
 }
 
-.status-text-on {
-  font-size: 0.6rem;
+/* 그룹 스타일 */
+.Step2DateTime-group {
+  margin-bottom: 32px;
+}
+
+.Step2DateTime-label {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 12px;
+}
+
+/* 달력 커스텀 */
+.Step2DateTime-calendar-wrapper {
+  display: flex;
+  justify-content: center;
+  background: #f8fafc;
+  border-radius: 20px;
+  padding: 12px;
+}
+
+.react-calendar {
+  width: 100% !important;
+  border: none !important;
+  background: transparent !important;
+  font-family: inherit;
+}
+
+.react-calendar__tile {
+  height: 48px !important;
+  font-weight: 600;
+  border-radius: 12px;
+}
+
+.react-calendar__tile:disabled {
+  background-color: transparent !important;
+  color: #cbd5e1 !important;
+  text-decoration: line-through;
+}
+
+.react-calendar__tile--active {
+  background: #2563eb !important;
+  color: white !important;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+.react-calendar__month-view__days__day--weekend {
+  color: #ef4444;
+}
+
+/* 시간 그리드 (4열로 조정하여 가독성 업) */
+.Step2DateTime-time-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.Step2DateTime-time-btn {
+  padding: 12px 0;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.Step2DateTime-time-text {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.Step2DateTime-status-text {
+  font-size: 0.7rem;
   color: #3b82f6;
-  font-weight: 400;
 }
 
-/* 호버 및 액티브 */
-.time-slot-btn:not(.disabled):hover {
-  border-color: #3b82f6;
-  background-color: #eff6ff;
-}
-
-.time-slot-btn.active {
-  background-color: #3b82f6;
-  border-color: #3b82f6;
+/* 버튼 상태 */
+.Step2DateTime-time-btn.active {
+  background-color: #2563eb;
+  border-color: #2563eb;
   color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  transform: scale(1.03);
 }
 
-.time-slot-btn.active .status-text-on {
-  color: #bfdbfe;
+.Step2DateTime-time-btn.active .Step2DateTime-time-text,
+.Step2DateTime-time-btn.active .Step2DateTime-status-text {
+  color: white;
 }
 
-/* 액션 버튼 */
-.step-actions {
+.Step2DateTime-time-btn.disabled {
+  background-color: #f1f5f9;
+  border-color: #f1f5f9;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.Step2DateTime-time-btn.disabled .Step2DateTime-status-text {
+  color: #94a3b8;
+}
+
+/* 하단 액션 */
+.Step2DateTime-actions {
   display: flex;
   gap: 12px;
-  margin-top: 40px;
+  margin-top: 20px;
+  padding-bottom: 40px;
 }
 
-.prev-btn {
+.Step2DateTime-prev-btn {
   flex: 1;
-  padding: 14px;
-  border-radius: 12px;
+  padding: 16px;
+  border-radius: 16px;
   border: 1px solid #e2e8f0;
   background: white;
   color: #64748b;
-  font-weight: 600;
-  cursor: pointer;
+  font-weight: 700;
 }
 
-.next-btn-main {
+.Step2DateTime-next-btn {
   flex: 2;
-  padding: 14px;
-  border-radius: 12px;
+  padding: 16px;
+  border-radius: 16px;
   border: none;
-  background: #1e293b;
+  background: #0f172a;
   color: white;
-  font-weight: 600;
-  cursor: pointer;
-  transition: opacity 0.2s;
+  font-weight: 700;
+  transition: all 0.2s;
 }
 
-.next-btn-main:disabled {
+.Step2DateTime-next-btn:disabled {
   background: #cbd5e1;
-  cursor: not-allowed;
 }

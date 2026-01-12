@@ -1,130 +1,169 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import "./MyReviews.css";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteReview, getMyReviews } from "../../store/thunks/reviewThunk";
-import MyReviewsSkeleton from "../common/Skeleton/MyReviewsSkeleton.jsx"; // 스켈레톤 추가
+// import MyReviewsSkeleton from "../common/Skeleton/MyReviewsSkeleton.jsx"; // 스켈레톤 추가
+import "./MyReviews.css";
+import "../common/CommonStyles.css";
 
 const MyReviews = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const { reviews, page, totalPages, loading } = useSelector((state) => state.reviews);
+  const { reviews, page, totalPages, loading } = useSelector(
+    (state) => state.reviews
+  );
   const [modalReview, setModalReview] = useState(null);
-
-  function redirectMyPage() {
-    return navigate('/mypage');
-  }
 
   useEffect(() => {
     dispatch(getMyReviews({ page: 1 }));
-  }, []);
-
-  const openModal = (review) => setModalReview(review);
-  const closeModal = () => setModalReview(null);
+  }, [dispatch]);
 
   const handleDelete = async (reviewId) => {
-    const isConfirmed = window.confirm("해당 리뷰를 삭제하시겠습니까?");
-    if (!isConfirmed) return;
-
+    if (!window.confirm("리뷰를 삭제하시겠습니까? 삭제 후 복구할 수 없습니다."))
+      return;
     try {
       await dispatch(deleteReview(reviewId)).unwrap();
-      closeModal();
       alert("리뷰가 삭제되었습니다.");
+      setModalReview(null);
       dispatch(getMyReviews({ page }));
     } catch (error) {
-      console.error("리뷰 삭제에 실패했습니다:", error);
       alert("삭제에 실패했습니다.");
     }
   };
 
-  const handlePageChange = (newPage) => {
-    dispatch(getMyReviews({ page: newPage }));
-  };
-
-  // 로딩 중일 때 스켈레톤 표시
-  if (loading) {
-    return <MyReviewsSkeleton />;
-  }
+  // // 로딩 중일 때 스켈레톤 표시
+  // if (loading) {
+  //   return <MyReviewsSkeleton />;
+  // }
 
   return (
-    <div className="my-stores-container"> 
-      <div className="my-stores-head">
-        <button className="my-stores-back-btn" onClick={redirectMyPage}>
-          뒤로 가기
+    <div className="my-reviews-wrapper">
+      {/* 상단 헤더 */}
+      <div className="my-reviews-header-flex">
+        <p className="my-reviews-main-title">내 리뷰 내역</p>
+        <button
+          className="my-reviews-back-btn"
+          onClick={() => navigate("/mypage")}
+        >
+          〈 뒤로 가기
         </button>
-        <p className="my-stores-head-title">내 리뷰 내역</p>
       </div>
 
-      <hr className="my-stores-underline" />
+      <hr className="my-reviews-divider" />
 
-      <div className="my-reviews-table-container">
-        <span className="my-reviews-table-hint">*클릭시 상세내용 확인 가능</span>
-        <table className="my-reviews-table">
-          <thead>
-            <tr>
-              <th>날짜</th>
-              <th>리뷰 내용</th>
-              <th>별점</th>
-            </tr>
-          </thead>
-          <tbody>
-            {reviews.map((review) => (
-              <tr key={review.id} onClick={() => openModal(review)} className="review-content-container">
-                <td>{new Date(review.createdAt).toLocaleDateString()}</td>
-                <td className="review-content">
-                  {(review.content ?? "").slice(0, 20)}
-                  {(review.content?.length ?? 0) > 20 ? "..." : ""}
-                </td>
-                <td>{"★".repeat(review.rating) + "☆".repeat(5 - review.rating)}</td>
-              </tr>
+      {/* 리뷰 리스트 영역 */}
+      <div className="my-reviews-list-container">
+        <p className="my-reviews-total-info">
+          총 <strong>{reviews.length}개</strong>의 리뷰를 작성했습니다.
+        </p>
+
+        <div className="my-reviews-card-grid">
+          {!loading &&
+            reviews.map((review) => (
+              <div
+                key={review.id}
+                className="my-reviews-item-card"
+                onClick={() => setModalReview(review)}
+              >
+                <div className="my-reviews-card-top">
+                  <div className="my-reviews-stars">
+                    {"★".repeat(review.rating)}
+                    <span className="my-reviews-stars-empty">
+                      {"★".repeat(5 - review.rating)}
+                    </span>
+                  </div>
+                  <span className="my-reviews-item-date">
+                    {new Date(review.createdAt).toLocaleDateString()}
+                  </span>
+                </div>
+
+                <div className="my-reviews-card-middle">
+                  <div className="my-reviews-text-content">
+                    {review.content ? (
+                      <p className="my-reviews-main-text">{review.content}</p>
+                    ) : (
+                      <p className="my-reviews-empty-text">
+                        텍스트 리뷰 없이 별점을 남기셨습니다.
+                      </p>
+                    )}
+                  </div>
+                  {review.imageUrl && (
+                    <div className="my-reviews-img-thumb">
+                      <img src={review.imageUrl} alt="리뷰 썸네일" />
+                    </div>
+                  )}
+                </div>
+              </div>
             ))}
-          </tbody>
-        </table>
+        </div>
       </div>
 
+      {/* 페이지네이션 */}
       <div className="my-reviews-pagination">
-        <button disabled={page === 1} onClick={() => handlePageChange(page - 1)}>
+        <button
+          disabled={page === 1}
+          onClick={() => dispatch(getMyReviews({ page: page - 1 }))}
+        >
           이전
         </button>
-        <span>{page} / {totalPages}</span>
-        <button disabled={page === totalPages} onClick={() => handlePageChange(page + 1)}>
+        <span className="my-reviews-page-indicator">
+          <strong>{page}</strong> / {totalPages || 1}
+        </span>
+        <button
+          disabled={page === totalPages || totalPages === 0}
+          onClick={() => dispatch(getMyReviews({ page: page + 1 }))}
+        >
           다음
         </button>
       </div>
 
+      {/* 상세 모달 */}
       {modalReview && (
-        <div className="my-review-modal-overlay" onClick={closeModal}>
-          <div className="my-review-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="my-review-modal-header">
-              <span className="my-review-modal-star">{"★".repeat(modalReview.rating) + "☆".repeat(5 - modalReview.rating)}</span>
-              <span>{new Date(modalReview.createdAt).toLocaleDateString()}</span>
-            </div>
-            <div className="my-review-modal-section">
-              <span className="my-review-main-text">작성자 | </span>
-              <span className="my-review-sub-text">{modalReview.user_name}</span>
-            </div>
-            <div className="my-review-modal-section">
-              <p className="my-review-sub-text">{modalReview.content}</p>
-            </div>
-            {modalReview.quickOption && (
-              <div className="my-review-modal-section">
-                <span className="my-review-main-text">추가 Comment |</span>
-                <div className="my-review-quick-options">
-                  {modalReview.quickOption.split(",").map((opt, i) => (
-                    <button key={i} className="my-review-quick-option-btn">{opt}</button>
-                  ))}
+        <div
+          className="my-reviews-modal-backdrop"
+          onClick={() => setModalReview(null)}
+        >
+          <div
+            className="my-reviews-bottom-sheet"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="my-reviews-modal-handle"></div>
+
+            <div className="my-reviews-modal-scroll">
+              <div className="my-reviews-modal-top">
+                <div className="my-reviews-stars big">
+                  {"★".repeat(modalReview.rating)}
                 </div>
+                <span className="my-reviews-modal-date">
+                  {new Date(modalReview.createdAt).toLocaleDateString()}
+                </span>
               </div>
-            )}
-            {modalReview.imageUrl && (
-              <div className="my-review-modal-section">
-                <img src={modalReview.imageUrl} alt="리뷰 이미지" className="my-review-modal-image"/>
+
+              <div className="my-reviews-modal-body">
+                <p>{modalReview.content || "별점으로 참여하신 리뷰입니다."}</p>
+                {modalReview.imageUrl && (
+                  <img
+                    src={modalReview.imageUrl}
+                    className="my-reviews-modal-img"
+                    alt="리뷰 원본"
+                  />
+                )}
               </div>
-            )}
-            <div className="my-review-modal-footer">
-              <button className="my-review-delete-btn" onClick={() => handleDelete(modalReview.id)}>리뷰 삭제</button>
-              <button className="my-review-modal-close-btn" onClick={closeModal}>닫기</button>
+            </div>
+
+            <div className="my-reviews-modal-actions">
+              <button
+                className="my-reviews-del-btn"
+                onClick={() => handleDelete(modalReview.id)}
+              >
+                리뷰 삭제
+              </button>
+              <button
+                className="my-reviews-close-btn"
+                onClick={() => setModalReview(null)}
+              >
+                닫기
+              </button>
             </div>
           </div>
         </div>

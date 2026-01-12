@@ -1,228 +1,171 @@
-/* MyReservationTable.css */
-
 .MyReservationTable-div-container {
-  max-width: 1100px;
-  margin: 40px auto;
-  padding: 20px;
-  font-family: "Pretendard", sans-serif;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 24px 16px;
+  background-color: #f8fafc;
+  min-height: 100vh;
 }
 
-/* 제목 섹션 */
-.MyReservationTable-div-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 25px;
-}
-
-.MyReservationTable-h2-title {
-  font-size: 24px;
-  font-weight: 800;
-  color: #111;
-}
-
-/* 테이블 헤더 */
-.MyReservationTable-div-header {
-  display: grid;
-  grid-template-columns: 1.2fr 2fr 1.5fr 1fr 1.2fr;
-  background: #f1f3f5;
-  padding: 15px;
-  border-radius: 8px 8px 0 0;
-  font-weight: 700;
-  color: #495057;
-  text-align: center;
-}
-
-/* 테이블 로우 */
-.MyReservationTable-div-row {
-  display: grid;
-  grid-template-columns: 1.2fr 2fr 1.5fr 1fr 1.2fr;
-  padding: 25px 15px;
-  border-bottom: 1px solid #e9ecef;
-  align-items: center;
-  text-align: center;
-  transition: background 0.2s;
-}
-
-.MyReservationTable-div-row:hover {
-  background: #f8f9fa;
-}
-
-/* 텍스트 스타일 공통 */
-.main-text {
-  display: block;
-  font-size: 16px;
-  font-weight: 700;
-  color: #212529;
-  margin-bottom: 6px;
-}
-
-.sub-text {
-  font-size: 13px;
-  color: #868e96;
-  margin: 0;
-}
-
-.highlight-orange {
-  color: #fd7e14 !important;
-  font-weight: 600;
-}
-
-/* 서비스 정보 행 */
-.sub-info-row {
-  font-size: 13px;
-  color: #868e96;
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-}
-
-.divider {
-  color: #dee2e6;
-}
-
-/* 상태 배지 */
-.MyReservationTable-span-badge {
-  padding: 6px 14px;
-  border-radius: 30px;
-  font-size: 12px;
-  font-weight: 700;
-}
-.confirmed {
-  background: #e7f3ff;
-  color: #007bff;
-}
-.progress {
-  background: #fff4e6;
-  color: #fd7e14;
-}
-.complete {
-  background: #ebfbee;
-  color: #40c057;
-}
-.canceled {
-  background: #fff5f5;
-  color: #fa5252;
-}
-
-/* 가격 강조 */
-.price-text {
-  font-size: 18px;
-  color: #111;
-  font-weight: 800;
-}
-
-/* 버튼 */
-.MyReservationTable-button-back,
-.MyReservationTable-button-download {
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  border: 1px solid #dee2e6;
-  background: #fff;
-}
-
-.MyReservationTable-button-download {
+/* PDF 저장 버튼 커스텀 (공통 뒤로가기와 높이 맞춤) */
+.MyReservationTable-button-pdf {
   background: #007bff;
   color: #fff;
   border: none;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
 }
 
-/* --- 모바일 및 태블릿 대응 미디어 쿼리 --- */
-
-@media (max-width: 768px) {
-  .MyReservationTable-div-container {
-    padding: 15px;
-    margin: 20px auto;
-  }
-
-  .MyReservationTable-div-head {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-  }
-
-  .MyReservationTable-button-download {
-    width: 100%; /* 모바일에서 버튼 클릭이 쉽도록 확장 */
-    text-align: center;
-  }
-
-  /* 테이블 헤더 숨김 (모바일은 카드 형식이므로 필요 없음) */
-  .MyReservationTable-div-header {
-    display: none;
-  }
-
-  /* 테이블 로우를 독립적인 카드 형태로 변경 */
-  .MyReservationTable-div-row {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
-    padding: 20px;
-    margin-bottom: 15px;
-    border: 1px solid #e9ecef;
-    border-radius: 12px;
-    background: #fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0,05);
-  }
-
-  .MyReservationTable-div-row:hover {
-    background: #fff; /* 모바일은 호버 효과 제거 또는 유지 */
-  }
-
-  /* 각 셀의 간격 및 정렬 조정 */
-  .MyReservationTable-div-td {
-    width: 100%;
-    margin-bottom: 12px;
-  }
-
-  .MyReservationTable-div-td:last-child {
-    margin-bottom: 0;
-    padding-top: 10px;
-    border-top: 1px dashed #eee;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  /* 서비스 정보 행 정렬 변경 */
-  .sub-info-row {
-    justify-content: flex-start;
-  }
-
-  /* 상태 배지 위치 조정 */
-  .status-cell {
-    order: -1; /* 상태를 가장 위로 올림 */
-    margin-bottom: 8px;
-  }
-
-  /* 가격 정보 강조 */
-  .payment-cell {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-between;
-    align-items: baseline;
-    width: 100%;
-  }
-
-  .price-text {
-    font-size: 20px;
-  }
+/* 영수증 스타일 컨텐츠 */
+.MyReservationTable-div-receipt-wrapper {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 32px 24px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
 }
 
-/* 초소형 모바일 대응 (iPhone SE 등) */
-@media (max-width: 480px) {
-  .MyReservationTable-h2-title {
-    font-size: 20px;
-  }
-  
-  .sub-info-row {
-    flex-wrap: wrap;
-    gap: 4px;
-  }
-  
-  .divider {
-    display: none; /* 좁은 화면에서 구분선 제거 */
-  }
+.MyReservationTable-div-status-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.MyReservationTable-span-badge {
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 800;
+}
+.MyReservationTable-span-badge.confirmed {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+.MyReservationTable-span-badge.complete {
+  background: #dcfce7;
+  color: #166534;
+}
+.MyReservationTable-span-badge.canceled {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.MyReservationTable-span-no {
+  font-size: 13px;
+  color: #94a3b8;
+  font-family: monospace;
+}
+
+.MyReservationTable-h2-title {
+  font-size: 16px;
+  color: #64748b;
+  text-align: center;
+  margin-bottom: 24px;
+  font-weight: 600;
+}
+
+.MyReservationTable-div-main-section {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.MyReservationTable-h1-service-name {
+  font-size: 26px;
+  font-weight: 900;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+
+.MyReservationTable-p-service-date {
+  font-size: 18px;
+  font-weight: 700;
+  color: #007bff;
+  margin: 0;
+}
+.MyReservationTable-p-service-time {
+  font-size: 15px;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+.MyReservationTable-div-divider {
+  border-top: 2px dashed #e2e8f0;
+  margin: 24px 0;
+}
+
+.MyReservationTable-div-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.MyReservationTable-div-info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.MyReservationTable-span-label {
+  color: #94a3b8;
+  font-size: 14px;
+  min-width: 80px;
+}
+.MyReservationTable-span-value {
+  color: #1e293b;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: right;
+}
+.MyReservationTable-span-value.address {
+  font-size: 13px;
+  max-width: 200px;
+  color: #475569;
+}
+
+.MyReservationTable-div-payment-box {
+  background: #f8fafc;
+  padding: 20px;
+  border-radius: 16px;
+  margin-bottom: 24px;
+}
+
+.MyReservationTable-div-payment-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.MyReservationTable-span-payment-label {
+  font-weight: 700;
+  color: #475569;
+}
+.MyReservationTable-span-payment-value {
+  font-size: 20px;
+  font-weight: 900;
+  color: #1e293b;
+}
+
+.MyReservationTable-p-payment-note {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-top: 12px;
+  line-height: 1.5;
+}
+
+.MyReservationTable-p-footer-msg {
+  text-align: center;
+  font-size: 12px;
+  color: #cbd5e1;
+  margin-top: 24px;
+}
+
+.MyReservationTable-div-loading-box {
+  text-align: center;
+  padding: 100px 0;
+  color: #94a3b8;
 }

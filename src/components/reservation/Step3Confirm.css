@@ -1,4 +1,4 @@
-/* 기존 스타일 유지 및 정책 안내 스타일 추가 */
+/* 전체 컨테이너 */
 .step3-container {
   max-width: 480px;
   margin: 0 auto;
@@ -34,6 +34,7 @@
   color: #64748b;
 }
 
+/* 확인 카드 영역 */
 .confirm-card {
   background: #ffffff;
   border: 1px solid #e2e8f0;
@@ -62,6 +63,7 @@
   letter-spacing: 0.03em;
 }
 
+/* 텍스트 스타일 */
 .confirm-value strong {
   display: block;
   font-size: 1.15rem;
@@ -70,12 +72,18 @@
   line-height: 1.4;
 }
 
+/* 강조 텍스트 (블루) */
+.text-blue {
+  color: #3b82f6 !important;
+}
+
 .confirm-value span {
   font-size: 0.88rem;
   color: #64748b;
   display: block;
 }
 
+/* 방문 일시 하이라이트 섹션 */
 .confirm-section.highlight {
   background-color: #f8faff;
   margin: 10px -30px;
@@ -84,10 +92,7 @@
   border-bottom: 1px dashed #e2e8f0;
 }
 
-.text-blue {
-  color: #3b82f6 !important;
-}
-
+/* 결제 금액 섹션 */
 .confirm-section.total {
   padding-top: 25px;
   text-align: center;
@@ -107,7 +112,7 @@
   font-weight: 500;
 }
 
-/* ★ 추가: 정책 안내 영역 스타일 */
+/* 정책 안내 및 경고 박스 */
 .policy-notice-wrapper {
   margin-top: 25px;
   text-align: left;
@@ -145,7 +150,7 @@
   text-decoration: underline;
 }
 
-/* 버튼 영역 */
+/* 하단 버튼 영역 */
 .step-actions {
   display: flex;
   gap: 12px;
@@ -161,6 +166,11 @@
   color: #64748b;
   font-weight: 600;
   cursor: pointer;
+  transition: all 0.2s;
+}
+
+.prev-btn:hover {
+  background: #f8fafc;
 }
 
 .submit-btn {

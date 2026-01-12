@@ -1,16 +1,17 @@
+/* 공통 푸터 컨테이너 */
 .footer-container {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  padding: 24px 20px;
+  padding: 30px 20px; /* 위아래 여백을 조금 더 주어 안정감 확보 */
   background-color: #f8f9fa;
-  border-top: 1px solid #dee2e6;
+  border-top: 1px solid #eee;
   gap: 16px;
 }
 
-/* 왼쪽 정보 */
+/* 왼쪽 정보 섹션 */
 .footer-info {
-  flex: 1;              /* 남은 공간 차지 */
+  flex: 1;
   min-width: 0;
 }
 
@@ -18,18 +19,39 @@
   margin: 0;
   padding: 0;
   list-style: none;
-  color: #10538e;
-  font-size: 14px;
-  line-height: 1.5;
+  line-height: 1.6; /* 가독성을 위해 줄간격 소폭 증가 */
 }
 
-/* 오른쪽 로고 */
-.footer-logo {
-  flex-shrink: 0;        /*절대 줄어들며 밀리지 않음 */
+.footer-info li {
+  color: #10538e; /* 사용자님 지정 컬러 유지 */
+  font-size: 13px; /* 모바일에서 가독성이 좋은 사이즈 */
+  font-weight: 500;
+  word-break: keep-all; /* 단어 단위 줄바꿈으로 깔끔하게 유지 */
+}
+
+/* 오른쪽 로고 섹션 */
+.footer-logo-wrap {
+  flex-shrink: 0;
+  padding-bottom: 2px; /* 텍스트 라인과 시각적 높이 맞춤 */
 }
 
 .footer-logo img {
-  width: clamp(120px, 18vw, 220px);
+  /* clamp를 활용한 반응형 크기 조절 */
+  width: clamp(100px, 15vw, 180px);
   height: auto;
   object-fit: contain;
+  /* 살짝 투명도를 주어 정보보다 튀지 않게 조정 (선택 사항) */
+  opacity: 0.8;
+  filter: grayscale(0.2);
+}
+
+/* ---------- [DESKTOP] ---------- */
+@media (min-width: 1024px) {
+  .footer-container {
+    padding: 40px 15%; /* 마이페이지 데스크탑 여백과 통일 */
+  }
+
+  .footer-info li {
+    font-size: 14px;
+  }
 }

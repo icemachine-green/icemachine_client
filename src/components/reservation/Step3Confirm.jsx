@@ -1,38 +1,67 @@
-import React from "react";
+/**
+ * @file Step3Confirm.jsx
+ * @description 제빙기 섹션 독립 분리 및 데이터 항목 최적화 완료 버전
+ */
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setStep } from "../../store/slices/reservationSlice";
 import { createReservationThunk } from "../../store/thunks/reservationThunk";
-import Step3ConfirmSkeleton from "../common/Skeleton/Step3ConfirmSkeleton.jsx"; // 스켈레톤 컴포넌트 임포트
+// import Step3ConfirmSkeleton from "../common/Skeleton/Step3ConfirmSkeleton.jsx"; // 스켈레톤 컴포넌트 임포트
 import "./Step3Confirm.css";
-
-const SERVICE_POLICIES = [
-  { id: 1, size: "소형", spec: "~50kg", name: "소형 제빙기 방문 점검", duration: 60, price: 30000 },
-  { id: 2, size: "소형", spec: "~50kg", name: "소형 제빙기 기본 청소", duration: 60, price: 50000 },
-  { id: 3, size: "소형", spec: "~50kg", name: "소형 제빙기 집중 청소", duration: 120, price: 80000 },
-  { id: 4, size: "중형", spec: "51~150kg", name: "중형 제빙기 방문 점검", duration: 60, price: 40000 },
-  { id: 5, size: "중형", spec: "51~150kg", name: "중형 제빙기 기본 청소", duration: 60, price: 60000 },
-  { id: 6, size: "중형", spec: "51~150kg", name: "중형 제빙기 집중 청소", duration: 120, price: 100000 },
-  { id: 7, size: "중형", spec: "51~150kg", name: "중형 제빙기 프리미엄 청소", duration: 180, price: 150000 },
-  { id: 8, size: "대형", spec: "151kg~", name: "대형 제빙기 방문 점검", duration: 60, price: 50000 },
-  { id: 9, size: "대형", spec: "151kg~", name: "대형 제빙기 기본 청소", duration: 120, price: 100000 },
-  { id: 10, size: "대형", spec: "151kg~", name: "대형 제빙기 집중 청소", duration: 180, price: 180000 },
-  { id: 11, size: "대형", spec: "151kg~", name: "대형 제빙기 프리미엄 청소", duration: 240, price: 250000 },
-];
 
 const Step3Confirm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { businessDetail, loading: businessLoading } = useSelector((state) => state.business);
-  const { icemachinesList, loading: machineLoading } = useSelector((state) => state.icemachine);
+  // 1. 리덕스 데이터 추출
+  const { businessDetail } = useSelector((state) => state.business);
+  const { icemachinesList } = useSelector((state) => state.icemachine);
   const { selection } = useSelector((state) => state.reservation);
+  const { items: policies } = useSelector(
+    (state) => state.servicePolicy || { items: [] }
+  );
 
-  // 로딩 상태 통합 판별
-  const isLoading = businessLoading || machineLoading || !selection.serviceStartTime;
+  // 2. 매핑 데이터 (선택된 제빙기 및 정책)
+  const selectedMachine = icemachinesList?.find(
+    (m) => m.id === selection.iceMachineId
+  );
+  const selectedPolicy = policies.find(
+    (p) => p.id === selection.servicePolicyId
+  );
 
-  const selectedMachine = icemachinesList?.find((m) => m.id === selection.iceMachineId);
-  const selectedPolicy = SERVICE_POLICIES.find((p) => p.id === selection.servicePolicyId);
+  // 서비스 타입 한글 변환
+  const getServiceTypeName = (type) => {
+    const names = {
+      VISIT_CHECK: "방문 점검",
+      STANDARD_CLEAN: "기본 청소",
+      DEEP_CLEAN: "집중 청소",
+      PREMIUM_CLEAN: "프리미엄 청소",
+      SUBSCRIPTION: "정기 구독",
+    };
+    return names[type] || type;
+  };
+
+  // 🚩 요구사항 4: 한국어 일시 포맷팅 (00분 제외)
+  const formatKoreanDateTime = (dateTimeStr) => {
+    if (!dateTimeStr) return "-";
+    try {
+      const [datePart, timePart] = dateTimeStr.split(" ");
+      const dateObj = new Date(datePart.replace(/-/g, "/"));
+      const month = dateObj.getMonth() + 1;
+      const date = dateObj.getDate();
+      const weekDays = ["일", "월", "화", "수", "목", "금", "토"];
+      const dayName = weekDays[dateObj.getDay()];
+
+      const timeMatch = timePart.match(/(\d{2}):(\d{2})/);
+      const hour = parseInt(timeMatch[1], 10);
+      const ampm = hour < 12 ? "오전" : "오후";
+      const displayHour = hour % 12 === 0 ? 12 : hour % 12;
+
+      return `${month}월 ${date}일(${dayName}) ${ampm} ${displayHour}시`;
+    } catch (e) {
+      return dateTimeStr;
+    }
+  };
 
   const isImmediateNoCancel = () => {
     if (!selection.serviceStartTime) return false;
@@ -43,24 +72,14 @@ const Step3Confirm = () => {
     return diffInHours < 24;
   };
 
-  const formatDateTimeFull = (dateTimeStr) => {
-    if (!dateTimeStr) return "-";
-    try {
-      const [date, time] = dateTimeStr.split(" ");
-      const [y, m, d] = date.split("-");
-      return `${y}년 ${m}월 ${d}일 ${time}`;
-    } catch (e) {
-      return dateTimeStr;
-    }
-  };
-
   const handleFinalSubmit = async () => {
     if (!window.confirm("입력하신 정보로 예약을 확정하시겠습니까?")) return;
     try {
       const reservedDate = selection.serviceStartTime.split(" ")[0];
+      const durationMinutes =
+        selectedPolicy?.standardDuration || selectedPolicy?.duration || 60;
       const startTimeStr = selection.serviceStartTime.replace(/-/g, "/");
       const start = new Date(startTimeStr);
-      const durationMinutes = selectedPolicy?.duration || 60;
       const end = new Date(start.getTime() + durationMinutes * 60000);
 
       const formatToFullStr = (date) => {
@@ -85,10 +104,10 @@ const Step3Confirm = () => {
     }
   };
 
-  // 로딩 중일 때 스켈레톤 반환
-  if (isLoading) {
-    return <Step3ConfirmSkeleton />;
-  }
+  // // 로딩 중일 때 스켈레톤 반환
+  // if (isLoading) {
+  //   return <Step3ConfirmSkeleton />;
+  // }
 
   return (
     <div className="step3-container">
@@ -98,6 +117,7 @@ const Step3Confirm = () => {
       </div>
 
       <div className="confirm-card">
+        {/* 1. 방문 매장 섹션 */}
         <div className="confirm-section">
           <label>방문 매장</label>
           <div className="confirm-value">
@@ -106,22 +126,50 @@ const Step3Confirm = () => {
           </div>
         </div>
 
+        {/* 🚩 2. 대상 제빙기 섹션 (독립 분리) */}
         <div className="confirm-section">
-          <label>신청 서비스</label>
+          <label>서비스 대상 제빙기</label>
           <div className="confirm-value">
-            <strong>{selectedPolicy?.name || "서비스 정보 없음"}</strong>
-            <span>{selectedMachine?.modelName || selectedMachine?.model} · {selectedPolicy?.duration}분 소요</span>
+            <strong>
+              {selectedMachine?.fullModelName || selectedMachine?.model}
+            </strong>
+            <span>{selectedMachine.sizeType}</span>
           </div>
         </div>
 
+        {/* 🚩 3. 신청 서비스 섹션 (Type, Note, 소요 시간) */}
+        <div className="confirm-section">
+          <label>신청 서비스</label>
+          <div className="confirm-value">
+            <strong>{getServiceTypeName(selectedPolicy?.serviceType)}</strong>
+            <span
+              style={{
+                color: "#64748b",
+                marginBottom: "6px",
+                lineHeight: "1.5",
+              }}
+            >
+              {selectedPolicy?.note}
+            </span>
+            <span style={{ fontWeight: "600", color: "#475569" }}>
+              예상 소요 시간:{" "}
+              {selectedPolicy?.standardDuration || selectedPolicy?.duration}분
+            </span>
+          </div>
+        </div>
+
+        {/* 🚩 4. 방문 예정 일시 (하이라이트 섹션) */}
         <div className="confirm-section highlight">
           <label>방문 예정 일시</label>
           <div className="confirm-value">
-            <strong className="text-blue">{formatDateTimeFull(selection.serviceStartTime)}</strong>
+            <strong className="text-blue">
+              {formatKoreanDateTime(selection.serviceStartTime)}
+            </strong>
             <span>배정된 기사님이 해당 시간에 맞춰 방문합니다.</span>
           </div>
         </div>
 
+        {/* 5. 결제 예정 금액 섹션 */}
         <div className="confirm-section total">
           <label>결제 예정 금액</label>
           <div className="confirm-value">
@@ -131,6 +179,7 @@ const Step3Confirm = () => {
         </div>
       </div>
 
+      {/* 정책 안내 및 취소 불가 안내 */}
       <div className="policy-notice-wrapper">
         <p className="policy-standard">• 예약 취소는 예약 시작 시간 24시간 전까지만 가능합니다.</p>
         {isImmediateNoCancel() && (
@@ -144,6 +193,7 @@ const Step3Confirm = () => {
         )}
       </div>
 
+      {/* 하단 버튼 액션 */}
       <div className="step-actions">
         <button className="prev-btn" onClick={() => dispatch(setStep(2))}>일정 수정</button>
         <button className="submit-btn" onClick={handleFinalSubmit}>예약 확정하기</button>

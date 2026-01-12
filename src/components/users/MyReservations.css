@@ -1,375 +1,291 @@
-/* 1. 컨테이너 및 기본 레이아웃 */
-.MyReservationPage-div-container {
-  max-width: 800px;
+/* 1. 컨테이너 및 전체 배경 */
+.MyReservations-div-container {
+  max-width: 500px;
   margin: 0 auto;
-  padding: 20px;
-  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui,
-    Roboto, sans-serif;
-  background-color: #f9f9f9;
+  padding: 24px 16px;
+  background-color: #fcfdfe;
   min-height: 100vh;
+  font-family: "Pretendard", -apple-system, sans-serif;
 }
 
-/* 2. 헤더 영역 */
-.MyReservationPage-div-head {
+/* 2. 헤더: 제목 좌측, 뒤로가기 우측 배치 */
+.MyReservations-div-head {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 20px;
-  margin-bottom: 15px;
+  margin-bottom: 24px;
 }
 
-.MyReservationPage-button-back {
-  background: white;
-  border: 1px solid #ddd;
-  padding: 8px 15px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: all 0.2s ease-in-out;
-}
-
-.MyReservationPage-button-back:hover {
-  background-color: #f5f5f5;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-}
-
-.MyReservationPage-p-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #333;
+.MyReservations-p-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1e293b;
   margin: 0;
 }
 
-.MyReservationPage-hr-underline {
-  border: 0;
-  height: 1px;
-  background: #eee;
-  margin-bottom: 20px;
-}
-
-/* 3. 필터 탭 및 안내 문구 래퍼 */
-.MyReservationPage-div-tabs-wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 20px;
-  gap: 10px;
-}
-
-.MyReservationPage-div-tabs {
-  display: flex;
-  gap: 10px;
-  overflow-x: auto;
-}
-
-.MyReservationPage-button-tab {
-  white-space: nowrap;
-  padding: 8px 16px;
-  border-radius: 20px;
-  border: 1px solid #ddd;
-  background: #fff;
-  color: #666;
+.MyReservations-button-back {
+  background: #f1f5f9;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
   cursor: pointer;
+  transition: background 0.2s;
+}
+
+.MyReservations-button-back:hover {
+  background: #e2e8f0;
+}
+
+/* 3. 필터 탭 및 안내 문구 */
+.MyReservations-div-tabs-wrapper {
+  margin-bottom: 24px;
+}
+
+.MyReservations-div-tabs {
+  display: flex;
+  background: #f1f5f9;
+  padding: 5px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+.MyReservations-button-tab {
+  flex: 1;
+  border: none;
+  padding: 10px 0;
+  background: transparent;
+  color: #94a3b8;
+  font-weight: 700;
   font-size: 14px;
-  transition: all 0.2s ease-in-out;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.MyReservationPage-button-tab.active {
-  background: #007bff;
-  color: #fff;
-  border-color: #007bff;
+.MyReservations-button-tab.active {
+  background: #fff;
+  color: #007bff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
-/* ★ 추가: 우측 상단 회색 문구 스타일 */
-.MyReservationPage-span-policy-hint {
+.MyReservations-p-policy-hint {
   font-size: 12px;
-  color: #999;
-  white-space: nowrap;
-  margin-bottom: 8px; /* 탭 버튼과 높이 맞춤 */
+  color: #ef4444;
+  font-weight: 500;
+  margin: 0;
 }
 
 /* 4. 예약 리스트 영역 */
-.MyReservationPage-div-list {
+.MyReservations-div-list {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  max-height: 70vh;
-  overflow-y: auto;
-  scroll-behavior: smooth;
-  padding: 10px 5px;
+  gap: 16px;
 }
 
-/* 5. 예약 카드 공통 */
-.MyReservationPage-div-card {
+/* 5. 예약 카드 디자인 */
+.MyReservations-div-card {
   background: #fff;
-  border-radius: 12px;
-  padding: 30px 20px 20px 20px;
-  border: 1px solid #eee;
+  border-radius: 20px;
+  padding: 24px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 20px rgba(0, 123, 255, 0.03);
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+.MyReservations-div-card-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
-  position: relative;
-  scroll-margin: 50px;
+  margin-bottom: 8px;
 }
 
-/* 상태별 스타일 */
-.MyReservationPage-div-card.confirmed {
-  border-left: 5px solid #007bff;
-}
-.MyReservationPage-div-card.completed {
-  background-color: #f8f9fa;
-  opacity: 0.9;
-}
-.MyReservationPage-div-card.canceled {
-  background-color: #fff5f5;
-  border: 1px solid #ffc1c1;
-}
-.MyReservationPage-div-card.start {
-  background-color: #f0fff4;
-  border: 1px solid #c6f6d5;
+.MyReservations-span-store-name {
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 500;
 }
 
-/* 6. 상태 배지 */
-.MyReservationPage-span-status {
-  position: absolute;
-  top: 12px;
-  left: 12px;
+.MyReservations-span-status-badge {
   font-size: 11px;
-  font-weight: 700;
-  padding: 3px 10px;
+  font-weight: 800;
+  padding: 4px 10px;
   border-radius: 6px;
 }
 
-.status-confirmed {
-  background: #e3f2fd;
-  color: #1976d2;
+.MyReservations-span-status-badge.confirmed {
+  background: #e0f2fe;
+  color: #0369a1;
 }
-.status-completed {
-  background: #f5f5f5;
-  color: #616161;
+.MyReservations-span-status-badge.completed {
+  background: #f1f5f9;
+  color: #475569;
 }
-.status-canceled {
-  background: #ffebee;
-  color: #d32f2f;
-}
-.status-start {
-  background: #e8f5e9;
-  color: #2e7d32;
-  border: 1px solid #c8e6c9;
-}
-.status-pending {
-  background: #fff3e0;
-  color: #f57c00;
+.MyReservations-span-status-badge.canceled {
+  background: #fee2e2;
+  color: #b91c1c;
 }
 
-/* 7. 카드 텍스트 정보 */
-.MyReservationPage-div-card-info {
+.MyReservations-h3-service-title {
+  font-size: 19px;
+  font-weight: 800;
+  color: #1e293b;
+  margin: 0 0 20px 0;
+}
+
+.MyReservations-div-info-section {
+  background: #f8fafc;
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.MyReservations-div-info-row {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  justify-content: space-between;
+  margin-bottom: 8px;
 }
 
-.MyReservationPage-p-date {
-  font-size: 17px;
+.MyReservations-span-label {
+  font-size: 13px;
+  color: #94a3b8;
+}
+.MyReservations-span-value {
+  font-size: 13px;
+  color: #475569;
+  font-weight: 600;
+}
+.MyReservations-span-value-date {
+  color: #007bff;
   font-weight: 700;
-  color: #111;
-  margin: 0;
+  font-size: 13px;
 }
-.MyReservationPage-p-engineer {
+
+/* 6. 버튼 액션 */
+.MyReservations-div-card-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.MyReservations-div-card-actions button {
+  flex: 1;
+  padding: 14px 0;
+  border-radius: 14px;
+  font-weight: 700;
   font-size: 14px;
-  color: #777;
-  margin: 0;
-}
-
-/* 8. 버튼 스타일 */
-.MyReservationPage-button-view {
-  margin-right: 10px;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-weight: 600;
-  background: #fff;
-  color: #0084ff;
-  border: 1px solid #add8ff;
+  border: none;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
 }
 
-.MyReservationPage-button-cancel {
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-weight: 600;
+.MyReservations-button-cancel {
   background: #fff;
-  border: 1px solid #ff4d4f;
+  border: 1.5px solid #ffeded !important;
   color: #ff4d4f;
-  cursor: pointer;
-  transition: all 0.2s;
 }
 
-.MyReservationPage-button-cancel.disabled {
-  border-color: #ddd;
-  color: #999;
-  background-color: #f5f5f5;
+.MyReservations-button-cancel.disabled {
+  border-color: #f1f5f9 !important;
+  background: #f8fafc;
+  color: #cbd5e1;
   cursor: not-allowed;
 }
 
-/* 9. 모달 스타일 */
-.MyReservationPage-div-modal-overlay {
+.MyReservations-button-detail {
+  background: #007bff;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+}
+
+/* 7. 모달 스타일 */
+.MyReservations-div-modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 2000;
+  backdrop-filter: blur(2px);
 }
 
-.MyReservationPage-div-modal {
-  background: white;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 400px;
-  animation: modalSlideUp 0.3s ease-out;
-  overflow: hidden;
-}
-
-@keyframes modalSlideUp {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-.MyReservationPage-div-modal-header {
-  padding: 15px;
-  background: #f8f9fa;
-  font-weight: 700;
-  text-align: center;
-  border-bottom: 1px solid #eee;
-}
-
-.MyReservationPage-div-modal-body {
-  padding: 25px 20px;
+.MyReservations-div-modal-content {
+  background: #fff;
+  width: 300px;
+  padding: 24px;
+  border-radius: 20px;
   text-align: center;
 }
 
-.MyReservationPage-span-notice {
-  display: block;
-  margin-top: 10px;
-  font-size: 12px;
-  color: #ff4d4f;
+.MyReservations-p-modal-main-text {
+  font-weight: 800;
+  font-size: 17px;
+  margin-bottom: 8px;
 }
-
-.MyReservationPage-div-modal-footer {
+.MyReservations-p-modal-sub-text {
+  font-size: 13px;
+  color: #94a3b8;
+  margin-bottom: 24px;
+}
+.MyReservations-div-modal-btns {
   display: flex;
-  border-top: 1px solid #eee;
+  gap: 8px;
 }
-
-.MyReservationPage-button-modal-confirm {
+.MyReservations-div-modal-btns button {
   flex: 1;
-  padding: 15px;
-  color: #ff4d4f;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 700;
   border: none;
-  border-right: 1px solid #eee;
-  background: none;
-  font-weight: 600;
   cursor: pointer;
 }
 
-.MyReservationPage-button-modal-close {
-  flex: 1;
-  padding: 15px;
-  color: #666;
-  border: none;
-  background: none;
-  font-weight: 600;
-  cursor: pointer;
+.MyReservations-button-close {
+  background: #f1f5f9;
+  color: #64748b;
+}
+.MyReservations-button-confirm {
+  background: #ef4444;
+  color: #fff;
 }
 
-/* 10. 미디어 쿼리 (모바일 대응) */
-@media (max-width: 480px) {
-  .MyReservationPage-div-tabs-wrapper {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .MyReservationPage-span-policy-hint {
-    margin-bottom: 0;
-    margin-top: 5px;
-  }
-
-  .MyReservationPage-div-card {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-    padding: 45px 15px 15px 15px;
-  }
-
-  .MyReservationPage-div-card-actions {
-    width: 100%;
-    display: flex;
-    gap: 8px;
-  }
-
-  .MyReservationPage-button-view,
-  .MyReservationPage-button-cancel {
-    flex: 1;
-    margin-right: 0;
-    padding: 12px 0;
-    font-size: 14px;
-    text-align: center;
-  }
+/* 8. 애니메이션 */
+.MyReservations-effect-flash-new {
+  animation: MyReservations-flash-blue 2s ease-out;
+  border: 1px solid #007bff !important;
 }
-
-/* 11. 애니메이션 효과 (Flash) */
-.effect-flash-new {
-  animation: flash-blue 2s ease-out;
-  border: 2px solid #007bff !important;
-}
-
-@keyframes flash-blue {
+@keyframes MyReservations-flash-blue {
   0% {
-    background-color: #e7f3ff;
+    background-color: #eef6ff;
   }
   50% {
     background-color: #fff9c4;
   }
   100% {
-    background-color: transparent;
+    background-color: #fff;
   }
 }
 
-.effect-flash-cancel {
-  animation: flash-red 0.8s ease-out;
+.MyReservations-effect-flash-cancel {
+  animation: MyReservations-flash-red 0.8s ease-out;
 }
-
-@keyframes flash-red {
+@keyframes MyReservations-flash-red {
   0% {
-    background-color: #ff4d4f;
+    background-color: #fee2e2;
     transform: scale(1.02);
   }
   100% {
-    background-color: transparent;
+    background-color: #fff;
     transform: scale(1);
   }
 }
 
-/* 스크롤바 커스텀 */
-.MyReservationPage-div-list::-webkit-scrollbar {
-  width: 6px;
-}
-.MyReservationPage-div-list::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-.MyReservationPage-div-list::-webkit-scrollbar-thumb {
-  background: #ccc;
-  border-radius: 10px;
+.MyReservations-div-empty-box {
+  text-align: center;
+  padding: 60px 0;
+  color: #94a3b8;
+  font-size: 14px;
 }
