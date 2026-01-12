@@ -1,0 +1,68 @@
+/* Overlay */
+.notification-info-container {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+/* Modal */
+.notification-info-content-box {
+  width: 80vw;
+  max-width: 420px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 24px 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Text */
+.notification-info-content-info {
+  text-align: center;
+  font-weight: 400;
+}
+
+.notification-info-content-info .title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111;
+  margin-bottom: 12px;
+}
+
+.notification-info-content-info .desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #444;
+  margin-bottom: 8px;
+}
+
+.notification-info-content-info .sub {
+  font-size: 12px;
+  color: #888;
+}
+
+/* Button */
+.notification-info-btn-box {
+  margin-top: 20px;
+}
+
+.btn-primary {
+  width: 100%;
+  height: 44px;
+  border-radius: 10px;
+  border: none;
+  background-color: #111;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-primary:active {
+  opacity: 0.85;
+}

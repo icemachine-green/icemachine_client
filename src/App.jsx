@@ -2,6 +2,7 @@ import "./App.css";
 import Header from "./components/common/Header.jsx";
 import Footer from "./components/common/Footer.jsx";
 import TopButton from "./components/common/TopButton.jsx";
+import NotificationInfo from './components/subscriptions/NotificationInfo.jsx';
 import { Outlet } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -33,6 +34,7 @@ function App() {
       </main>
       <Footer />
       <TopButton />
+      <NotificationInfo />
     </>
   );
 }
