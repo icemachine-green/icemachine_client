@@ -7,7 +7,7 @@ import { getBusinessesThunk } from "../../store/thunks/businessThunk";
 import html2canvas from "html2canvas";
 import jspdf from "jspdf";
 import "./MyReservationTable.css";
-import "../common/CommonStyles.css"; // 공통 CSS 임포트
+import "../common/CommonStyles.css";
 
 const MyReservationTable = () => {
   const navigate = useNavigate();
@@ -52,19 +52,39 @@ const MyReservationTable = () => {
     (b) => String(b.id) === String(reservation?.businessId)
   );
 
+  // --- 🚩 PDF 저장 로직 수정: 긴 세로 대응 ---
   const handleDownloadPDF = async () => {
     const element = printRef.current;
     if (!element) return;
+
     try {
-      const canvas = await html2canvas(element, { scale: 2 });
+      // 1. 캔버스 생성 (모바일 해상도 고려하여 scale 유지)
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true, // 이미지 깨짐 방지
+        logging: false,
+        backgroundColor: "#ffffff", // 배경색 강제 지정
+      });
+
       const imgData = canvas.toDataURL("image/png");
-      const pdf = new jspdf("p", "mm", "a4");
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-      pdf.save(`예약상세_${reservationId}.pdf`);
+
+      // 2. 가로(w), 세로(h) 비율 계산
+      const imgWidth = 210; // A4 가로 mm
+      const pageHeight = 297; // A4 세로 mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      // 3. jspdf 인스턴스 생성 (콘텐츠가 A4보다 길면 긴 대로 생성)
+      // 'p' (portrait), 'mm' (unit), [가로, 세로] (커스텀 사이즈)
+      const pdf = new jspdf("p", "mm", [
+        imgWidth,
+        imgHeight > pageHeight ? imgHeight : pageHeight,
+      ]);
+
+      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      pdf.save(`예약상세_영수증_${reservationId}.pdf`);
     } catch (error) {
       console.error("PDF 생성 오류:", error);
+      alert("PDF 생성 중 오류가 발생했습니다.");
     }
   };
 
@@ -98,7 +118,6 @@ const MyReservationTable = () => {
 
   return (
     <div className="MyReservationTable-div-container">
-      {/* 공통 헤더 적용: 뒤로가기(좌) / PDF 저장(우) */}
       <div className="common-page-head">
         <button
           className="MyReservationTable-button-pdf"
@@ -111,6 +130,7 @@ const MyReservationTable = () => {
         </button>
       </div>
 
+      {/* 영수증 스타일의 컨테이너 */}
       <div className="MyReservationTable-div-receipt-wrapper" ref={printRef}>
         <div className="MyReservationTable-div-status-header">
           <span className={`MyReservationTable-span-badge ${statusInfo.class}`}>
@@ -168,10 +188,10 @@ const MyReservationTable = () => {
 
         <div className="MyReservationTable-div-payment-box">
           <div className="MyReservationTable-div-payment-row">
-            <span className="MyReservationTable-span-payment-label">
+            <span className="MyReservationTable-span-label">
               결제 예정 금액
             </span>
-            <span className="MyReservationTable-span-payment-value">
+            <span className="MyReservationTable-span-value">
               {Number(policy?.price || 0).toLocaleString()}원
             </span>
           </div>
