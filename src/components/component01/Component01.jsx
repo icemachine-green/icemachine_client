@@ -1,16 +1,9 @@
 import React from "react";
 import "./Component01.css";
-import { useNavigate } from "react-router-dom";
 import Component01Skeleton from "../common/Skeleton/Component01Skeleton.jsx";
 
 // 부모 컴포넌트로부터 isLoading 상태를 받아오도록 설정 (props)
 const Component01 = ({ isLoading }) => {
-  const navigate = useNavigate();
-
-  const redirectReservation = () => {
-    navigate("/reservation");
-  };
-
   // 1. 로딩 중일 때는 스켈레톤을 반환
   if (isLoading) {
     return <Component01Skeleton />;
@@ -28,9 +21,6 @@ const Component01 = ({ isLoading }) => {
           <br />
           달라집니다.
         </span>
-        <button className="component01-btn" onClick={redirectReservation}>
-          청소 예약
-        </button>
       </div>
     </div>
   );

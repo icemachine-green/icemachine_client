@@ -13,7 +13,7 @@ export function injectStoreInAxios(_store) {
 
 // axios instance
 const axiosInstance = axios.create({
-  baseURL: "", // 백엔드 기본 URL
+  baseURL: import.meta.env.VITE_SERVER_URL, // 백엔드 기본 URL
   headers: {
     "Content-Type": "application/json",
   },

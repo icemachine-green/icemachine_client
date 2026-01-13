@@ -3,8 +3,9 @@ import "./LoginPage.css";
 
 const LoginPage = () => {
   const handleKakaoLogin = () => {
-    window.location.href =
-      "http://localhost:3000/api/auth/kakao/authorize/client";
+    window.location.href = `${
+      import.meta.env.VITE_SERVER_URL || "http://localhost:3000"
+    }/api/auth/kakao/authorize/client`;
   };
 
   return (
