@@ -16,15 +16,15 @@ export default defineConfig({
         "/icons/*",
       ],
       manifest: {
-        name: "icemachine_client", // PWA 애플리케이션의 이름 (설치 배너에 표시)
-        short_name: "icemachine_client", // 홈 화면 아이콘 아래에 표시될 이름
-        description: "icemachine_client", // 앱 설명
-        theme_color: "#ffffff", // 브라우저 UI 테마 색상
-        background_color: "#ffffff", //기본 배경색
-        lang: "ko", // 앱의 언어 설정 (기본 언어)
-        display: "standalone", // 브라우저 UI 없이 앱처럼 독립 실행
-        orientation: "portrait", // 뷰의 기본 방향 세로 설정
-        start_url: "/", // PWA가 설치되어 있을 때, 홈화면에서 앱을 실행했을 때 처음 열릴 URL
+        name: '싹싹제빙기',  // PWA 애플리케이션의 이름 (설치 배너에 표시)
+        short_name: '싹싹제빙기', // 홈 화면 아이콘 아래에 표시될 이름
+        description: '제빙기 청소/점검 예약 사이트', // 앱 설명
+        theme_color: '#ffffff', // 브라우저 UI 테마 색상
+        background_color: '#ffffff', //기본 배경색
+        lang: 'ko',                     // 앱의 언어 설정 (기본 언어)
+        display: 'standalone', // 브라우저 UI 없이 앱처럼 독립 실행
+        orientation: 'portrait', // 뷰의 기본 방향 세로 설정
+        start_url: '/', // PWA가 설치되어 있을 때, 홈화면에서 앱을 실행했을 때 처음 열릴 URL
         icons: [
           // 앱 아이콘 설정 (홈화면에 추가될 때 사용됨) `public\`에 배치된 파일일 것
           // Windows (Edge, Chrome on Desktop)의 경우, any 중 가장 첫번째 아이콘 사용
