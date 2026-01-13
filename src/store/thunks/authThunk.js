@@ -9,8 +9,9 @@ import axiosInstance from "../../api/axiosInstance.js";
 export const startKakaoLoginThunk = createAsyncThunk(
   "auth/startKakaoLogin",
   async () => {
-    window.location.href =
-      "http://localhost:3000/api/auth/kakao/authorize/client";
+    // TODO: 이거 안쓰고 Login 컴포넌트에서 직접 작성하는데, 나중에 어떻할지 생각해보자.
+    const domain = import.meta.env.VITE_SERVER_URL || "http://localhost:3000";
+    window.location.href = `${domain}/api/auth/kakao/authorize/engineer`;
   }
 );
 
